@@ -1,0 +1,46 @@
+---
+# NOTE: Synchronize changes with README.md
+
+# Tasks for Debian and Ubuntu have been unified in a single file because of similarities between both distributions.
+
+- name: Satisfy requirements for collection jm1.pkg on Debian 10 (Buster)
+  when: distribution_id == ['Debian', '10']
+  block:
+  - name: Install package dependencies
+    package:
+      cache_valid_time: 86400 # 1 day
+      name:
+      # NOTE: Keep in sync with meta package below!
+      - equivs
+      - python-apt
+      - python-backports.tempfile
+      - python3-apt
+
+  - name: Install supplemental meta package
+    jm1.pkg.meta_pkg:
+      name: "jm1-pkg-setup"
+      version: 1
+      depends:
+      - equivs
+      - python-apt
+      - python-backports.tempfile
+      - python3-apt
+
+- name: Satisfy requirements for collection jm1.pkg on Ubuntu 20.04 LTS (Focal Fossa)
+  when: distribution_id == ['Ubuntu', '20.04']
+  block:
+  - name: Install package dependencies
+    package:
+      cache_valid_time: 86400 # 1 day
+      name:
+      # NOTE: Keep in sync with meta package below!
+      - equivs
+      - python3-apt
+
+  - name: Install supplemental meta package
+    jm1.pkg.meta_pkg:
+      name: "jm1-pkg-setup"
+      version: 1
+      depends:
+      - equivs
+      - python3-apt

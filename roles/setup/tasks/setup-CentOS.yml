@@ -1,0 +1,59 @@
+---
+# NOTE: Synchronize changes with README.md
+
+- name: Enable Extra Packages for Enterprise Linux (EPEL) repository
+  block:
+  - name: Setup EPEL repository for Red Hat Enterprise Linux
+    when: distribution_id|first == 'Red Hat Enterprise Linux'
+    package:
+      name:
+      - 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ distribution_id|last }}.noarch.rpm'
+
+  - name: Setup EPEL repository for CentOS
+    when: distribution_id|first == 'CentOS'
+    package:
+      name:
+      - epel-release
+
+- name: Satisfy requirements for collection jm1.pkg on Red Hat Enterprise Linux 7 and CentOS 7
+  when: distribution_id|last == '7'
+  block:
+  - name: Install package dependencies for Red Hat Enterprise Linux 7 and CentOS 7
+    package:
+      name:
+      # NOTE: Keep in sync with meta package below!
+      - python-backports
+      - python-pip
+      - rpm-build
+
+  - name: Install pip dependencies for Red Hat Enterprise Linux 7 and CentOS 7
+    block:
+    - pip:
+        name: backports.tempfile
+
+  - name: Install supplemental meta package
+    jm1.pkg.meta_pkg:
+      name: "jm1-pkg-setup"
+      version: 1
+      depends:
+      - python-backports
+      - python-pip
+      - rpm-build
+
+- name: Satisfy requirements for collection jm1.pkg on Red Hat Enterprise Linux 8 and CentOS 8
+  when: distribution_id|last == '8'
+  block:
+  - name: Install package dependencies for Red Hat Enterprise Linux 8 and CentOS 8
+    package:
+      name:
+      # NOTE: Keep in sync with meta package below!
+      - python3-dnf
+      - rpm-build
+
+  - name: Install supplemental meta package
+    jm1.pkg.meta_pkg:
+      name: "jm1-pkg-setup"
+      version: 1
+      depends:
+      - python3-dnf
+      - rpm-build
