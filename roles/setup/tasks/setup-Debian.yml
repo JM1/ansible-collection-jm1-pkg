@@ -14,17 +14,21 @@
       - equivs
       - python-apt
       - python-backports.tempfile
+      - python-jinja2
       - python3-apt
+      - python3-jinja2
 
   - name: Install supplemental meta package
     jm1.pkg.meta_pkg:
       name: "jm1-pkg-setup"
-      version: 1
+      version: 2
       depends:
       - equivs
       - python-apt
+      - python-jinja2
       - python-backports.tempfile
       - python3-apt
+      - python3-jinja2
 
 - name: Satisfy requirements for collection jm1.pkg on Ubuntu 20.04 LTS (Focal Fossa)
   when: distribution_id == ['Ubuntu', '20.04']
@@ -36,11 +40,13 @@
       # NOTE: Keep in sync with meta package below!
       - equivs
       - python3-apt
+      - python3-jinja2
 
   - name: Install supplemental meta package
     jm1.pkg.meta_pkg:
       name: "jm1-pkg-setup"
-      version: 1
+      version: 2
       depends:
       - equivs
       - python3-apt
+      - python3-jinja2

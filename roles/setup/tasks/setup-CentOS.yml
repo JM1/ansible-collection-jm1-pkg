@@ -23,6 +23,7 @@
       name:
       # NOTE: Keep in sync with meta package below!
       - python-backports
+      - python-jinja2
       - python-pip
       - rpm-build
 
@@ -34,9 +35,10 @@
   - name: Install supplemental meta package
     jm1.pkg.meta_pkg:
       name: "jm1-pkg-setup"
-      version: 1
+      version: 2
       depends:
       - python-backports
+      - python-jinja2
       - python-pip
       - rpm-build
 
@@ -48,12 +50,14 @@
       name:
       # NOTE: Keep in sync with meta package below!
       - python3-dnf
+      - python3-jinja2
       - rpm-build
 
   - name: Install supplemental meta package
     jm1.pkg.meta_pkg:
       name: "jm1-pkg-setup"
-      version: 1
+      version: 2
       depends:
       - python3-dnf
+      - python3-jinja2
       - rpm-build

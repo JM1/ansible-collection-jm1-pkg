@@ -42,12 +42,13 @@ description:
       "
 
 requirements:
-    - backports.tempfile (python 2 only)
     - apt (e.g. in debian package python3-apt) [apt-based distributions only]
-    - equivs-build (e.g. part of debian package 'equivs') [apt-based distributions only]
+    - backports.tempfile (python 2 only)
     - dnf [dnf-based distributions only]
-    - yum (python 2 only) [yum-based distributions only]
+    - equivs-build (e.g. part of debian package equivs) [apt-based distributions only]
+    - jinja2 (e.g. part of package python3-jinja2)
     - rpmbuild (e.g. in package rpm-build) [dnf-based or yum-based distributions only]
+    - yum (python 2 only) [yum-based distributions only]
 
 options:
 
