@@ -13,4 +13,4 @@ namespace: jm1
 readme: README.md
 repository: https://github.com/jm1/ansible-collection-pkg
 tags: null
-version: 2020.7.4
+version: 2020.7.30
