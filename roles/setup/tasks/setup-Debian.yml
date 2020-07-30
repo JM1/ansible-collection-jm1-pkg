@@ -8,7 +8,9 @@
   block:
   - name: Install package dependencies
     package:
+      update_cache: yes
       cache_valid_time: 86400 # 1 day
+      install_recommends: no
       name:
       # NOTE: Keep in sync with meta package below!
       - equivs
@@ -30,12 +32,18 @@
       - python3-apt
       - python3-jinja2
 
-- name: Satisfy requirements for collection jm1.pkg on Ubuntu 20.04 LTS (Focal Fossa)
-  when: distribution_id == ['Ubuntu', '20.04']
+- name: >-
+    Satisfy requirements for collection jm1.pkg on Ubuntu 20.04 LTS (Focal Fossa), Debian 11 (Bullseye) and
+    Debian NA (Testing, Unstable aka Sid, Experimental)
+  when: distribution_id == ['Ubuntu', '20.04'] or
+        distribution_id == ['Debian', '11'] or
+        distribution_id == ['Debian', 'NA']
   block:
   - name: Install package dependencies
     package:
+      update_cache: yes
       cache_valid_time: 86400 # 1 day
+      install_recommends: no
       name:
       # NOTE: Keep in sync with meta package below!
       - equivs
