@@ -35,9 +35,13 @@
 - name: >-
     Satisfy requirements for collection jm1.pkg on Ubuntu 20.04 LTS (Focal Fossa), Debian 11 (Bullseye) and
     Debian NA (Testing, Unstable aka Sid, Experimental)
-  when: distribution_id == ['Ubuntu', '20.04'] or
-        distribution_id == ['Debian', '11'] or
-        distribution_id == ['Debian', 'NA']
+  when: distribution_id in [
+            ['Ubuntu', '20.04'],
+            ['Debian', '11'],
+            ['Debian', 'NA'],
+            ['Debian', 'Testing'],
+            ['Debian', 'Unstable']
+        ]
   block:
   - name: Install package dependencies
     package:
