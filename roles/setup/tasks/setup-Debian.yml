@@ -23,7 +23,7 @@
   - name: Install supplemental meta package
     jm1.pkg.meta_pkg:
       name: "jm1-pkg-setup"
-      version: 2
+      version: "2"
       depends:
       - equivs
       - python-apt
@@ -57,7 +57,7 @@
   - name: Install supplemental meta package
     jm1.pkg.meta_pkg:
       name: "jm1-pkg-setup"
-      version: 2
+      version: "2"
       depends:
       - equivs
       - python3-apt

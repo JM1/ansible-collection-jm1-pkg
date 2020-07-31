@@ -35,7 +35,7 @@
   - name: Install supplemental meta package
     jm1.pkg.meta_pkg:
       name: "jm1-pkg-setup"
-      version: 2
+      version: "2"
       depends:
       - python-backports
       - python-jinja2
@@ -56,7 +56,7 @@
   - name: Install supplemental meta package
     jm1.pkg.meta_pkg:
       name: "jm1-pkg-setup"
-      version: 2
+      version: "2"
       depends:
       - python3-dnf
       - python3-jinja2
