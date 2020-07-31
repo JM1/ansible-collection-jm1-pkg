@@ -26,7 +26,7 @@ For example:
         - name: Install C development tools
           jm1.pkg.meta_pkg:
             name: developer-tools
-            version: 1
+            version: '1'
             depends:
             - make
             - gcc
@@ -45,7 +45,7 @@ For example:
         - name: Install C development tools
           jm1.pkg.meta_pkg:
             name: developer-tools
-            version: 2
+            version: '2'
             depends:
             - make
             - gcc
