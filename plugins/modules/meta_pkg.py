@@ -180,7 +180,7 @@ author: "Jakob Meng (@jm1)"
 '''
 
 EXAMPLES = r'''
-- jm1.pkg.meta_pkg
+- jm1.pkg.meta_pkg:
     name: "developer-tools"
     depends:
     - make
