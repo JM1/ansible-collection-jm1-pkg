@@ -4,7 +4,7 @@ This repo hosts the [`jm1.pkg`](https://galaxy.ansible.com/jm1/pkg) Ansible Coll
 
 The collection includes a variety of Ansible content to help with packaging and deployment of software.
 
-For example, Ansible module [`jm1.pkg.meta_pkg`](https://github.com/JM1/ansible-collection-pkg/blob/master/plugins/modules/meta_pkg.py)
+For example, Ansible module [`jm1.pkg.meta_pkg`](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/plugins/modules/meta_pkg.py)
 simplifies the build, installation and removal of meta packages using the OS package manager, such as `apt`, `yum` or
 `dnf`. A meta package does not include any files, it rather defines [relationships](https://www.debian.org/doc/debian-policy/ch-relationships.html)
 between packages only, e.g. dependencies or conflicts. When a meta package is installed, the OS package manager will
@@ -61,16 +61,16 @@ When the second release of `developer-tools` is installed, the OS package manage
 Click on the name of a module or role to view that content's documentation:
 
 - **Modules**:
-    * [meta_pkg](https://github.com/JM1/ansible-collection-pkg/blob/master/plugins/modules/meta_pkg.py)
+    * [meta_pkg](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/plugins/modules/meta_pkg.py)
 - **Roles**:
-    * [setup](https://github.com/JM1/ansible-collection-pkg/blob/master/roles/setup/README.md)
+    * [setup](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/roles/setup/README.md)
 
 ## Requirements and Installation
 
 ### Installing necessary software
 
 Content in this collection requires additional tools and libraries, e.g. to interact with apt's, yum's and dnf's APIs.
-You can use role [`jm1.pkg.setup`](https://github.com/JM1/ansible-collection-pkg/blob/master/roles/setup/README.md) to
+You can use role [`jm1.pkg.setup`](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/roles/setup/README.md) to
 install necessary software packages:
 
 ```yaml
@@ -164,7 +164,7 @@ Helpful tools for developing collections are `ansible`, `ansible-doc`, `ansible-
 | Red Hat Enterprise Linux (RHEL) 8 / CentOS 8 | Enable [EPEL](https://fedoraproject.org/wiki/EPEL). `yum install ansible              ansible-doc python3-flake8 make yamllint` |
 | Ubuntu 20.04 LTS (Focal Fossa)               | `apt install ansible ansible-doc ansible-lint flake8 make yamllint` |
 
-Have a look at the included [`Makefile`](https://github.com/JM1/ansible-collection-pkg/blob/master/Makefile) for
+Have a look at the included [`Makefile`](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/Makefile) for
 several frequently used commands, to e.g. build and lint a collection.
 
 ## More Information

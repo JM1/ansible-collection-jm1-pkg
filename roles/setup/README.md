@@ -5,8 +5,8 @@ This role helps to install necessary tools and libraries for all roles and modul
 
 **NOTE:** This role will *not* fetch and install any Ansible role or collection, because Ansible preloads all modules,
 roles and tasks etc. before it executes any of them. Please make sure that all necessary roles and collections are
-installed before running Ansible. To do so, you may follow the steps described in [`README.md`](https://github.com/JM1/ansible-collection-pkg/blob/master/README.md)
-using the provided [`requirements.yml`](https://github.com/JM1/ansible-collection-pkg/blob/master/requirements.yml).
+installed before running Ansible. To do so, you may follow the steps described in [`README.md`](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/README.md)
+using the provided [`requirements.yml`](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/requirements.yml).
 
 **Tested OS images**
 - Cloud image of [`Debian 10 (Buster)` \[`amd64`\]](https://cdimage.debian.org/cdimage/openstack/current/)
