@@ -18,7 +18,23 @@ Available on Ansible Galaxy in Collection [jm1.pkg](https://galaxy.ansible.com/j
 
 ## Requirements
 
-None.
+Python library `python-apt` is required by Ansible's [`apt`](https://docs.ansible.com/ansible/latest/modules/apt_module.html) module.
+
+| OS                                           | Install Instructions                 |
+| -------------------------------------------- | ------------------------------------ |
+| Debian 10 (Buster)                           | `apt install python-apt python3-apt` |
+| Red Hat Enterprise Linux (RHEL) 7 / CentOS 7 | Not applicable                       |
+| Red Hat Enterprise Linux (RHEL) 8 / CentOS 8 | Not applicable                       |
+| Ubuntu 20.04 LTS (Focal Fossa)               | `apt install python3-apt`            |
+
+Python library `python-dnf` is required by Ansible's [`dnf`](https://docs.ansible.com/ansible/latest/modules/dnf_module.html) module.
+
+| OS                                           | Install Instructions      |
+| -------------------------------------------- | ------------------------- |
+| Debian 10 (Buster)                           | Not applicable            |
+| Red Hat Enterprise Linux (RHEL) 7 / CentOS 7 | Not applicable            |
+| Red Hat Enterprise Linux (RHEL) 8 / CentOS 8 | `yum install python3-dnf` |
+| Ubuntu 20.04 LTS (Focal Fossa)               | Not applicable            |
 
 ## Variables
 
