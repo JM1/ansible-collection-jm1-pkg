@@ -3,8 +3,8 @@
 
 # Tasks for Debian and Ubuntu have been unified in a single file because of similarities between both distributions.
 
-- name: Satisfy requirements for collection jm1.pkg on Debian 10 (Buster)
-  when: distribution_id == ['Debian', '10']
+- name: Satisfy requirements for collection jm1.pkg on Debian 10 (Buster) and Ubuntu 18.04 LTS (Bionic Beaver)
+  when: distribution_id in [['Debian', '10'], ['Ubuntu', '18.04']]
   block:
   - name: Install package dependencies
     package:
@@ -36,11 +36,11 @@
     Satisfy requirements for collection jm1.pkg on Ubuntu 20.04 LTS (Focal Fossa), Debian 11 (Bullseye) and
     Debian NA (Testing, Unstable aka Sid, Experimental)
   when: distribution_id in [
-            ['Ubuntu', '20.04'],
             ['Debian', '11'],
             ['Debian', 'NA'],
             ['Debian', 'Testing'],
-            ['Debian', 'Unstable']
+            ['Debian', 'Unstable'],
+            ['Ubuntu', '20.04']
         ]
   block:
   - name: Install package dependencies
