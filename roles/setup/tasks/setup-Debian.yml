@@ -7,7 +7,7 @@
   when: distribution_id in [['Debian', '10'], ['Ubuntu', '18.04']]
   block:
   - name: Install package dependencies
-    package:
+    apt:
       update_cache: yes
       cache_valid_time: 86400 # 1 day
       install_recommends: no
@@ -44,7 +44,7 @@
         ]
   block:
   - name: Install package dependencies
-    package:
+    apt:
       update_cache: yes
       cache_valid_time: 86400 # 1 day
       install_recommends: no
