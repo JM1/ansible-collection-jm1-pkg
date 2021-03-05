@@ -107,7 +107,7 @@ You can also include it in a `requirements.yml` file and install it via
 ---
 collections:
   - name: jm1.pkg
-    version: 2021.2.25
+    version: 2021.3.5
 ```
 
 ## Usage and Playbooks
