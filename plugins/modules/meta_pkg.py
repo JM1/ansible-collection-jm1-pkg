@@ -45,7 +45,6 @@ requirements:
     - apt (e.g. in debian package python3-apt) [apt-based distributions only]
     - backports.tempfile (python 2 only)
     - dnf [dnf-based distributions only]
-    - equivs-build (e.g. part of debian package equivs) [apt-based distributions only]
     - jinja2 (e.g. part of package python3-jinja2)
     - rpmbuild (e.g. in package rpm-build) [dnf-based or yum-based distributions only]
     - yum (python 2 only) [yum-based distributions only]
@@ -288,6 +287,7 @@ elif six.PY3:
     import tempfile
 
 
+# A blank line marks the end of control file
 DEBIAN_CONTROLFILE_TEMPLATE = r'''
 Section: metapackages
 Priority: optional
@@ -296,13 +296,13 @@ Package: {{ name }}
 Version: {{ version }}
 Architecture: {{ architecture }}
 Maintainer: {{ maintainer }}
-
+Rules-Requires-Root: no
+Multi-Arch: foreign
 Conflicts: {{ conflicts|join(', ') }}
 Depends: {{ depends|join(', ') }}
 Enhances: {{ enhances|join(', ') }}
 Recommends: {{ recommends|join(', ') }}
 Suggests: {{ suggests|join(', ') }}
-
 Description: {{ summary }}
  {{ description|wordwrap(width=80)|indent(1) }}
 
@@ -407,7 +407,10 @@ def make_deb(architecture,
              summary,
              version,
              module):
-    control_path = os.path.join(cwd, 'package.ctl')
+    debian_path = os.path.join(cwd, name, 'DEBIAN')
+    os.makedirs(debian_path, mode=0o755)
+
+    control_path = os.path.join(debian_path, 'control')
     control_template = jinja2.Template(DEBIAN_CONTROLFILE_TEMPLATE)
     control_content = control_template.render(
         architecture=architecture,
@@ -425,23 +428,15 @@ def make_deb(architecture,
     with open(control_path, 'w') as f:
         f.write(control_content)
 
-    cmd = "equivs-build '{control_path}'".format(control_path=control_path)
+    # Ref.: man dpkg-deb
+    cmd = "dpkg-deb --build '{binary_directory}'".format(binary_directory=name)
     module.run_command(cmd, check_rc=True, cwd=cwd, environ_update=dict_merge(ENV_VARS, APT_ENV_VARS))
 
-    # Even though equivs-build pretends that 'the package has been created in the current directory,
-    # not in ".." as indicated by the message above!", it might create the package exactly there, e.g.
-    # when equivs-build is run as root in Ansible. As a workaround we move the package if required.
-
-    pkg_filename = '{name}_{version}_{architecture}.deb'.format(
-        name=name, version=version, architecture=architecture)
+    pkg_filename = '{name}.deb'.format(name=name)
 
     module.debug('package filename: %s' % pkg_filename)
 
     pkg_path = os.path.join(cwd, pkg_filename)
-
-    if not os.path.isfile(pkg_path):
-        wrong_pkg_path = os.path.join(os.path.join(cwd, os.pardir), pkg_filename)
-        module.atomic_move(wrong_pkg_path, pkg_path)
 
     return pkg_path
 

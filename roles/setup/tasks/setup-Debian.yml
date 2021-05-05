@@ -13,7 +13,6 @@
       install_recommends: no
       name:
       # NOTE: Keep in sync with meta package below!
-      - equivs
       - python-apt
       - python-backports.tempfile
       - python-jinja2
@@ -25,7 +24,6 @@
       name: "jm1-pkg-setup"
       version: "2"
       depends:
-      - equivs
       - python-apt
       - python-jinja2
       - python-backports.tempfile
@@ -50,7 +48,6 @@
       install_recommends: no
       name:
       # NOTE: Keep in sync with meta package below!
-      - equivs
       - python3-apt
       - python3-jinja2
 
@@ -59,6 +56,5 @@
       name: "jm1-pkg-setup"
       version: "2"
       depends:
-      - equivs
       - python3-apt
       - python3-jinja2
