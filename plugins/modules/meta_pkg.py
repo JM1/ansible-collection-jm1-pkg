@@ -164,9 +164,6 @@ notes:
      feature. This removes all 'leaf' packages from the system that were originally installed as dependencies of user-
      installed packages but which are no longer required by any such package. If this behavior is not wanted, one may
      use module M(dnf) instead of M(jm1.pkg.meta_pkg)."
-  - "Wildcards can be used for I(depends), I(recommends), I(suggests), I(enhances) and I(conflicts) options. But beware:
-     Wildcards will be resolved on the ansible host where this module is executed, hence only packages known to the
-     package manager on that host will be matched."
   - "Guides about package relationships I(depends), I(recommends), I(suggests), I(enhances) and I(conflicts):
      * Debian:
          U(https://www.debian.org/doc/debian-policy/ch-relationships.html)
@@ -247,7 +244,6 @@ import datetime
 import jinja2
 import os
 import pwd
-import re
 import socket
 import traceback
 
@@ -397,33 +393,57 @@ def apt_package_status(name, cache):
     return is_installed, is_virtual, installed_pkg
 
 
-def as_re_fullmatch(regex):
-    """
-    Emulate python-3.4 re.fullmatch().
-    Ref.: https://stackoverflow.com/a/30212799/6490710
-    """
-    return "(?:" + regex + r")\Z"
+def make_deb(architecture,
+             conflicts,
+             cwd,
+             depends,
+             description,
+             enhances,
+             maintainer,
+             manager,
+             name,
+             recommends,
+             suggests,
+             summary,
+             version,
+             module):
+    control_path = os.path.join(cwd, 'package.ctl')
+    control_template = jinja2.Template(DEBIAN_CONTROLFILE_TEMPLATE)
+    control_content = control_template.render(
+        architecture=architecture,
+        conflicts=conflicts,
+        depends=depends,
+        description=description,
+        enhances=enhances,
+        maintainer=maintainer,
+        name=name,
+        recommends=recommends,
+        suggests=suggests,
+        summary=summary,
+        version=version)
 
+    with open(control_path, 'w') as f:
+        f.write(control_content)
 
-def match(patterns, strings):
-    matched = []
+    cmd = "equivs-build '{control_path}'".format(control_path=control_path)
+    module.run_command(cmd, check_rc=True, cwd=cwd, environ_update=dict_merge(ENV_VARS, APT_ENV_VARS))
 
-    for pattern in patterns:
-        # decide between just-a-package-name vs. regex pattern by searching for disallowed characters
-        # Ref.: https://lists.debian.org/debian-dpkg/2006/05/msg00087.html
-        is_not_regex = re.compile(as_re_fullmatch(r'^[0-9a-zA-Z\.\+\_\-]*$')).match(pattern)
+    # Even though equivs-build pretends that 'the package has been created in the current directory,
+    # not in ".." as indicated by the message above!", it might create the package exactly there, e.g.
+    # when equivs-build is run as root in Ansible. As a workaround we move the package if required.
 
-        if is_not_regex:
-            # just a package name
-            matched.append(pattern)
-        else:
-            # regex pattern
-            regex = re.compile(as_re_fullmatch(pattern))
-            for string in strings:
-                if regex.match(string):
-                    matched.append(string)
+    pkg_filename = '{name}_{version}_{architecture}.deb'.format(
+        name=name, version=version, architecture=architecture)
 
-    return set(matched)
+    module.debug('package filename: %s' % pkg_filename)
+
+    pkg_path = os.path.join(cwd, pkg_filename)
+
+    if not os.path.isfile(pkg_path):
+        wrong_pkg_path = os.path.join(os.path.join(cwd, os.pardir), pkg_filename)
+        module.atomic_move(wrong_pkg_path, pkg_path)
+
+    return pkg_path
 
 
 def make_rpm(architecture,
@@ -490,7 +510,6 @@ def install(architecture,
             module):
 
     if manager == 'apt':
-        pkg_names = []
         with apt.Cache() as cache:
             is_installed, is_virtual, installed_pkg = apt_package_status(name, cache)
 
@@ -498,51 +517,22 @@ def install(architecture,
                 # package is present already
                 return False, conflicts, depends, enhances, recommends, suggests
 
-            # TODO: Replace with 'apt-cache pkgnames' if not HAS_APT?
-            pkg_names = cache.keys()
-
-        conflicts = sorted(match(conflicts, pkg_names))
-        depends = sorted(match(depends, pkg_names))
-        enhances = sorted(match(enhances, pkg_names))
-        recommends = sorted(match(recommends, pkg_names))
-        suggests = sorted(match(suggests, pkg_names))
-
         with tempfile.TemporaryDirectory() as dir:
-            control_path = os.path.join(dir, 'package.ctl')
-            control_template = jinja2.Template(DEBIAN_CONTROLFILE_TEMPLATE)
-            control_content = control_template.render(
-                architecture=architecture,
-                conflicts=conflicts,
-                depends=depends,
-                description=description,
-                enhances=enhances,
-                maintainer=maintainer,
-                name=name,
-                recommends=recommends,
-                suggests=suggests,
-                summary=summary,
-                version=version)
-
-            with open(control_path, 'w') as f:
-                f.write(control_content)
-
-            cmd = "equivs-build '{control_path}'".format(control_path=control_path)
-            module.run_command(cmd, check_rc=True, cwd=dir, environ_update=dict_merge(ENV_VARS, APT_ENV_VARS))
-
-            # Even though equivs-build pretends that 'the package has been created in the current directory,
-            # not in ".." as indicated by the message above!", it might create the package exactly there, e.g.
-            # when equivs-build is run as root in Ansible. As a workaround we move the package if required.
-
-            pkg_filename = '{name}_{version}_{architecture}.deb'.format(
-                name=name, version=version, architecture=architecture)
-
-            module.debug('package filename: %s' % pkg_filename)
-
-            pkg_path = os.path.join(dir, pkg_filename)
-
-            if not os.path.isfile(pkg_path):
-                wrong_pkg_path = os.path.join(os.path.join(dir, os.pardir), pkg_filename)
-                module.atomic_move(wrong_pkg_path, pkg_path)
+            pkg_path = make_deb(
+                architecture,
+                conflicts,
+                dir,
+                depends,
+                description,
+                enhances,
+                maintainer,
+                manager,
+                name,
+                recommends,
+                suggests,
+                summary,
+                version,
+                module)
 
             cmd = "apt-get install -y '{pkg_path}'".format(pkg_path=pkg_path)
             module.run_command(cmd, check_rc=True, cwd=dir, environ_update=dict_merge(ENV_VARS, APT_ENV_VARS))
@@ -550,7 +540,6 @@ def install(architecture,
             return True, conflicts, depends, enhances, recommends, suggests
 
     elif manager == 'dnf':
-        pkg_names = []
         with dnf.Base() as base:
             base.read_all_repos()
             base.fill_sack(load_system_repo=True, load_available_repos=False)
@@ -563,16 +552,6 @@ def install(architecture,
             base.reset(repos=True, sack=True)
             base.read_all_repos()
             base.fill_sack(load_system_repo=True, load_available_repos=True)
-            q = base.sack.query()
-
-            pkg_names = map(lambda pkg: pkg.name, q.available())
-            pkg_names = sorted(set(pkg_names))
-
-            conflicts = sorted(match(conflicts, pkg_names))
-            depends = sorted(match(depends, pkg_names))
-            enhances = sorted(match(enhances, pkg_names))
-            recommends = sorted(match(recommends, pkg_names))
-            suggests = sorted(match(suggests, pkg_names))
 
             with tempfile.TemporaryDirectory() as dir:
                 pkg_path = make_rpm(
@@ -610,16 +589,6 @@ def install(architecture,
         if yb.rpmdb.searchNevra(name=name, ver=version):
             # package is present already
             return False, conflicts, depends, enhances, recommends, suggests
-
-        pkgs = yb.pkgSack.simplePkgList()
-        pkg_names = map(lambda x: x[0], pkgs)  # x = (n, a, e, v, r)
-        pkg_names = sorted(set(pkg_names))
-
-        conflicts = sorted(match(conflicts, pkg_names))
-        depends = sorted(match(depends, pkg_names))
-        enhances = sorted(match(enhances, pkg_names))
-        recommends = sorted(match(recommends, pkg_names))
-        suggests = sorted(match(suggests, pkg_names))
 
         with tempfile.TemporaryDirectory() as dir:
             pkg_path = make_rpm(
