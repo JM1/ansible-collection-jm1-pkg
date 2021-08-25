@@ -545,6 +545,7 @@ def install(architecture,
                 return False, conflicts, depends, enhances, recommends, suggests
 
             base.reset(repos=True, sack=True)
+            base.conf.substitutions.update_from_etc(base.conf.installroot)
             base.read_all_repos()
             base.fill_sack(load_system_repo=True, load_available_repos=True)
 
