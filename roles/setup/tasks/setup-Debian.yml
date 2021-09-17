@@ -39,6 +39,7 @@
     Debian NA (Testing, Unstable aka Sid, Experimental)
   when: distribution_id in [
             ['Debian', '11'],
+            ['Debian', '12'],
             ['Debian', 'NA'],
             ['Debian', 'Testing'],
             ['Debian', 'Unstable'],
