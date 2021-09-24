@@ -101,7 +101,7 @@ See the module documentations for the minimal version supported for each module.
 
 ### Installing the Collection from Ansible Galaxy
 
-Before using the `jm1.pkg` Collection, you need to install it with the Ansible Galaxy CLI:
+Before using the `jm1.pkg` collection, you need to install it with the Ansible Galaxy CLI:
 
 ```sh
 ansible-galaxy collection install jm1.pkg
@@ -196,7 +196,7 @@ several frequently used commands, to e.g. build and lint a collection.
 
 GNU General Public License v3.0 or later
 
-See [LICENSE.md](https://galaxy.ansible.com/jm1/pkg/blob/master/LICENSE.md) to see the full text.
+See [LICENSE.md](LICENSE.md) to see the full text.
 
 ## Author
 
