@@ -43,6 +43,7 @@ description:
 
 requirements:
     - apt (e.g. in debian package python3-apt) [apt-based distributions only]
+    - babel (e.g. part of package python3-babel)
     - backports.tempfile (python 2 only)
     - dnf [dnf-based distributions only]
     - jinja2 (e.g. part of package python3-jinja2)
@@ -239,6 +240,7 @@ from ansible.module_utils.facts import ansible_collector
 from ansible.module_utils.facts import default_collectors
 from ansible.module_utils.facts.namespace import PrefixFactNamespace
 import ansible.module_utils.six as six
+import babel.dates
 import datetime
 import jinja2
 import os
@@ -354,7 +356,7 @@ Suggests:  {{ suggests|join(', ') }}
 %files
 
 %changelog
-* {{ now().strftime('%a %b %-d %Y') }} {{ maintainer }} {{ version }}
+* {{ format_date(now(), "EEE MMM dd yyyy", locale='en') }} {{ maintainer }} {{ version }}
 - Initial RPM release
 
 '''
@@ -458,6 +460,7 @@ def make_rpm(architecture,
     spec_path = os.path.join(cwd, '%s.spec' % name)
     spec_template = jinja2.Template(RPM_SPEC_TEMPLATE)
     spec_template.globals['now'] = datetime.datetime.utcnow
+    spec_template.globals['format_date'] = babel.dates.format_date
     spec_content = spec_template.render(
         architecture=architecture,
         conflicts=conflicts,
