@@ -43,7 +43,7 @@ description:
 
 requirements:
     - apt (e.g. in debian package python3-apt) [apt-based distributions only]
-    - babel (e.g. part of package python3-babel)
+    - babel (e.g. part of package python3-babel) [dnf-based or yum-based distributions only]
     - backports.tempfile (python 2 only)
     - dnf [dnf-based distributions only]
     - jinja2 (e.g. part of package python3-jinja2)
@@ -240,7 +240,6 @@ from ansible.module_utils.facts import ansible_collector
 from ansible.module_utils.facts import default_collectors
 from ansible.module_utils.facts.namespace import PrefixFactNamespace
 import ansible.module_utils.six as six
-import babel.dates
 import datetime
 import jinja2
 import os
@@ -256,6 +255,15 @@ except ImportError:
 else:
     APT_IMPORT_ERROR = None
     HAS_APT = True
+
+try:
+    import babel.dates
+except ImportError:
+    BABEL_IMPORT_ERROR = traceback.format_exc()
+    HAS_BABEL = False
+else:
+    BABEL_IMPORT_ERROR = None
+    HAS_BABEL = True
 
 try:
     import dnf
@@ -715,6 +723,9 @@ def core(module):
     if manager == 'apt' and not HAS_APT:
         module.fail_json(msg=missing_required_lib("apt"), exception=APT_IMPORT_ERROR)
 
+    if manager in ['dnf', 'yum'] and not HAS_BABEL:
+        module.fail_json(msg=missing_required_lib("babel"), exception=BABEL_IMPORT_ERROR)
+
     if manager == 'dnf' and not HAS_DNF:
         module.fail_json(msg=missing_required_lib("dnf"), exception=DNF_IMPORT_ERROR)
 
@@ -802,7 +813,7 @@ def main():
         supports_check_mode=True,
     )
 
-    if not HAS_APT or not HAS_DNF or not HAS_YUM:
+    if not HAS_APT or not HAS_BABEL or not HAS_DNF or not HAS_YUM:
         pass  # errors handled in def core()
 
     if six.PY2 and not HAS_BACKPORTS_TEMPFILE:
