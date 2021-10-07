@@ -1,0 +1,26 @@
+galaxy_info:
+  role_name: apt_sources_list_removal
+  author: Jakob Meng
+  description: Remove file /etc/apt/sources.list, i.e. use lists from /etc/apt/sources.list.d/ only.
+  company: Hochschule Bonn-Rhein-Sieg
+  license: license (GPLv3)
+
+  min_ansible_version: 2.9
+
+  platforms:
+  # Ref.: https://galaxy.ansible.com/api/v1/platforms/
+  - name: Debian
+    versions:
+    - buster
+    - bullseye
+
+  - name: Ubuntu
+    versions:
+    - bionic
+    - focal
+
+  galaxy_tags:
+  - development
+  - system
+
+dependencies: []
