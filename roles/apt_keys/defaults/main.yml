@@ -1,0 +1,87 @@
+---
+# Copyright (c) 2020 Jakob Meng, <jakobmeng@web.de>
+# vim:set fileformat=unix tabstop=2 shiftwidth=2 expandtab:
+# kate: end-of-line unix; space-indent on; indent-width 2; remove-trailing-spaces modified;
+
+apt_keys: |
+  {{
+    {
+      'Debian_9': [
+        apt_keys_debian.stretch_stable,
+        apt_keys_debian.stretch_security_automatic,
+        apt_keys_debian.stretch_automatic
+      ],
+      'Debian_10': [
+        apt_keys_debian.buster_stable,
+        apt_keys_debian.buster_security_automatic,
+        apt_keys_debian.buster_automatic
+      ],
+      'Debian_11': [
+        apt_keys_debian.buster_stable,
+        apt_keys_debian.buster_security_automatic,
+        apt_keys_debian.buster_automatic
+      ],
+      'Ubuntu_18_04': [
+        apt_keys_ubuntu.ubuntu_2012_archive,
+        apt_keys_ubuntu.ubuntu_2012_cdimage
+      ],
+      'Ubuntu_20_04': [
+        apt_keys_ubuntu.ubuntu_2012_archive,
+        apt_keys_ubuntu.ubuntu_2012_cdimage,
+        apt_keys_ubuntu.ubuntu_2018_archive
+      ]
+    }[distribution_id|join('_')|regex_replace('[^A-Za-z0-9 _-]', '_')]
+  }}
+
+apt_keys_debian:
+# Debian 9:  https://packages.debian.org/stretch/debian-archive-keyring
+# Debian 10: https://packages.debian.org/buster/debian-archive-keyring
+# Debian 11: https://packages.debian.org/bullseye/debian-archive-keyring
+  stretch_stable:
+    id: EF0F382A1A7B6500
+    url: https://ftp-master.debian.org/keys/release-9.asc
+    keyring: /etc/apt/trusted.gpg.d/debian-archive-stretch-stable.gpg
+
+  stretch_security_automatic:
+    id: EDA0D2388AE22BA9
+    url: https://ftp-master.debian.org/keys/archive-key-9-security.asc
+    keyring: /etc/apt/trusted.gpg.d/debian-archive-stretch-security-automatic.gpg
+
+  stretch_automatic:
+    id: E0B11894F66AEC98
+    url: https://ftp-master.debian.org/keys/archive-key-9.asc
+    keyring: /etc/apt/trusted.gpg.d/debian-archive-stretch-automatic.gpg
+
+  buster_stable:
+    id: DCC9EFBF77E11517
+    url: https://ftp-master.debian.org/keys/release-10.asc
+    keyring: /etc/apt/trusted.gpg.d/debian-archive-buster-stable.gpg
+
+  buster_security_automatic:
+    id: 4DFAB270CAA96DFA
+    url: https://ftp-master.debian.org/keys/archive-key-10-security.asc
+    keyring: /etc/apt/trusted.gpg.d/debian-archive-buster-security-automatic.gpg
+
+  buster_automatic:
+    id: DC30D7C23CBBABEE
+    url: https://ftp-master.debian.org/keys/archive-key-10.asc
+    keyring: /etc/apt/trusted.gpg.d/debian-archive-buster-automatic.gpg
+
+apt_keys_ubuntu:
+# Ubuntu 18.04: https://packages.ubuntu.com/bionic/ubuntu-keyring
+# Ubuntu 20.04: https://packages.ubuntu.com/focal/ubuntu-keyring
+
+  ubuntu_2012_archive:
+    id: 3B4FE6ACC0B21F32
+    keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2012-archive.gpg
+    keyserver: keyserver.ubuntu.com
+
+  ubuntu_2012_cdimage:
+    id: D94AA3F0EFE21092
+    keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2012-cdimage.gpg
+    keyserver: keyserver.ubuntu.com
+
+  ubuntu_2018_archive:
+    id: 871920D1991BC93C
+    keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2018-archive.gpg
+    keyserver: keyserver.ubuntu.com

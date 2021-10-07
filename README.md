@@ -63,6 +63,7 @@ Click on the name of a module or role to view that content's documentation:
 - **Modules**:
     * [meta_pkg](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/plugins/modules/meta_pkg.py)
 - **Roles**:
+    * [apt_keys](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/roles/apt_keys/README.md)
     * [setup](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/roles/setup/README.md)
 
 ## Requirements and Installation
