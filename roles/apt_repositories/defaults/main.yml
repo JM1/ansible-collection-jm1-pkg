@@ -1,0 +1,391 @@
+---
+# Copyright (c) 2020 Jakob Meng, <jakobmeng@web.de>
+# vim:set fileformat=unix tabstop=2 shiftwidth=2 expandtab:
+# kate: end-of-line unix; space-indent on; indent-width 2; remove-trailing-spaces modified;
+
+apt_repositories: |
+  {{
+    {
+      'Debian_9': [
+        apt_repositories_debian_9.stretch.deb,
+        apt_repositories_debian_9.stretch_security.deb,
+        apt_repositories_debian_9.stretch_updates.deb
+      ],
+      'Debian_10': [
+        apt_repositories_debian_10.buster.deb,
+        apt_repositories_debian_10.buster_security.deb,
+        apt_repositories_debian_10.buster_updates.deb
+      ],
+      'Debian_11': [
+        apt_repositories_debian_11.bullseye.deb,
+        apt_repositories_debian_11.bullseye_security.deb,
+        apt_repositories_debian_11.bullseye_updates.deb
+      ],
+      'Ubuntu_18_04': [
+        apt_repositories_ubuntu_18_04.bionic.deb,
+        apt_repositories_ubuntu_18_04.bionic_partner.deb,
+        apt_repositories_ubuntu_18_04.bionic_security.deb,
+        apt_repositories_ubuntu_18_04.bionic_updates.deb
+      ],
+      'Ubuntu_20_04': [
+        apt_repositories_ubuntu_20_04.focal.deb,
+        apt_repositories_ubuntu_20_04.focal_partner.deb,
+        apt_repositories_ubuntu_20_04.focal_security.deb,
+        apt_repositories_ubuntu_20_04.focal_updates.deb
+      ]
+    }[distribution_id|join('_')|regex_replace('[^A-Za-z0-9 _-]', '_')]
+  }}
+
+apt_repositories_debian_9:
+  #
+  # stretch
+  stretch:
+    deb:
+      repo: deb http://deb.debian.org/debian stretch main contrib non-free
+      filename: debian-stretch
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian stretch main contrib non-free
+      filename: debian-stretch
+  stretch_debug:
+    deb:
+      repo: deb http://deb.debian.org/debian-debug/ stretch-debug main contrib non-free
+      filename: debian-stretch
+    deb_src:
+      repo: deb http://deb.debian.org/debian-debug/ stretch-debug main contrib non-free
+      filename: debian-stretch
+  #
+  # stretch updates
+  stretch_updates:
+    deb:
+      repo: deb http://deb.debian.org/debian stretch-updates main contrib non-free
+      filename: debian-stretch-updates
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian stretch-updates main contrib non-free
+      filename: debian-stretch-updates
+  stretch_updates_debug:
+    deb:
+      repo: deb http://deb.debian.org/debian-debug/ stretch-updates-debug main contrib non-free
+      filename: debian-stretch-updates
+    deb_src:
+      repo: deb http://deb.debian.org/debian-debug/ stretch-updates-debug main contrib non-free
+      filename: debian-stretch-updates
+  #
+  # stretch proposed updates:
+  stretch_proposed_updates:
+    deb:
+      repo: deb http://deb.debian.org/debian stretch-proposed-updates main contrib non-free
+      filename: debian-stretch-proposed-updates
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian stretch-proposed-updates main contrib non-free
+      filename: debian-stretch-proposed-updates
+  stretch_proposed_updates_debug:
+    deb:
+      repo: deb http://deb.debian.org/debian-debug/ stretch-proposed-updates-debug main contrib non-free
+      filename: debian-stretch-proposed-updates
+    deb_src:
+      repo: deb http://deb.debian.org/debian-debug/ stretch-proposed-updates-debug main contrib non-free
+      filename: debian-stretch-proposed-updates
+  #
+  # stretch security
+  stretch_security:
+    deb:
+      repo: deb http://deb.debian.org/debian-security/ stretch/updates main contrib non-free
+      filename: debian-stretch-security
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian-security/ stretch/updates main contrib non-free
+      filename: debian-stretch-security
+  #
+  # stretch backports
+  stretch_backports:
+    deb:
+      repo: deb http://deb.debian.org/debian stretch-backports main contrib non-free
+      filename: debian-stretch-backports
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian stretch-backports main contrib non-free
+      filename: debian-stretch-backports
+  stretch_backports_debug:
+    deb:
+      repo: deb http://deb.debian.org/debian-debug/ stretch-backports-debug main contrib non-free
+      filename: debian-stretch-backports
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian-debug/ stretch-backports-debug main contrib non-free
+      filename: debian-stretch-backports
+  #
+  # stretch backports sloppy
+  stretch_backports_sloppy:
+    deb:
+      repo: deb http://deb.debian.org/debian stretch-backports-sloppy main contrib non-free
+      filename: debian-stretch-backports-sloppy
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian stretch-backports-sloppy main contrib non-free
+      filename: debian-stretch-backports-sloppy
+  stretch_backports_sloppy_debug:
+    deb:
+      repo: deb http://deb.debian.org/debian-debug/ stretch-backports-sloppy-debug main contrib non-free
+      filename: debian-stretch-backports-sloppy
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian-debug/ stretch-backports-sloppy-debug main contrib non-free
+      filename: debian-stretch-backports-sloppy
+
+apt_repositories_debian_10:
+  #
+  # buster
+  buster:
+    deb:
+      repo: deb http://deb.debian.org/debian buster main contrib non-free
+      filename: debian-buster
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian buster main contrib non-free
+      filename: debian-buster
+  buster_debug:
+    deb:
+      repo: deb http://deb.debian.org/debian-debug/ buster-debug main contrib non-free
+      filename: debian-buster
+    deb_src:
+      repo: deb http://deb.debian.org/debian-debug/ buster-debug main contrib non-free
+      filename: debian-buster
+  #
+  # buster updates
+  buster_updates:
+    deb:
+      repo: deb http://deb.debian.org/debian buster-updates main contrib non-free
+      filename: debian-buster-updates
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian buster-updates main contrib non-free
+      filename: debian-buster-updates
+  buster_updates_debug:
+    deb:
+      repo: deb http://deb.debian.org/debian-debug/ buster-updates-debug main contrib non-free
+      filename: debian-buster-updates
+    deb_src:
+      repo: deb http://deb.debian.org/debian-debug/ buster-updates-debug main contrib non-free
+      filename: debian-buster-updates
+  #
+  # buster proposed updates:
+  buster_proposed_updates:
+    deb:
+      repo: deb http://deb.debian.org/debian buster-proposed-updates main contrib non-free
+      filename: debian-buster-proposed-updates
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian buster-proposed-updates main contrib non-free
+      filename: debian-buster-proposed-updates
+  buster_proposed_updates_debug:
+    deb:
+      repo: deb http://deb.debian.org/debian-debug/ buster-proposed-updates-debug main contrib non-free
+      filename: debian-buster-proposed-updates
+    deb_src:
+      repo: deb http://deb.debian.org/debian-debug/ buster-proposed-updates-debug main contrib non-free
+      filename: debian-buster-proposed-updates
+  #
+  # buster security
+  buster_security:
+    deb:
+      repo: deb http://deb.debian.org/debian-security/ buster/updates main contrib non-free
+      filename: debian-buster-security
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian-security/ buster/updates main contrib non-free
+      filename: debian-buster-security
+  #
+  # buster backports
+  buster_backports:
+    deb:
+      repo: deb http://deb.debian.org/debian buster-backports main contrib non-free
+      filename: debian-buster-backports
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian buster-backports main contrib non-free
+      filename: debian-buster-backports
+  buster_backports_debug:
+    deb:
+      repo: deb http://deb.debian.org/debian-debug/ buster-backports-debug main contrib non-free
+      filename: debian-buster-backports
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian-debug/ buster-backports-debug main contrib non-free
+      filename: debian-buster-backports
+
+apt_repositories_debian_11:
+  #
+  # bullseye
+  bullseye:
+    deb:
+      repo: deb http://deb.debian.org/debian bullseye main contrib non-free
+      filename: debian-bullseye
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian bullseye main contrib non-free
+      filename: debian-bullseye
+  bullseye_debug:
+    deb:
+      repo: deb http://deb.debian.org/debian-debug/ bullseye-debug main contrib non-free
+      filename: debian-bullseye
+    deb_src:
+      repo: deb http://deb.debian.org/debian-debug/ bullseye-debug main contrib non-free
+      filename: debian-bullseye
+  #
+  # bullseye updates
+  bullseye_updates:
+    deb:
+      repo: deb http://deb.debian.org/debian bullseye-updates main contrib non-free
+      filename: debian-bullseye-updates
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian bullseye-updates main contrib non-free
+      filename: debian-bullseye-updates
+  bullseye_updates_debug:
+    deb:
+      repo: deb http://deb.debian.org/debian-debug/ bullseye-updates-debug main contrib non-free
+      filename: debian-bullseye-updates
+    deb_src:
+      repo: deb http://deb.debian.org/debian-debug/ bullseye-updates-debug main contrib non-free
+      filename: debian-bullseye-updates
+  #
+  # bullseye proposed updates:
+  bullseye_proposed_updates:
+    deb:
+      repo: deb http://deb.debian.org/debian bullseye-proposed-updates main contrib non-free
+      filename: debian-bullseye-proposed-updates
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian bullseye-proposed-updates main contrib non-free
+      filename: debian-bullseye-proposed-updates
+  bullseye_proposed_updates_debug:
+    deb:
+      repo: deb http://deb.debian.org/debian-debug/ bullseye-proposed-updates-debug main contrib non-free
+      filename: debian-bullseye-proposed-updates
+    deb_src:
+      repo: deb http://deb.debian.org/debian-debug/ bullseye-proposed-updates-debug main contrib non-free
+      filename: debian-bullseye-proposed-updates
+  #
+  # bullseye security
+  bullseye_security:
+    deb:
+      repo: deb http://deb.debian.org/debian-security/ bullseye-security main contrib non-free
+      filename: debian-bullseye-security
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian-security/ bullseye-security main contrib non-free
+      filename: debian-bullseye-security
+  #
+  # bullseye backports
+  bullseye_backports:
+    deb:
+      repo: deb http://deb.debian.org/debian bullseye-backports main contrib non-free
+      filename: debian-bullseye-backports
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian bullseye-backports main contrib non-free
+      filename: debian-bullseye-backports
+  bullseye_backports_debug:
+    deb:
+      repo: deb http://deb.debian.org/debian-debug/ bullseye-backports-debug main contrib non-free
+      filename: debian-bullseye-backports
+    deb_src:
+      repo: deb-src http://deb.debian.org/debian-debug/ bullseye-backports-debug main contrib non-free
+      filename: debian-bullseye-backports
+
+
+apt_repositories_ubuntu_18_04:
+  #
+  # bionic
+  bionic:
+    deb:
+      repo: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+      filename: ubuntu-bionic
+    deb_src:
+      repo: deb-src http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+      filename: ubuntu-bionic
+  #
+  # bionic security
+  bionic_security:
+    deb:
+      repo: deb http://archive.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse
+      filename: ubuntu-bionic-security
+    deb_src:
+      repo: deb-src http://archive.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse
+      filename: ubuntu-bionic-security
+  #
+  # bionic updates
+  bionic_updates:
+    deb:
+      repo: deb http://archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse
+      filename: ubuntu-bionic-updates
+    deb_src:
+      repo: deb-src http://archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse
+      filename: ubuntu-bionic-updates
+  #
+  # bionic proposed
+  bionic_proposed:
+    deb:
+      repo: deb http://archive.ubuntu.com/ubuntu/ bionic-proposed main restricted universe multiverse
+      filename: ubuntu-bionic-proposed
+    deb_src:
+      repo: deb-src http://archive.ubuntu.com/ubuntu/ bionic-proposed main restricted universe multiverse
+      filename: ubuntu-bionic-proposed
+  #
+  # bionic backports
+  bionic_backports:
+    deb:
+      repo: deb http://archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
+      filename: ubuntu-bionic-backports
+    deb_src:
+      repo: deb-src http://archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
+      filename: ubuntu-bionic-backports
+  #
+  # bionic partner
+  bionic_partner:
+    deb:
+      repo: deb http://archive.canonical.com/ubuntu bionic partner
+      filename: ubuntu-bionic-partner
+    deb_src:
+      repo: deb-src http://archive.canonical.com/ubuntu bionic partner
+      filename: ubuntu-bionic-partner
+
+apt_repositories_ubuntu_20_04:
+  #
+  # focal
+  focal:
+    deb:
+      repo: deb http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse
+      filename: ubuntu-focal
+    deb_src:
+      repo: deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse
+      filename: ubuntu-focal
+  #
+  # focal security
+  focal_security:
+    deb:
+      repo: deb http://archive.ubuntu.com/ubuntu/ focal-security main restricted universe multiverse
+      filename: ubuntu-focal-security
+    deb_src:
+      repo: deb-src http://archive.ubuntu.com/ubuntu/ focal-security main restricted universe multiverse
+      filename: ubuntu-focal-security
+  #
+  # focal updates
+  focal_updates:
+    deb:
+      repo: deb http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse
+      filename: ubuntu-focal-updates
+    deb_src:
+      repo: deb-src http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse
+      filename: ubuntu-focal-updates
+  #
+  # focal proposed
+  focal_proposed:
+    deb:
+      repo: deb http://archive.ubuntu.com/ubuntu/ focal-proposed main restricted universe multiverse
+      filename: ubuntu-focal-proposed
+    deb_src:
+      repo: deb-src http://archive.ubuntu.com/ubuntu/ focal-proposed main restricted universe multiverse
+      filename: ubuntu-focal-proposed
+  #
+  # focal backports
+  focal_backports:
+    deb:
+      repo: deb http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
+      filename: ubuntu-focal-backports
+    deb_src:
+      repo: deb-src http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
+      filename: ubuntu-focal-backports
+  #
+  # focal partner
+  focal_partner:
+    deb:
+      repo: deb http://archive.canonical.com/ubuntu focal partner
+      filename: ubuntu-focal-partner
+    deb_src:
+      repo: deb-src http://archive.canonical.com/ubuntu focal partner
+      filename: ubuntu-focal-partner
