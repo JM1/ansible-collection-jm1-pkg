@@ -1,6 +1,9 @@
 # Ansible Role `jm1.pkg.apt_repositories`
 
-TODO.
+This role helps to manage [apt repositories](https://manpages.debian.org/stable/apt/sources.list.5.en.html). It allows
+to add or remove apt repositories in variable `apt_repositories` as a list where each list item is a dictionary of
+parameters that will be passed to Ansible's
+[`apt_repository`](https://docs.ansible.com/ansible/latest/modules/apt_repository_module.html) module.
 
 **Tested OS images**
 - [Cloud images](https://cdimage.debian.org/cdimage/openstack/current/) and
@@ -14,19 +17,65 @@ Available on Ansible Galaxy in Collection [jm1.pkg](https://galaxy.ansible.com/j
 
 ## Requirements
 
-TODO.
+Python library `python-apt` is required by Ansible's
+[`apt_repository`](https://docs.ansible.com/ansible/latest/modules/apt_repository_module.html) module.
+
+| OS                                           | Install Instructions                 |
+| -------------------------------------------- | ------------------------------------ |
+| Debian 10 (Buster)                           | `apt install python-apt python3-apt` |
+| Debian 11 (Bullseye)                         | `apt install python3-apt`            |
+| Ubuntu 18.04 LTS (Bionic Beaver)             | `apt install python-apt python3-apt` |
+| Ubuntu 20.04 LTS (Focal Fossa)               | `apt install python3-apt`            |
 
 ## Variables
 
-TODO.
+| Name               | Default value                       | Required | Description                                                          |
+| ------------------ | ----------------------------------- | -------- | -------------------------------------------------------------------- |
+| `apt_repositories` | *depends on `distribution_id` fact* | no       | List of parameter dictionaries for Ansible's `apt_repository` module |
 
 ## Dependencies
 
-TODO.
+| Name            | Description                                                                  |
+| --------------- | ---------------------------------------------------------------------------- |
+| `jm1.common`    | Provides `distribution_id` fact which is used to choose OS-specific defaults |
 
 ## Example Playbook
 
-TODO.
+```yml
+- hosts: all
+  vars:
+    # Variables are listed here for convenience and illustration.
+    # In a production setup, variables would be defined e.g. in
+    # group_vars and/or host_vars of an Ansible inventory.
+    # Ref.:
+    # https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html
+    # https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
+    apt_repositories:
+    - # buster
+      repo: deb http://deb.debian.org/debian buster main contrib non-free
+      filename: debian-buster
+    - # buster updates
+      repo: deb http://deb.debian.org/debian buster-updates main contrib non-free
+      filename: debian-buster-updates
+    - # buster proposed updates:
+      repo: deb http://deb.debian.org/debian buster-proposed-updates main contrib non-free
+      filename: debian-buster-proposed-updates
+    - # buster security
+      repo: deb http://deb.debian.org/debian-security/ buster/updates main contrib non-free
+      filename: debian-buster-security
+
+  roles:
+  # Remove /etc/apt/sources.list before apt repositories will be added to /etc/apt/sources.list.d/ by role
+  # jm1.pkg.apt_repositories else Ansible's apt_repository module might skip repositories if they are present in
+  # /etc/apt/sources.list.
+  - name: Remove /etc/apt/sources.list
+    role: jm1.pkg.apt_sources_list_removal
+    tags: ["jm1.pkg.apt_sources_list_removal"]
+
+  - name: Manage apt repositories
+    role: jm1.pkg.apt_repositories
+    tags: ["jm1.pkg.apt_repositories"]
+```
 
 For instructions on how to run Ansible playbooks have look at Ansible's
 [Getting Started Guide](https://docs.ansible.com/ansible/latest/network/getting_started/first_playbook.html).
