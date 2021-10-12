@@ -9,17 +9,35 @@ apt_keys: |
       'Debian_9': [
         apt_keys_debian.stretch_stable,
         apt_keys_debian.stretch_security_automatic,
-        apt_keys_debian.stretch_automatic
+        apt_keys_debian.stretch_automatic,
+        apt_keys_debian.buster_stable,
+        apt_keys_debian.buster_security_automatic,
+        apt_keys_debian.buster_automatic,
+        apt_keys_debian.bullseye_stable,
+        apt_keys_debian.bullseye_security_automatic,
+        apt_keys_debian.bullseye_automatic
       ],
       'Debian_10': [
+        apt_keys_debian.stretch_stable,
+        apt_keys_debian.stretch_security_automatic,
+        apt_keys_debian.stretch_automatic,
         apt_keys_debian.buster_stable,
         apt_keys_debian.buster_security_automatic,
-        apt_keys_debian.buster_automatic
+        apt_keys_debian.buster_automatic,
+        apt_keys_debian.bullseye_stable,
+        apt_keys_debian.bullseye_security_automatic,
+        apt_keys_debian.bullseye_automatic
       ],
       'Debian_11': [
+        apt_keys_debian.stretch_stable,
+        apt_keys_debian.stretch_security_automatic,
+        apt_keys_debian.stretch_automatic,
         apt_keys_debian.buster_stable,
         apt_keys_debian.buster_security_automatic,
-        apt_keys_debian.buster_automatic
+        apt_keys_debian.buster_automatic,
+        apt_keys_debian.bullseye_stable,
+        apt_keys_debian.bullseye_security_automatic,
+        apt_keys_debian.bullseye_automatic
       ],
       'Ubuntu_18_04': [
         apt_keys_ubuntu.ubuntu_2012_archive,
@@ -66,6 +84,21 @@ apt_keys_debian:
     id: DC30D7C23CBBABEE
     url: https://ftp-master.debian.org/keys/archive-key-10.asc
     keyring: /etc/apt/trusted.gpg.d/debian-archive-buster-automatic.gpg
+
+  bullseye_stable:
+    id: 605C66F00D6C9793
+    url: https://ftp-master.debian.org/keys/release-11.asc
+    keyring: /etc/apt/trusted.gpg.d/debian-archive-bullseye-stable.gpg
+
+  bullseye_security_automatic:
+    id: A48449044AAD5C5D
+    url: https://ftp-master.debian.org/keys/archive-key-11-security.asc
+    keyring: /etc/apt/trusted.gpg.d/debian-archive-bullseye-security-automatic.gpg
+
+  bullseye_automatic:
+    id: 73A4F27B8DD47936
+    url: https://ftp-master.debian.org/keys/archive-key-11.asc
+    keyring: /etc/apt/trusted.gpg.d/debian-archive-bullseye-automatic.gpg
 
 apt_keys_ubuntu:
 # Ubuntu 18.04: https://packages.ubuntu.com/bionic/ubuntu-keyring
