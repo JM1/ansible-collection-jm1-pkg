@@ -28,15 +28,14 @@ Tool `gpg` is required by Ansible's [`apt_key`](https://docs.ansible.com/ansible
 
 ## Variables
 
-| Name       | Default value                       | Required | Description                                                   |
-| ---------- | ----------------------------------- | -------- | ------------------------------------------------------------- |
-| `apt_keys` | *depends on `distribution_id` fact* | no       | List of parameter dictionaries for Ansible's `apt_key` module |
+| Name              | Default value                           | Required | Description                                                                                               |
+| ----------------- | --------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------- |
+| `apt_keys`        | *depends on `distribution_id` variable* | no       | List of parameter dictionaries for Ansible's `apt_key` module                                             |
+| `distribution_id` | *depends on operating system*           | no       | List which uniquely identifies a distribution release, e.g. `[ 'Debian', '10' ]` for `Debian 10 (Buster)` |
 
 ## Dependencies
 
-| Name            | Description                                                                  |
-| --------------- | ---------------------------------------------------------------------------- |
-| `jm1.common`    | Provides `distribution_id` fact which is used to choose OS-specific defaults |
+None.
 
 ## Example Playbook
 

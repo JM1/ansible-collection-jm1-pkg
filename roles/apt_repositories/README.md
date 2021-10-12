@@ -29,15 +29,14 @@ Python library `python-apt` is required by Ansible's
 
 ## Variables
 
-| Name               | Default value                       | Required | Description                                                          |
-| ------------------ | ----------------------------------- | -------- | -------------------------------------------------------------------- |
-| `apt_repositories` | *depends on `distribution_id` fact* | no       | List of parameter dictionaries for Ansible's `apt_repository` module |
+| Name               | Default value                           | Required | Description                                                                                               |
+| ------------------ | --------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------- |
+| `apt_repositories` | *depends on `distribution_id` variable* | no       | List of parameter dictionaries for Ansible's `apt_repository` module                                      |
+| `distribution_id`  | *depends on operating system*           | no       | List which uniquely identifies a distribution release, e.g. `[ 'Debian', '10' ]` for `Debian 10 (Buster)` |
 
 ## Dependencies
 
-| Name            | Description                                                                  |
-| --------------- | ---------------------------------------------------------------------------- |
-| `jm1.common`    | Provides `distribution_id` fact which is used to choose OS-specific defaults |
+None.
 
 ## Example Playbook
 
