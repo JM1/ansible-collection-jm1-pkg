@@ -56,6 +56,7 @@ None.
 
 ```yml
 - hosts: all
+  become: yes
   roles:
   - name: Satisfy software requirements
     role: jm1.pkg.setup
