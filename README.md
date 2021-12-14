@@ -96,7 +96,11 @@ Or to install these packages locally:
 
 ```sh
 sudo -s
-ansible localhost -m include_role -a name=jm1.pkg.setup
+
+ansible-console localhost << EOF
+gather_facts
+include_role name=jm1.pkg.setup
+EOF
 ```
 
 The exact requirements for every module and role are listed in the corresponding documentation.
