@@ -5,15 +5,7 @@
 
 - name: Manage apt keys
   loop: '{{ apt_keys|default([]) }}'
-  ansible.builtin.apt_key:
-    data: '{{ item.data|default(omit) }}'
-    file: '{{ item.file|default(omit) }}'
-    id: '{{ item.id|default(omit) }}'
-    keyring: '{{ item.keyring|default(omit) }}'
-    keyserver: '{{ item.keyserver|default(omit) }}'
-    state: '{{ item.state|default(omit) }}'
-    url: '{{ item.url|default(omit) }}'
-    validate_certs: '{{ item.validate_certs|default(omit) }}'
+  ansible.builtin.apt_key: '{{ item }}'
   register: apt_keys_result
 
 - name: Debug role variables

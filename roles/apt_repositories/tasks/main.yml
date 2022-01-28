@@ -5,16 +5,7 @@
 
 - name: Manage apt repositories
   loop: '{{ apt_repositories|default([]) }}'
-  ansible.builtin.apt_repository:
-    codename: '{{ item.codename|default(omit) }}'
-    filename: '{{ item.filename|default(omit) }}'
-    mode: '{{ item.mode|default(omit) }}'
-    repo: '{{ item.repo|mandatory }}'
-    state: '{{ item.state|default(omit) }}'
-    update_cache: '{{ item.update_cache|default(omit) }}'
-    update_cache_retries: '{{ item.update_cache_retries|default(omit) }}'
-    update_cache_retry_max_delay: '{{ item.update_cache_retry_max_delay|default(omit) }}'
-    validate_certs: '{{ item.validate_certs|default(omit) }}'
+  ansible.builtin.apt_repository: '{{ item }}'
   register: apt_repository_result
 
 - name: Debug role variables
