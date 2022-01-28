@@ -13,6 +13,7 @@ using the provided [`requirements.yml`](https://github.com/JM1/ansible-collectio
 - Cloud image of [`Debian 11 (Bullseye)` \[`amd64`\]](https://cdimage.debian.org/images/cloud/bullseye/latest/)
 - Generic cloud image of [`CentOS 7 (Core)` \[`amd64`\]](https://cloud.centos.org/centos/7/images/)
 - Generic cloud image of [`CentOS 8 (Core)` \[`amd64`\]](https://cloud.centos.org/centos/8/x86_64/images/)
+- Generic cloud image of [`CentOS 9 (Stream)` \[`amd64`\]](https://cloud.centos.org/centos/9-stream/x86_64/images/)
 - Ubuntu cloud image of [`Ubuntu 18.04 LTS (Bionic Beaver)` \[`amd64`\]](https://cloud-images.ubuntu.com/bionic/current/)
 - Ubuntu cloud image of [`Ubuntu 20.04 LTS (Focal Fossa)` \[`amd64`\]](https://cloud-images.ubuntu.com/focal/)
 
@@ -28,6 +29,7 @@ Python library `python-apt` is required by Ansible's [`apt`](https://docs.ansibl
 | Debian 11 (Bullseye)                         | `apt install python3-apt`            |
 | Red Hat Enterprise Linux (RHEL) 7 / CentOS 7 | Not applicable                       |
 | Red Hat Enterprise Linux (RHEL) 8 / CentOS 8 | Not applicable                       |
+| Red Hat Enterprise Linux (RHEL) 9 / CentOS 9 | Not applicable                       |
 | Ubuntu 18.04 LTS (Bionic Beaver)             | `apt install python-apt python3-apt` |
 | Ubuntu 20.04 LTS (Focal Fossa)               | `apt install python3-apt`            |
 
@@ -39,6 +41,7 @@ Python library `python-dnf` is required by Ansible's [`dnf`](https://docs.ansibl
 | Debian 11 (Bullseye)                         | Not applicable            |
 | Red Hat Enterprise Linux (RHEL) 7 / CentOS 7 | Not applicable            |
 | Red Hat Enterprise Linux (RHEL) 8 / CentOS 8 | `yum install python3-dnf` |
+| Red Hat Enterprise Linux (RHEL) 9 / CentOS 9 | `yum install python3-dnf` |
 | Ubuntu 18.04 LTS (Bionic Beaver)             | Not applicable            |
 | Ubuntu 20.04 LTS (Focal Fossa)               | Not applicable            |
 
