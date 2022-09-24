@@ -35,15 +35,16 @@
       - python3-jinja2
 
 - name: >-
-    Satisfy requirements for collection jm1.pkg on Ubuntu 20.04 LTS (Focal Fossa), Debian 11 (Bullseye) and
-    Debian NA (Testing, Unstable aka Sid, Experimental)
+    Satisfy requirements for collection jm1.pkg on Ubuntu 20.04 LTS (Focal Fossa), Ubuntu 22.04 LTS (Jammy Jellyfish),
+    Debian 11 (Bullseye), Debian 12 (Bookworm) and Debian NA (Testing, Unstable aka Sid, Experimental)
   when: distribution_id in [
             ['Debian', '11'],
             ['Debian', '12'],
             ['Debian', 'NA'],
             ['Debian', 'Testing'],
             ['Debian', 'Unstable'],
-            ['Ubuntu', '20.04']
+            ['Ubuntu', '20.04'],
+            ['Ubuntu', '22.04']
         ]
   block:
   - name: Install package dependencies

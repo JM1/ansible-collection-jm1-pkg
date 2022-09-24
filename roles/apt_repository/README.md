@@ -48,12 +48,15 @@ apt_repository_config:
 [playbooks-keywords]: https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html
 
 **Tested OS images**
-- [Cloud images](https://cdimage.debian.org/cdimage/openstack/current/) and
+- [Cloud images](https://cdimage.debian.org/images/cloud/buster/daily/) and
   [Docker images](https://hub.docker.com/_/debian) of `Debian 10 (Buster)` \[`amd64`\]
-- [Cloud image](https://cdimage.debian.org/images/cloud/bullseye/latest/) and
+- [Cloud image](https://cdimage.debian.org/images/cloud/bullseye/daily/) and
   [Docker images](https://hub.docker.com/_/debian) of `Debian 11 (Bullseye)` \[`amd64`\]
+- [Cloud image](https://cdimage.debian.org/images/cloud/bookworm/daily/) and
+  [Docker images](https://hub.docker.com/_/debian) of `Debian 12 (Bookworm)` \[`amd64`\]
 - Ubuntu cloud image of [`Ubuntu 18.04 LTS (Bionic Beaver)` \[`amd64`\]](https://cloud-images.ubuntu.com/bionic/current/)
 - Ubuntu cloud image of [`Ubuntu 20.04 LTS (Focal Fossa)` \[`amd64`\]](https://cloud-images.ubuntu.com/focal/)
+- Ubuntu cloud image of [`Ubuntu 22.04 LTS (Jammy Jellyfish)` \[`amd64`\]](https://cloud-images.ubuntu.com/focal/)
 
 Available on Ansible Galaxy in Collection [jm1.pkg](https://galaxy.ansible.com/jm1/pkg).
 
@@ -65,8 +68,10 @@ Tool `gpg` is required by Ansible's [`apt_key`][ansible-module-apt-key] module.
 | -------------------------------------------- | -------------------- |
 | Debian 10 (Buster)                           | `apt install gnupg`  |
 | Debian 11 (Bullseye)                         | `apt install gnupg`  |
+| Debian 12 (Bookworm)                         | `apt install gnupg`  |
 | Ubuntu 18.04 LTS (Bionic Beaver)             | `apt install gnupg`  |
 | Ubuntu 20.04 LTS (Focal Fossa)               | `apt install gnupg`  |
+| Ubuntu 22.04 LTS (Jammy Jellyfish)           | `apt install gnupg`  |
 
 Python library `python-apt` is required by Ansible's [`apt_repository`][ansible-module-apt-repository] module.
 
@@ -74,8 +79,10 @@ Python library `python-apt` is required by Ansible's [`apt_repository`][ansible-
 | -------------------------------------------- | ------------------------------------ |
 | Debian 10 (Buster)                           | `apt install python-apt python3-apt` |
 | Debian 11 (Bullseye)                         | `apt install python3-apt`            |
+| Debian 12 (Bookworm)                         | `apt install python3-apt`            |
 | Ubuntu 18.04 LTS (Bionic Beaver)             | `apt install python-apt python3-apt` |
 | Ubuntu 20.04 LTS (Focal Fossa)               | `apt install python3-apt`            |
+| Ubuntu 22.04 LTS (Jammy Jellyfish)           | `apt install python3-apt`            |
 
 ## Variables
 
@@ -85,8 +92,10 @@ Python library `python-apt` is required by Ansible's [`apt_repository`][ansible-
 | `apt_repository_config_debian_9`     | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Debian 9 (Stretch)` |
 | `apt_repository_config_debian_10`    | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Debian 10 (Buster)` |
 | `apt_repository_config_debian_11`    | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Debian 11 (Bullseye)` |
+| `apt_repository_config_debian_12`    | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Debian 12 (Bookworm)` |
 | `apt_repository_config_ubuntu_18_04` | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Ubuntu 18.04 LTS (Bionic Beaver)` |
 | `apt_repository_config_ubuntu_20_04` | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Ubuntu 20.04 LTS (Focal Fossa)` |
+| `apt_repository_config_ubuntu_22_04` | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Ubuntu 22.04 LTS (Jammy Jellyfish)` |
 | `distribution_id`                    | *depends on operating system*  | no       | List which uniquely identifies a distribution release, e.g. `[ 'Debian', '10' ]` for `Debian 10 (Buster)` |
 
 [^supported-modules]: Supported Ansible modules are [`apt_key`][ansible-module-apt-key], [`apt_repository`][

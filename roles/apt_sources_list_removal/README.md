@@ -3,12 +3,15 @@
 This role removes file `/etc/apt/sources.list`, i.e. to use `*.list` files from `/etc/apt/sources.list.d/` only.
 
 **Tested OS images**
-- [Cloud images](https://cdimage.debian.org/cdimage/openstack/current/) and
+- [Cloud images](ttps://cdimage.debian.org/images/cloud/buster/daily/) and
   [Docker images](https://hub.docker.com/_/debian) of `Debian 10 (Buster)` \[`amd64`\]
-- [Cloud image](https://cdimage.debian.org/images/cloud/bullseye/latest/) and
+- [Cloud image](https://cdimage.debian.org/images/cloud/bullseye/daily/) and
   [Docker images](https://hub.docker.com/_/debian) of `Debian 11 (Bullseye)` \[`amd64`\]
+- [Cloud image](https://cdimage.debian.org/images/cloud/bookworm/daily/) and
+  [Docker images](https://hub.docker.com/_/debian) of `Debian 12 (Bookworm)` \[`amd64`\]
 - Ubuntu cloud image of [`Ubuntu 18.04 LTS (Bionic Beaver)` \[`amd64`\]](https://cloud-images.ubuntu.com/bionic/current/)
 - Ubuntu cloud image of [`Ubuntu 20.04 LTS (Focal Fossa)` \[`amd64`\]](https://cloud-images.ubuntu.com/focal/)
+- Ubuntu cloud image of [`Ubuntu 22.04 LTS (Jammy Jellyfish)` \[`amd64`\]](https://cloud-images.ubuntu.com/focal/)
 
 Available on Ansible Galaxy in Collection [jm1.pkg](https://galaxy.ansible.com/jm1/pkg).
 

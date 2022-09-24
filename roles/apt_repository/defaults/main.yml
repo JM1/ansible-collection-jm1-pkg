@@ -21,6 +21,11 @@ apt_repository_config: |
         apt_repository_config_debian_11.bullseye.deb +
         apt_repository_config_debian_11.bullseye_security.deb +
         apt_repository_config_debian_11.bullseye_updates.deb,
+      'Debian_12':
+        apt_repository_config_debian_12.keyring +
+        apt_repository_config_debian_12.bookworm.deb +
+        apt_repository_config_debian_12.bookworm_security.deb +
+        apt_repository_config_debian_12.bookworm_updates.deb,
       'Ubuntu_18_04':
         apt_repository_config_ubuntu_18_04.keyring +
         apt_repository_config_ubuntu_18_04.bionic.deb +
@@ -33,6 +38,12 @@ apt_repository_config: |
         apt_repository_config_ubuntu_20_04.focal_partner.deb +
         apt_repository_config_ubuntu_20_04.focal_security.deb +
         apt_repository_config_ubuntu_20_04.focal_updates.deb
+      'Ubuntu_22_04':
+        apt_repository_config_ubuntu_22_04.keyring +
+        apt_repository_config_ubuntu_22_04.jammy.deb +
+        apt_repository_config_ubuntu_22_04.jammy_partner.deb +
+        apt_repository_config_ubuntu_22_04.jammy_security.deb +
+        apt_repository_config_ubuntu_22_04.jammy_updates.deb
     }[distribution_id|join('_')|regex_replace('[^A-Za-z0-9 _-]', '_')]
   }}
 
@@ -389,6 +400,103 @@ apt_repository_config_debian_11:
         repo: deb-src http://deb.debian.org/debian-debug/ bullseye-backports-debug main contrib non-free
         filename: debian-bullseye-backports
 
+apt_repository_config_debian_12:
+  # archive keyring
+  # Ref.: https://packages.debian.org/bookworm/debian-archive-keyring
+  keyring: []
+  # TODO: Add keyring for Debian 12 (Bookworm) when it has been released
+  #
+  # bookworm
+  bookworm:
+    deb:
+    - apt_repository:
+        repo: deb http://deb.debian.org/debian bookworm main contrib non-free
+        filename: debian-bookworm
+    deb_src:
+    - apt_repository:
+        repo: deb-src http://deb.debian.org/debian bookworm main contrib non-free
+        filename: debian-bookworm
+  bookworm_debug:
+    deb:
+    - apt_repository:
+        repo: deb http://deb.debian.org/debian-debug/ bookworm-debug main contrib non-free
+        filename: debian-bookworm
+    deb_src:
+    - apt_repository:
+        repo: deb http://deb.debian.org/debian-debug/ bookworm-debug main contrib non-free
+        filename: debian-bookworm
+  #
+  # bookworm updates
+  bookworm_updates:
+    deb:
+    - apt_repository:
+        repo: deb http://deb.debian.org/debian bookworm-updates main contrib non-free
+        filename: debian-bookworm-updates
+    deb_src:
+    - apt_repository:
+        repo: deb-src http://deb.debian.org/debian bookworm-updates main contrib non-free
+        filename: debian-bookworm-updates
+  bookworm_updates_debug:
+    deb:
+    - apt_repository:
+        repo: deb http://deb.debian.org/debian-debug/ bookworm-updates-debug main contrib non-free
+        filename: debian-bookworm-updates
+    deb_src:
+    - apt_repository:
+        repo: deb http://deb.debian.org/debian-debug/ bookworm-updates-debug main contrib non-free
+        filename: debian-bookworm-updates
+  #
+  # bookworm proposed updates:
+  bookworm_proposed_updates:
+    deb:
+    - apt_repository:
+        repo: deb http://deb.debian.org/debian bookworm-proposed-updates main contrib non-free
+        filename: debian-bookworm-proposed-updates
+    deb_src:
+    - apt_repository:
+        repo: deb-src http://deb.debian.org/debian bookworm-proposed-updates main contrib non-free
+        filename: debian-bookworm-proposed-updates
+  bookworm_proposed_updates_debug:
+    deb:
+    - apt_repository:
+        repo: deb http://deb.debian.org/debian-debug/ bookworm-proposed-updates-debug main contrib non-free
+        filename: debian-bookworm-proposed-updates
+    deb_src:
+    - apt_repository:
+        repo: deb http://deb.debian.org/debian-debug/ bookworm-proposed-updates-debug main contrib non-free
+        filename: debian-bookworm-proposed-updates
+  #
+  # bookworm security
+  bookworm_security:
+    deb:
+    - apt_repository:
+        repo: deb http://deb.debian.org/debian-security/ bookworm-security main contrib non-free
+        filename: debian-bookworm-security
+    deb_src:
+    - apt_repository:
+        repo: deb-src http://deb.debian.org/debian-security/ bookworm-security main contrib non-free
+        filename: debian-bookworm-security
+  #
+  # bookworm backports
+  bookworm_backports:
+    deb:
+    - apt_repository:
+        repo: deb http://deb.debian.org/debian bookworm-backports main contrib non-free
+        filename: debian-bookworm-backports
+    deb_src:
+    - apt_repository:
+        repo: deb-src http://deb.debian.org/debian bookworm-backports main contrib non-free
+        filename: debian-bookworm-backports
+  bookworm_backports_debug:
+    deb:
+    - apt_repository:
+        repo: deb http://deb.debian.org/debian-debug/ bookworm-backports-debug main contrib non-free
+        filename: debian-bookworm-backports
+    deb_src:
+    - apt_repository:
+        repo: deb-src http://deb.debian.org/debian-debug/ bookworm-backports-debug main contrib non-free
+        filename: debian-bookworm-backports
+
 apt_repository_config_ubuntu_18_04:
   # archive keyring
   # Ref.: https://packages.ubuntu.com/bionic/ubuntu-keyring
@@ -560,6 +668,87 @@ apt_repository_config_ubuntu_20_04:
     - apt_repository:
         repo: deb-src http://archive.canonical.com/ubuntu focal partner
         filename: ubuntu-focal-partner
+
+apt_repository_config_ubuntu_22_04:
+  # archive keyring
+  # Ref.: https://packages.ubuntu.com/jammy/ubuntu-keyring
+  keyring:
+  - apt_key:
+      # ubuntu_2012_cdimage
+      id: D94AA3F0EFE21092
+      keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2012-cdimage.gpg
+      keyserver: keyserver.ubuntu.com
+  - apt_key:
+      # ubuntu_2018_archive
+      id: 871920D1991BC93C
+      keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2018-archive.gpg
+      keyserver: keyserver.ubuntu.com
+  #
+  # jammy
+  jammy:
+    deb:
+    - apt_repository:
+        repo: deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse
+        filename: ubuntu-jammy
+    deb_src:
+    - apt_repository:
+        repo: deb-src http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse
+        filename: ubuntu-jammy
+  #
+  # jammy security
+  jammy_security:
+    deb:
+    - apt_repository:
+        repo: deb http://archive.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
+        filename: ubuntu-jammy-security
+    deb_src:
+    - apt_repository:
+        repo: deb-src http://archive.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
+        filename: ubuntu-jammy-security
+  #
+  # jammy updates
+  jammy_updates:
+    deb:
+    - apt_repository:
+        repo: deb http://archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse
+        filename: ubuntu-jammy-updates
+    deb_src:
+    - apt_repository:
+        repo: deb-src http://archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse
+        filename: ubuntu-jammy-updates
+  #
+  # jammy proposed
+  jammy_proposed:
+    deb:
+    - apt_repository:
+        repo: deb http://archive.ubuntu.com/ubuntu/ jammy-proposed main restricted universe multiverse
+        filename: ubuntu-jammy-proposed
+    deb_src:
+    - apt_repository:
+        repo: deb-src http://archive.ubuntu.com/ubuntu/ jammy-proposed main restricted universe multiverse
+        filename: ubuntu-jammy-proposed
+  #
+  # jammy backports
+  jammy_backports:
+    deb:
+    - apt_repository:
+        repo: deb http://archive.ubuntu.com/ubuntu/ jammy-backports main restricted universe multiverse
+        filename: ubuntu-jammy-backports
+    deb_src:
+    - apt_repository:
+        repo: deb-src http://archive.ubuntu.com/ubuntu/ jammy-backports main restricted universe multiverse
+        filename: ubuntu-jammy-backports
+  #
+  # jammy partner
+  jammy_partner:
+    deb:
+    - apt_repository:
+        repo: deb http://archive.canonical.com/ubuntu jammy partner
+        filename: ubuntu-jammy-partner
+    deb_src:
+    - apt_repository:
+        repo: deb-src http://archive.canonical.com/ubuntu jammy partner
+        filename: ubuntu-jammy-partner
 
 # Variable distribution_id is a list which uniquely identifies a distribution release, e.g.
 #  [ 'CentOS', '8' ] for CentOS 8 (both Core and Stream)
