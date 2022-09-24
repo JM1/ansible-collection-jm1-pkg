@@ -121,7 +121,7 @@ You can also include it in a `requirements.yml` file and install it via
 ---
 collections:
   - name: jm1.pkg
-    version: 2022.9.24
+    version: 2022.9.25
 ```
 
 ## Usage and Playbooks
