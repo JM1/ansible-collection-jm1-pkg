@@ -18,35 +18,35 @@
 - name: Change blocks in apt data source or apt key
   loop: '{{ apt_repository_config|default([]) }}'
   when: "'blockinfile' in item"
-  blockinfile: "{{ item['blockinfile'] }}"
+  ansible.builtin.blockinfile: "{{ item['blockinfile'] }}"
   register: apt_repository_config_blockinfile_result
 
 - name: Copy apt data source or apt key
   loop: '{{ apt_repository_config|default([]) }}'
   when: "'copy' in item"
-  copy: "{{ item['copy'] }}" # noqa risky-file-permissions
+  ansible.builtin.copy: "{{ item['copy'] }}" # noqa risky-file-permissions
   register: apt_repository_config_copy_result
 
 - name: Manage apt data source or apt key
   loop: '{{ apt_repository_config|default([]) }}'
   when: "'file' in item"
-  file: "{{ item['file'] }}"
+  ansible.builtin.file: "{{ item['file'] }}"
   register: apt_repository_config_file_result
 
 - name: Change lines in apt data source or apt key
   loop: '{{ apt_repository_config|default([]) }}'
   when: "'lineinfile' in item"
-  lineinfile: "{{ item['lineinfile'] }}"
+  ansible.builtin.lineinfile: "{{ item['lineinfile'] }}"
   register: apt_repository_config_lineinfile_result
 
 - name: Generate apt data source or apt key from template
   loop: '{{ apt_repository_config|default([]) }}'
   when: "'template' in item"
-  template: "{{ item['template'] }}" # noqa risky-file-permissions
+  ansible.builtin.template: "{{ item['template'] }}" # noqa risky-file-permissions
   register: apt_repository_config_template_result
 
 - name: Debug role variables
-  debug:
+  ansible.builtin.debug:
     msg:
       apt_repository_config_apt_key_result: '{{ apt_repository_config_apt_key_result }}'
       apt_repository_config_apt_repository_result: '{{ apt_repository_config_apt_repository_result }}'

@@ -8,15 +8,14 @@
 - name: Satisfy requirements for collection jm1.pkg on Red Hat Enterprise Linux 7 and CentOS 7
   when: distribution_id|last == '7'
   block:
-
   - name: Enable yum repositories for Extra Packages for Enterprise Linux (EPEL)
-    import_role:
+    ansible.builtin.import_role:
       name: jm1.pkg.yum_repository
     vars:
       yum_repository_config: '{{ yum_repository_config_epel }}'
 
   - name: Install package dependencies for Red Hat Enterprise Linux 7 and CentOS 7
-    package:
+    ansible.builtin.package:
       name:
       # NOTE: Keep in sync with meta package below!
       - python-babel
@@ -26,9 +25,8 @@
       - rpm-build
 
   - name: Install pip dependencies for Red Hat Enterprise Linux 7 and CentOS 7
-    block:
-    - pip:
-        name: backports.tempfile
+    ansible.builtin.pip:
+      name: backports.tempfile
 
   - name: Install supplemental meta package
     jm1.pkg.meta_pkg:
@@ -45,7 +43,7 @@
   when: distribution_id|last in ['8', '9']
   block:
   - name: Install package dependencies for Red Hat Enterprise Linux 8 and 9 and CentOS 8 and 9
-    package:
+    ansible.builtin.package:
       name:
       # NOTE: Keep in sync with meta package below!
       - python3-babel

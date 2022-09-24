@@ -6,59 +6,59 @@
 - name: Change blocks in YUM repository definition
   loop: '{{ yum_repository_config|default([]) }}'
   when: "'blockinfile' in item"
-  blockinfile: "{{ item['blockinfile'] }}"
+  ansible.builtin.blockinfile: "{{ item['blockinfile'] }}"
   register: yum_repository_config_blockinfile_result
 
 - name: Manage YUM repository with the dnf package manager
   loop: '{{ yum_repository_config|default([]) }}'
   when: "'dnf' in item"
-  dnf: "{{ item['dnf'] }}"
+  ansible.builtin.dnf: "{{ item['dnf'] }}"
   register: yum_repository_config_dnf_result
 
 - name: Copy YUM repository definition
   loop: '{{ yum_repository_config|default([]) }}'
   when: "'copy' in item"
-  copy: "{{ item['copy'] }}" # noqa risky-file-permissions
+  ansible.builtin.copy: "{{ item['copy'] }}" # noqa risky-file-permissions
   register: yum_repository_config_copy_result
 
 - name: Manage YUM repository definition file
   loop: '{{ yum_repository_config|default([]) }}'
   when: "'file' in item"
-  file: "{{ item['file'] }}"
+  ansible.builtin.file: "{{ item['file'] }}"
   register: yum_repository_config_file_result
 
 - name: Tweak INI settings in YUM repository definition
   loop: '{{ yum_repository_config|default([]) }}'
   when: "'ini_file' in item"
-  ini_file: "{{ item['ini_file'] }}" # noqa risky-file-permissions
+  community.general.ini_file: "{{ item['ini_file'] }}" # noqa risky-file-permissions
   register: yum_repository_config_ini_file_result
 
 - name: Change lines in YUM repository definition
   loop: '{{ yum_repository_config|default([]) }}'
   when: "'lineinfile' in item"
-  lineinfile: "{{ item['lineinfile'] }}"
+  ansible.builtin.lineinfile: "{{ item['lineinfile'] }}"
   register: yum_repository_config_lineinfile_result
 
 - name: Generate YUM repository definition from template
   loop: '{{ yum_repository_config|default([]) }}'
   when: "'template' in item"
-  template: "{{ item['template'] }}" # noqa risky-file-permissions
+  ansible.builtin.template: "{{ item['template'] }}" # noqa risky-file-permissions
   register: yum_repository_config_template_result
 
 - name: Manage YUM repository with the yum package manager
   loop: '{{ yum_repository_config|default([]) }}'
   when: "'yum' in item"
-  yum: "{{ item['yum'] }}"
+  ansible.builtin.yum: "{{ item['yum'] }}"
   register: yum_repository_config_yum_result
 
 - name: Manage YUM repository
   loop: '{{ yum_repository_config|default([]) }}'
   when: "'yum_repository' in item"
-  yum_repository: "{{ item['yum_repository'] }}"
+  ansible.builtin.yum_repository: "{{ item['yum_repository'] }}"
   register: yum_repository_config_yum_repository_result
 
 - name: Debug role variables
-  debug:
+  ansible.builtin.debug:
     msg:
       yum_repository_config_blockinfile_result: '{{ yum_repository_config_blockinfile_result }}'
       yum_repository_config_dnf_result: '{{ yum_repository_config_dnf_result }}'
