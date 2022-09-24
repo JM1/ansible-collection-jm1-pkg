@@ -37,7 +37,7 @@ apt_repository_config: |
         apt_repository_config_ubuntu_20_04.focal.deb +
         apt_repository_config_ubuntu_20_04.focal_partner.deb +
         apt_repository_config_ubuntu_20_04.focal_security.deb +
-        apt_repository_config_ubuntu_20_04.focal_updates.deb
+        apt_repository_config_ubuntu_20_04.focal_updates.deb,
       'Ubuntu_22_04':
         apt_repository_config_ubuntu_22_04.keyring +
         apt_repository_config_ubuntu_22_04.jammy.deb +
