@@ -51,17 +51,17 @@ apt_repository_config_debian_9:
   # archive keyring
   # Ref.: https://packages.debian.org/stretch/debian-archive-keyring
   keyring:
-  - apt_key:
+  - ansible.builtin.apt_key:
       # stretch_stable
       id: EF0F382A1A7B6500
       url: https://ftp-master.debian.org/keys/release-9.asc
       keyring: /etc/apt/trusted.gpg.d/debian-archive-stretch-stable.gpg
-  - apt_key:
+  - ansible.builtin.apt_key:
       # stretch_security_automatic:
       id: EDA0D2388AE22BA9
       url: https://ftp-master.debian.org/keys/archive-key-9-security.asc
       keyring: /etc/apt/trusted.gpg.d/debian-archive-stretch-security-automatic.gpg
-  - apt_key:
+  - ansible.builtin.apt_key:
       # stretch_automatic:
       id: E0B11894F66AEC98
       url: https://ftp-master.debian.org/keys/archive-key-9.asc
@@ -70,111 +70,111 @@ apt_repository_config_debian_9:
   # stretch
   stretch:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian stretch main contrib non-free
         filename: debian-stretch
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian stretch main contrib non-free
         filename: debian-stretch
   stretch_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ stretch-debug main contrib non-free
         filename: debian-stretch
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ stretch-debug main contrib non-free
         filename: debian-stretch
   #
   # stretch updates
   stretch_updates:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian stretch-updates main contrib non-free
         filename: debian-stretch-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian stretch-updates main contrib non-free
         filename: debian-stretch-updates
   stretch_updates_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ stretch-updates-debug main contrib non-free
         filename: debian-stretch-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ stretch-updates-debug main contrib non-free
         filename: debian-stretch-updates
   #
   # stretch proposed updates:
   stretch_proposed_updates:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian stretch-proposed-updates main contrib non-free
         filename: debian-stretch-proposed-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian stretch-proposed-updates main contrib non-free
         filename: debian-stretch-proposed-updates
   stretch_proposed_updates_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ stretch-proposed-updates-debug main contrib non-free
         filename: debian-stretch-proposed-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ stretch-proposed-updates-debug main contrib non-free
         filename: debian-stretch-proposed-updates
   #
   # stretch security
   stretch_security:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-security/ stretch/updates main contrib non-free
         filename: debian-stretch-security
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian-security/ stretch/updates main contrib non-free
         filename: debian-stretch-security
   #
   # stretch backports
   stretch_backports:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian stretch-backports main contrib non-free
         filename: debian-stretch-backports
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian stretch-backports main contrib non-free
         filename: debian-stretch-backports
   stretch_backports_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ stretch-backports-debug main contrib non-free
         filename: debian-stretch-backports
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian-debug/ stretch-backports-debug main contrib non-free
         filename: debian-stretch-backports
   #
   # stretch backports sloppy
   stretch_backports_sloppy:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian stretch-backports-sloppy main contrib non-free
         filename: debian-stretch-backports-sloppy
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian stretch-backports-sloppy main contrib non-free
         filename: debian-stretch-backports-sloppy
   stretch_backports_sloppy_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ stretch-backports-sloppy-debug main contrib non-free
         filename: debian-stretch-backports-sloppy
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian-debug/ stretch-backports-sloppy-debug main contrib non-free
         filename: debian-stretch-backports-sloppy
 
@@ -182,17 +182,17 @@ apt_repository_config_debian_10:
   # archive keyring
   # Ref.: https://packages.debian.org/buster/debian-archive-keyring
   keyring:
-  - apt_key:
+  - ansible.builtin.apt_key:
       # buster_stable
       id: DCC9EFBF77E11517
       url: https://ftp-master.debian.org/keys/release-10.asc
       keyring: /etc/apt/trusted.gpg.d/debian-archive-buster-stable.gpg
-  - apt_key:
+  - ansible.builtin.apt_key:
       # buster_security_automatic
       id: 4DFAB270CAA96DFA
       url: https://ftp-master.debian.org/keys/archive-key-10-security.asc
       keyring: /etc/apt/trusted.gpg.d/debian-archive-buster-security-automatic.gpg
-  - apt_key:
+  - ansible.builtin.apt_key:
       # buster_automatic
       id: DC30D7C23CBBABEE
       url: https://ftp-master.debian.org/keys/archive-key-10.asc
@@ -201,91 +201,91 @@ apt_repository_config_debian_10:
   # buster
   buster:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian buster main contrib non-free
         filename: debian-buster
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian buster main contrib non-free
         filename: debian-buster
   buster_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ buster-debug main contrib non-free
         filename: debian-buster
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ buster-debug main contrib non-free
         filename: debian-buster
   #
   # buster updates
   buster_updates:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian buster-updates main contrib non-free
         filename: debian-buster-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian buster-updates main contrib non-free
         filename: debian-buster-updates
   buster_updates_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ buster-updates-debug main contrib non-free
         filename: debian-buster-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ buster-updates-debug main contrib non-free
         filename: debian-buster-updates
   #
   # buster proposed updates:
   buster_proposed_updates:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian buster-proposed-updates main contrib non-free
         filename: debian-buster-proposed-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian buster-proposed-updates main contrib non-free
         filename: debian-buster-proposed-updates
   buster_proposed_updates_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ buster-proposed-updates-debug main contrib non-free
         filename: debian-buster-proposed-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ buster-proposed-updates-debug main contrib non-free
         filename: debian-buster-proposed-updates
   #
   # buster security
   buster_security:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-security/ buster/updates main contrib non-free
         filename: debian-buster-security
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian-security/ buster/updates main contrib non-free
         filename: debian-buster-security
   #
   # buster backports
   buster_backports:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian buster-backports main contrib non-free
         filename: debian-buster-backports
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian buster-backports main contrib non-free
         filename: debian-buster-backports
   buster_backports_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ buster-backports-debug main contrib non-free
         filename: debian-buster-backports
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian-debug/ buster-backports-debug main contrib non-free
         filename: debian-buster-backports
 
@@ -293,17 +293,17 @@ apt_repository_config_debian_11:
   # archive keyring
   # Ref.: https://packages.debian.org/bullseye/debian-archive-keyring
   keyring:
-  - apt_key:
+  - ansible.builtin.apt_key:
       # bullseye_stable
       id: 605C66F00D6C9793
       url: https://ftp-master.debian.org/keys/release-11.asc
       keyring: /etc/apt/trusted.gpg.d/debian-archive-bullseye-stable.gpg
-  - apt_key:
+  - ansible.builtin.apt_key:
       # bullseye_security_automatic
       id: A48449044AAD5C5D
       url: https://ftp-master.debian.org/keys/archive-key-11-security.asc
       keyring: /etc/apt/trusted.gpg.d/debian-archive-bullseye-security-automatic.gpg
-  - apt_key:
+  - ansible.builtin.apt_key:
       # bullseye_automatic
       id: 73A4F27B8DD47936
       url: https://ftp-master.debian.org/keys/archive-key-11.asc
@@ -312,91 +312,91 @@ apt_repository_config_debian_11:
   # bullseye
   bullseye:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian bullseye main contrib non-free
         filename: debian-bullseye
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian bullseye main contrib non-free
         filename: debian-bullseye
   bullseye_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bullseye-debug main contrib non-free
         filename: debian-bullseye
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bullseye-debug main contrib non-free
         filename: debian-bullseye
   #
   # bullseye updates
   bullseye_updates:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian bullseye-updates main contrib non-free
         filename: debian-bullseye-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian bullseye-updates main contrib non-free
         filename: debian-bullseye-updates
   bullseye_updates_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bullseye-updates-debug main contrib non-free
         filename: debian-bullseye-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bullseye-updates-debug main contrib non-free
         filename: debian-bullseye-updates
   #
   # bullseye proposed updates:
   bullseye_proposed_updates:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian bullseye-proposed-updates main contrib non-free
         filename: debian-bullseye-proposed-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian bullseye-proposed-updates main contrib non-free
         filename: debian-bullseye-proposed-updates
   bullseye_proposed_updates_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bullseye-proposed-updates-debug main contrib non-free
         filename: debian-bullseye-proposed-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bullseye-proposed-updates-debug main contrib non-free
         filename: debian-bullseye-proposed-updates
   #
   # bullseye security
   bullseye_security:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-security/ bullseye-security main contrib non-free
         filename: debian-bullseye-security
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian-security/ bullseye-security main contrib non-free
         filename: debian-bullseye-security
   #
   # bullseye backports
   bullseye_backports:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian bullseye-backports main contrib non-free
         filename: debian-bullseye-backports
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian bullseye-backports main contrib non-free
         filename: debian-bullseye-backports
   bullseye_backports_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bullseye-backports-debug main contrib non-free
         filename: debian-bullseye-backports
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian-debug/ bullseye-backports-debug main contrib non-free
         filename: debian-bullseye-backports
 
@@ -409,91 +409,91 @@ apt_repository_config_debian_12:
   # bookworm
   bookworm:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian bookworm main contrib non-free
         filename: debian-bookworm
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian bookworm main contrib non-free
         filename: debian-bookworm
   bookworm_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bookworm-debug main contrib non-free
         filename: debian-bookworm
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bookworm-debug main contrib non-free
         filename: debian-bookworm
   #
   # bookworm updates
   bookworm_updates:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian bookworm-updates main contrib non-free
         filename: debian-bookworm-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian bookworm-updates main contrib non-free
         filename: debian-bookworm-updates
   bookworm_updates_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bookworm-updates-debug main contrib non-free
         filename: debian-bookworm-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bookworm-updates-debug main contrib non-free
         filename: debian-bookworm-updates
   #
   # bookworm proposed updates:
   bookworm_proposed_updates:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian bookworm-proposed-updates main contrib non-free
         filename: debian-bookworm-proposed-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian bookworm-proposed-updates main contrib non-free
         filename: debian-bookworm-proposed-updates
   bookworm_proposed_updates_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bookworm-proposed-updates-debug main contrib non-free
         filename: debian-bookworm-proposed-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bookworm-proposed-updates-debug main contrib non-free
         filename: debian-bookworm-proposed-updates
   #
   # bookworm security
   bookworm_security:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-security/ bookworm-security main contrib non-free
         filename: debian-bookworm-security
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian-security/ bookworm-security main contrib non-free
         filename: debian-bookworm-security
   #
   # bookworm backports
   bookworm_backports:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian bookworm-backports main contrib non-free
         filename: debian-bookworm-backports
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian bookworm-backports main contrib non-free
         filename: debian-bookworm-backports
   bookworm_backports_debug:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bookworm-backports-debug main contrib non-free
         filename: debian-bookworm-backports
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://deb.debian.org/debian-debug/ bookworm-backports-debug main contrib non-free
         filename: debian-bookworm-backports
 
@@ -501,17 +501,17 @@ apt_repository_config_ubuntu_18_04:
   # archive keyring
   # Ref.: https://packages.ubuntu.com/bionic/ubuntu-keyring
   keyring:
-  - apt_key:
+  - ansible.builtin.apt_key:
       # ubuntu_2012_archive
       id: 3B4FE6ACC0B21F32
       keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2012-archive.gpg
       keyserver: keyserver.ubuntu.com
-  - apt_key:
+  - ansible.builtin.apt_key:
       # ubuntu_2012_cdimage
       id: D94AA3F0EFE21092
       keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2012-cdimage.gpg
       keyserver: keyserver.ubuntu.com
-  - apt_key:
+  - ansible.builtin.apt_key:
       # ubuntu_2018_archive
       id: 871920D1991BC93C
       keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2018-archive.gpg
@@ -520,66 +520,66 @@ apt_repository_config_ubuntu_18_04:
   # bionic
   bionic:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
         filename: ubuntu-bionic
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
         filename: ubuntu-bionic
   #
   # bionic security
   bionic_security:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse
         filename: ubuntu-bionic-security
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse
         filename: ubuntu-bionic-security
   #
   # bionic updates
   bionic_updates:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse
         filename: ubuntu-bionic-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse
         filename: ubuntu-bionic-updates
   #
   # bionic proposed
   bionic_proposed:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu/ bionic-proposed main restricted universe multiverse
         filename: ubuntu-bionic-proposed
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.ubuntu.com/ubuntu/ bionic-proposed main restricted universe multiverse
         filename: ubuntu-bionic-proposed
   #
   # bionic backports
   bionic_backports:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
         filename: ubuntu-bionic-backports
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
         filename: ubuntu-bionic-backports
   #
   # bionic partner
   bionic_partner:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.canonical.com/ubuntu bionic partner
         filename: ubuntu-bionic-partner
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.canonical.com/ubuntu bionic partner
         filename: ubuntu-bionic-partner
 
@@ -587,17 +587,17 @@ apt_repository_config_ubuntu_20_04:
   # archive keyring
   # Ref.: https://packages.ubuntu.com/focal/ubuntu-keyring
   keyring:
-  - apt_key:
+  - ansible.builtin.apt_key:
       # ubuntu_2012_archive
       id: 3B4FE6ACC0B21F32
       keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2012-archive.gpg
       keyserver: keyserver.ubuntu.com
-  - apt_key:
+  - ansible.builtin.apt_key:
       # ubuntu_2012_cdimage
       id: D94AA3F0EFE21092
       keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2012-cdimage.gpg
       keyserver: keyserver.ubuntu.com
-  - apt_key:
+  - ansible.builtin.apt_key:
       # ubuntu_2018_archive
       id: 871920D1991BC93C
       keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2018-archive.gpg
@@ -606,66 +606,66 @@ apt_repository_config_ubuntu_20_04:
   # focal
   focal:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse
         filename: ubuntu-focal
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse
         filename: ubuntu-focal
   #
   # focal security
   focal_security:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu/ focal-security main restricted universe multiverse
         filename: ubuntu-focal-security
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.ubuntu.com/ubuntu/ focal-security main restricted universe multiverse
         filename: ubuntu-focal-security
   #
   # focal updates
   focal_updates:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse
         filename: ubuntu-focal-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse
         filename: ubuntu-focal-updates
   #
   # focal proposed
   focal_proposed:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu/ focal-proposed main restricted universe multiverse
         filename: ubuntu-focal-proposed
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.ubuntu.com/ubuntu/ focal-proposed main restricted universe multiverse
         filename: ubuntu-focal-proposed
   #
   # focal backports
   focal_backports:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
         filename: ubuntu-focal-backports
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
         filename: ubuntu-focal-backports
   #
   # focal partner
   focal_partner:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.canonical.com/ubuntu focal partner
         filename: ubuntu-focal-partner
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.canonical.com/ubuntu focal partner
         filename: ubuntu-focal-partner
 
@@ -673,12 +673,12 @@ apt_repository_config_ubuntu_22_04:
   # archive keyring
   # Ref.: https://packages.ubuntu.com/jammy/ubuntu-keyring
   keyring:
-  - apt_key:
+  - ansible.builtin.apt_key:
       # ubuntu_2012_cdimage
       id: D94AA3F0EFE21092
       keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2012-cdimage.gpg
       keyserver: keyserver.ubuntu.com
-  - apt_key:
+  - ansible.builtin.apt_key:
       # ubuntu_2018_archive
       id: 871920D1991BC93C
       keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2018-archive.gpg
@@ -687,66 +687,66 @@ apt_repository_config_ubuntu_22_04:
   # jammy
   jammy:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse
         filename: ubuntu-jammy
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse
         filename: ubuntu-jammy
   #
   # jammy security
   jammy_security:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
         filename: ubuntu-jammy-security
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
         filename: ubuntu-jammy-security
   #
   # jammy updates
   jammy_updates:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse
         filename: ubuntu-jammy-updates
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse
         filename: ubuntu-jammy-updates
   #
   # jammy proposed
   jammy_proposed:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu/ jammy-proposed main restricted universe multiverse
         filename: ubuntu-jammy-proposed
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.ubuntu.com/ubuntu/ jammy-proposed main restricted universe multiverse
         filename: ubuntu-jammy-proposed
   #
   # jammy backports
   jammy_backports:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu/ jammy-backports main restricted universe multiverse
         filename: ubuntu-jammy-backports
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.ubuntu.com/ubuntu/ jammy-backports main restricted universe multiverse
         filename: ubuntu-jammy-backports
   #
   # jammy partner
   jammy_partner:
     deb:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb http://archive.canonical.com/ubuntu jammy partner
         filename: ubuntu-jammy-partner
     deb_src:
-    - apt_repository:
+    - ansible.builtin.apt_repository:
         repo: deb-src http://archive.canonical.com/ubuntu jammy partner
         filename: ubuntu-jammy-partner
 
