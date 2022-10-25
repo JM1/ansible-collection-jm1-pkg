@@ -6,7 +6,7 @@
 # NOTE: Synchronize changes with README.md
 
 - name: Satisfy requirements for collection jm1.pkg on Red Hat Enterprise Linux 7 and CentOS 7
-  when: distribution_id|last == '7'
+  when: distribution_id | last == '7'
   block:
   - name: Enable yum repositories for Extra Packages for Enterprise Linux (EPEL)
     ansible.builtin.import_role:
@@ -40,7 +40,7 @@
       - rpm-build
 
 - name: Satisfy requirements for collection jm1.pkg on Red Hat Enterprise Linux 8 and 9 and CentOS 8 and 9
-  when: distribution_id|last in ['8', '9']
+  when: distribution_id | last in ['8', '9']
   block:
   - name: Install package dependencies for Red Hat Enterprise Linux 8 and 9 and CentOS 8 and 9
     ansible.builtin.package:

@@ -12,10 +12,10 @@ yum_repository_config:
 # Ref.: https://docs.fedoraproject.org/en-US/epel/
 - ansible.builtin.dnf:
     disable_gpg_check: yes
-    name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ distribution_id|last }}.noarch.rpm'
+    name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ distribution_id | last }}.noarch.rpm'
 - ansible.builtin.dnf:
     disable_gpg_check: yes
-    name: 'https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-{{ distribution_id|last }}.noarch.rpm'
+    name: 'https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-{{ distribution_id | last }}.noarch.rpm'
 ```
 
 [ansible-inventory]: https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html

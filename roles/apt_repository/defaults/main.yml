@@ -44,7 +44,7 @@ apt_repository_config: |
         apt_repository_config_ubuntu_22_04.jammy_partner.deb +
         apt_repository_config_ubuntu_22_04.jammy_security.deb +
         apt_repository_config_ubuntu_22_04.jammy_updates.deb
-    }[distribution_id|join('_')|regex_replace('[^A-Za-z0-9 _-]', '_')]
+    }[distribution_id | join('_') | regex_replace('[^A-Za-z0-9 _-]', '_')]
   }}
 
 apt_repository_config_debian_9:
@@ -764,7 +764,7 @@ distribution_id:
   # ansible_facts.distribution_major_version is defined as 'testing' which will be converted to 'Testing'.
   # Use major version for all other distributions, e.g. CentOS 7, Debian 10 (Buster) or Red Hat Enterprise Linux 8.
   "{{ ansible_facts.distribution_version if ansible_facts.distribution == 'Ubuntu' else
-      ansible_facts.distribution_major_version|title if
+      ansible_facts.distribution_major_version | title if
         ansible_facts.distribution == 'Debian' and
         ansible_facts.distribution_major_version is not number and
         ansible_facts.distribution_major_version != 'NA' else

@@ -17,7 +17,7 @@ distribution_id:
   # ansible_facts.distribution_major_version is defined as 'testing' which will be converted to 'Testing'.
   # Use major version for all other distributions, e.g. CentOS 7, Debian 10 (Buster) or Red Hat Enterprise Linux 8.
   "{{ ansible_facts.distribution_version if ansible_facts.distribution == 'Ubuntu' else
-      ansible_facts.distribution_major_version|title if
+      ansible_facts.distribution_major_version | title if
         ansible_facts.distribution == 'Debian' and
         ansible_facts.distribution_major_version is not number and
         ansible_facts.distribution_major_version != 'NA' else
@@ -48,11 +48,11 @@ yum_repository_config_centos_9:
   epel:
   - ansible.builtin.dnf:
       disable_gpg_check: yes
-      name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ distribution_id|last }}.noarch.rpm'
+      name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ distribution_id | last }}.noarch.rpm'
   epel_next:
   - ansible.builtin.dnf:
       disable_gpg_check: yes
-      name: 'https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-{{ distribution_id|last }}.noarch.rpm'
+      name: 'https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-{{ distribution_id | last }}.noarch.rpm'
 
 # Extra Packages for Enterprise Linux (EPEL)
 # Ref.: https://docs.fedoraproject.org/en-US/epel/
@@ -68,13 +68,13 @@ yum_repository_config_epel: |
       'Red_Hat_Enterprise_Linux_7': yum_repository_config_red_hat_enterprise_linux_7.epel,
       'Red_Hat_Enterprise_Linux_8': yum_repository_config_red_hat_enterprise_linux_8.epel,
       'Red_Hat_Enterprise_Linux_9': yum_repository_config_red_hat_enterprise_linux_9.epel
-    }[distribution_id|join('_')|regex_replace('[^A-Za-z0-9 _-]', '_')] +
+    }[distribution_id | join('_') | regex_replace('[^A-Za-z0-9 _-]', '_')] +
     {
       'CentOS_8_Stream': yum_repository_config_centos_8.epel_next,
       'CentOS_9_Stream': yum_repository_config_centos_9.epel_next,
     }[
-      (distribution_id+[ansible_facts.distribution_release])|join('_')|regex_replace('[^A-Za-z0-9 _-]', '_')
-    ]|default([])
+      (distribution_id+[ansible_facts.distribution_release]) | join('_') | regex_replace('[^A-Za-z0-9 _-]', '_')
+    ] | default([])
   }}
 
 yum_repository_config_red_hat_enterprise_linux_7:
@@ -83,7 +83,7 @@ yum_repository_config_red_hat_enterprise_linux_7:
   epel:
   - ansible.builtin.yum:
       disable_gpg_check: yes
-      name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ distribution_id|last }}.noarch.rpm'
+      name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ distribution_id | last }}.noarch.rpm'
 
 yum_repository_config_red_hat_enterprise_linux_8: '{{ yum_repository_config_red_hat_enterprise_linux_7 }}'
 
