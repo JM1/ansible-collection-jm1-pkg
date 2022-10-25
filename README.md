@@ -1,17 +1,20 @@
 # Ansible Collection for Software Packaging and Deployment
 
-This repo hosts the [`jm1.pkg`](https://galaxy.ansible.com/jm1/pkg) Ansible Collection.
+This repo hosts the Ansible collection [`jm1.pkg`](https://galaxy.ansible.com/jm1/pkg).
 
 The collection includes a variety of Ansible content to help with packaging and deployment of software.
 
-For example, Ansible module [`jm1.pkg.meta_pkg`](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/plugins/modules/meta_pkg.py)
-simplifies the build, installation and removal of meta packages using the OS package manager, such as `apt`, `yum` or
-`dnf`. A meta package does not include any files, it rather defines [relationships](https://www.debian.org/doc/debian-policy/ch-relationships.html)
-between packages only, e.g. dependencies or conflicts. When a meta package is installed, the OS package manager will
-install or remove packages automatically to satisfy all relationships declared by the meta package. This helps to keep
-your system clean e.g. when packages should be removed during upgrades or updates to Ansible playbooks: Previously
-installed packages which are removed from the meta package dependencies, will be uninstalled automatically by the OS
-package manager once the new meta package version is rolled out.
+For example, Ansible module [`jm1.pkg.meta_pkg`][jm1-pkg-meta-pkg] simplifies the build, installation and removal of
+meta packages using the OS package manager, such as `apt`, `yum` or `dnf`. A meta package does not include any files, it
+rather defines [relationships][debian-policy-relationships] between packages only, e.g. dependencies or conflicts. When
+a meta package is installed, the OS package manager will install or remove packages automatically to satisfy all
+relationships declared by the meta package. This helps to keep your system clean e.g. when packages should be removed
+during upgrades or updates to Ansible playbooks: Previously installed packages which are removed from the meta package
+dependencies, will be uninstalled automatically by the OS package manager once the new meta package version is rolled
+out.
+
+[debian-policy-relationships]: https://www.debian.org/doc/debian-policy/ch-relationships.html
+[jm1-pkg-meta-pkg]: plugins/modules/meta_pkg.py
 
 For example:
 
@@ -61,12 +64,12 @@ When the second release of `developer-tools` is installed, the OS package manage
 Click on the name of a module or role to view that content's documentation:
 
 - **Modules**:
-    * [meta_pkg](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/plugins/modules/meta_pkg.py)
+    * [meta_pkg](plugins/modules/meta_pkg.py)
 - **Roles**:
-    * [apt_repository](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/roles/apt_repository/README.md)
-    * [apt_sources_list_removal](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/roles/apt_sources_list_removal/README.md)
-    * [setup](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/roles/setup/README.md)
-    * [yum_repository](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/roles/yum_repository/README.md)
+    * [apt_repository](roles/apt_repository/README.md)
+    * [apt_sources_list_removal](roles/apt_sources_list_removal/README.md)
+    * [setup](roles/setup/README.md)
+    * [yum_repository](roles/yum_repository/README.md)
 
 ## Requirements and Installation
 
@@ -83,8 +86,7 @@ make install-requirements
 ```
 
 Content in this collection requires additional tools and libraries, e.g. to interact with apt's, yum's and dnf's APIs.
-You can use role [`jm1.pkg.setup`](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/roles/setup/README.md) to
-install necessary software packages:
+You can use role [`jm1.pkg.setup`](roles/setup/README.md) to install necessary software packages:
 
 ```yaml
 - hosts: all
@@ -186,13 +188,13 @@ Helpful tools for developing collections are `ansible`, `ansible-doc`, `ansible-
 | Debian 11 (Bullseye)                         | `apt install ansible ansible-lint flake8 make yamllint` |
 | Debian 12 (Bookworm)                         | `apt install ansible ansible-lint flake8 make yamllint` |
 | Red Hat Enterprise Linux (RHEL) 7 / CentOS 7 | Enable [EPEL](https://fedoraproject.org/wiki/EPEL). `yum install ansible ansible-lint ansible-doc  python-flake8 make yamllint` |
-| Red Hat Enterprise Linux (RHEL) 8 / CentOS 8 | Enable [EPEL](https://fedoraproject.org/wiki/EPEL). `yum install ansible                           python3-flake8 make yamllint` |
-| Red Hat Enterprise Linux (RHEL) 9 / CentOS 9 | Enable [EPEL](https://fedoraproject.org/wiki/EPEL). `yum install ansible                           python3-flake8 make yamllint` |
+| Red Hat Enterprise Linux (RHEL) 8 / CentOS 8 | Enable [EPEL](https://fedoraproject.org/wiki/EPEL). `yum install ansible                          python3-flake8 make yamllint` |
+| Red Hat Enterprise Linux (RHEL) 9 / CentOS 9 | Enable [EPEL](https://fedoraproject.org/wiki/EPEL). `yum install ansible                          python3-flake8 make yamllint` |
 | Ubuntu 18.04 LTS (Bionic Beaver)             | Enable [Launchpad PPA Ansible by Ansible, Inc.](https://launchpad.net/~ansible/+archive/ubuntu/ansible). `apt install ansible ansible-doc ansible-lint flake8 make yamllint` |
 | Ubuntu 20.04 LTS (Focal Fossa)               | `apt install ansible ansible-doc ansible-lint flake8 make yamllint` |
 | Ubuntu 22.04 LTS (Jammy Jellyfish)           | `apt install ansible             ansible-lint flake8 make yamllint` |
 
-Have a look at the included [`Makefile`](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/Makefile) for
+Have a look at the included [`Makefile`](Makefile) for
 several frequently used commands, to e.g. build and lint a collection.
 
 ## More Information
