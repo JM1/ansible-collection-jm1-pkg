@@ -1,7 +1,8 @@
 ---
 authors:
   - Jakob Meng (https://github.com/jm1)
-dependencies: {}
+dependencies:
+  "jm1.ansible": '>=2022.10.23'
 description: null
 documentation: https://github.com/jm1/ansible-collection-jm1-pkg/tree/master/docs
 homepage: https://github.com/jm1/ansible-collection-jm1-pkg
