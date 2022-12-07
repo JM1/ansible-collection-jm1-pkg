@@ -37,10 +37,10 @@ yum_repository_config_centos_8:
   # Ref.: https://docs.fedoraproject.org/en-US/epel/
   epel:
   - ansible.builtin.dnf:
-    name: epel-release
+      name: epel-release
   epel_next:
   - ansible.builtin.dnf:
-    name: epel-next-release
+      name: epel-next-release
 
 yum_repository_config_centos_9:
   # Extra Packages for Enterprise Linux (EPEL)
