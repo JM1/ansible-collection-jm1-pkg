@@ -128,9 +128,8 @@ collections:
 
 ## Usage and Playbooks
 
-You can either call modules by their Fully Qualified Collection Namespace (FQCN), like `jm1.pkg.meta_pkg`, or you
-can call modules by their short name if you list the `jm1.pkg` collection in the playbook's `collections`,
-like so:
+You can either call modules by their Fully Qualified Collection Name (FQCN), like `jm1.pkg.meta_pkg`, or you can call
+modules by their short name if you list the `jm1.pkg` collection in the playbook's `collections`, like so:
 
 ```yaml
 ---
