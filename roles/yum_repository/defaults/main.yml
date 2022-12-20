@@ -47,12 +47,12 @@ yum_repository_config_centos_9:
   # Ref.: https://docs.fedoraproject.org/en-US/epel/
   epel:
   - ansible.builtin.dnf:
-      disable_gpg_check: yes
-      name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ distribution_id | last }}.noarch.rpm'
+      enablerepo: crb
+      name: epel-release
   epel_next:
   - ansible.builtin.dnf:
-      disable_gpg_check: yes
-      name: 'https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-{{ distribution_id | last }}.noarch.rpm'
+      enablerepo: crb
+      name: epel-next-release
 
 # Extra Packages for Enterprise Linux (EPEL)
 # Ref.: https://docs.fedoraproject.org/en-US/epel/
