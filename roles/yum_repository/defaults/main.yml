@@ -82,7 +82,7 @@ yum_repository_config_red_hat_enterprise_linux_7:
   # Ref.: https://docs.fedoraproject.org/en-US/epel/
   epel:
   - ansible.builtin.yum:
-      disable_gpg_check: yes
+      disable_gpg_check: true
       name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ distribution_id | last }}.noarch.rpm'
 
 yum_repository_config_red_hat_enterprise_linux_8: '{{ yum_repository_config_red_hat_enterprise_linux_7 }}'

@@ -55,7 +55,7 @@ Python library `python-dnf` is required by Ansible's [`dnf`](https://docs.ansibl
 
 | Name               | Default value                           | Required | Description                                                                                               |
 | ------------------ | --------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------- |
-| `distribution_id`  | *depends on operating system*           | no       | List which uniquely identifies a distribution release, e.g. `[ 'Debian', '10' ]` for `Debian 10 (Buster)` |
+| `distribution_id`  | *depends on operating system*           | false    | List which uniquely identifies a distribution release, e.g. `[ 'Debian', '10' ]` for `Debian 10 (Buster)` |
 
 ## Dependencies
 
@@ -65,7 +65,7 @@ None.
 
 ```yml
 - hosts: all
-  become: yes
+  become: true
   roles:
   - name: Satisfy software requirements
     role: jm1.pkg.setup

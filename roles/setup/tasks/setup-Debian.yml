@@ -12,9 +12,9 @@
   block:
   - name: Install package dependencies
     ansible.builtin.apt:
-      update_cache: yes
+      update_cache: true
       cache_valid_time: 86400 # 1 day
-      install_recommends: no
+      install_recommends: false
       name:
       # NOTE: Keep in sync with meta package below!
       - python-apt
@@ -47,9 +47,9 @@
   block:
   - name: Install package dependencies
     ansible.builtin.apt:
-      update_cache: yes
+      update_cache: true
       cache_valid_time: 86400 # 1 day
-      install_recommends: no
+      install_recommends: false
       name:
       # NOTE: Keep in sync with meta package below!
       - python3-apt

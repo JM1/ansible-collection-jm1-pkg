@@ -23,7 +23,7 @@ None.
 
 | Name                             | Default value | Required | Description                                                                    |
 | -------------------------------- | ------------- | -------- | ------------------------------------------------------------------------------ |
-| `force_apt_sources_list_removal` | `no`          | no       | Whether `/etc/apt/sources.list` is removed without prompting for user approval |
+| `force_apt_sources_list_removal` | `false`       | false    | Whether `/etc/apt/sources.list` is removed without prompting for user approval |
 
 ## Dependencies
 
@@ -33,7 +33,7 @@ None.
 
 ```yml
 - hosts: all
-  become: yes
+  become: true
   vars:
     # Variables are listed here for convenience and illustration.
     # In a production setup, variables would be defined e.g. in
@@ -41,7 +41,7 @@ None.
     # Ref.:
     # https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html
     # https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
-    force_apt_sources_list_removal: yes
+    force_apt_sources_list_removal: true
 
   roles:
   - name: Remove /etc/apt/sources.list

@@ -6,12 +6,12 @@
 - name: Ask user if /etc/apt/sources.list should really be removed
   when: not force_apt_sources_list_removal
   ansible.builtin.pause:
-    echo: yes
-    prompt: "Do you really want to remove /etc/apt/sources.list? (yes/no)"
+    echo: true
+    prompt: "Do you really want to remove /etc/apt/sources.list? (true/false)"
     register: removal_question
 
 - name: Remove /etc/apt/sources.list if user approved removal
-  when: force_apt_sources_list_removal or removal_question.user_input == 'yes'
+  when: force_apt_sources_list_removal or removal_question.user_input == 'true'
   ansible.builtin.file:
     path: /etc/apt/sources.list
     state: absent

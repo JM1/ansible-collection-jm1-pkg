@@ -96,15 +96,15 @@ Python library `python-apt` is required by Ansible's [`apt_repository`][ansible-
 
 | Name                                 | Default value                  | Required | Description |
 | ------------------------------------ | ------------------------------ | -------- | ----------- |
-| `apt_repository_config`              | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | no | List of tasks to run [^example-modules] [^supported-keywords] [^supported-modules], e.g. to add apt data sources or apt keys |
-| `apt_repository_config_debian_9`     | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Debian 9 (Stretch)` |
-| `apt_repository_config_debian_10`    | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Debian 10 (Buster)` |
-| `apt_repository_config_debian_11`    | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Debian 11 (Bullseye)` |
-| `apt_repository_config_debian_12`    | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Debian 12 (Bookworm)` |
-| `apt_repository_config_ubuntu_18_04` | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Ubuntu 18.04 LTS (Bionic Beaver)` |
-| `apt_repository_config_ubuntu_20_04` | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Ubuntu 20.04 LTS (Focal Fossa)` |
-| `apt_repository_config_ubuntu_22_04` | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Ubuntu 22.04 LTS (Jammy Jellyfish)` |
-| `distribution_id`                    | *depends on operating system*  | no       | List which uniquely identifies a distribution release, e.g. `[ 'Debian', '10' ]` for `Debian 10 (Buster)` |
+| `apt_repository_config`              | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | List of tasks to run [^example-modules] [^supported-keywords] [^supported-modules], e.g. to add apt data sources or apt keys |
+| `apt_repository_config_debian_9`     | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Debian 9 (Stretch)` |
+| `apt_repository_config_debian_10`    | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Debian 10 (Buster)` |
+| `apt_repository_config_debian_11`    | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Debian 11 (Bullseye)` |
+| `apt_repository_config_debian_12`    | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Debian 12 (Bookworm)` |
+| `apt_repository_config_ubuntu_18_04` | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Ubuntu 18.04 LTS (Bionic Beaver)` |
+| `apt_repository_config_ubuntu_20_04` | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Ubuntu 20.04 LTS (Focal Fossa)` |
+| `apt_repository_config_ubuntu_22_04` | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Ubuntu 22.04 LTS (Jammy Jellyfish)` |
+| `distribution_id`                    | *depends on operating system*  | false    | List which uniquely identifies a distribution release, e.g. `[ 'Debian', '10' ]` for `Debian 10 (Buster)` |
 
 [^supported-modules]: Tasks will be executed with [`jm1.ansible.execute_module`][jm1-ansible-execute-module] which
 supports modules and action plugins only. Some Ansible modules such as [`ansible.builtin.meta`][ansible-builtin-meta]
@@ -139,7 +139,7 @@ None.
 
 ```yml
 - hosts: all
-  become: yes
+  become: true
   vars:
     # Variables are listed here for convenience and illustration.
     # In a production setup, variables would be defined e.g. in

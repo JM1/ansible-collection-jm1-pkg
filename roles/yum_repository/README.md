@@ -11,10 +11,10 @@ yum_repository_config:
 # Extra Packages for Enterprise Linux (EPEL)
 # Ref.: https://docs.fedoraproject.org/en-US/epel/
 - ansible.builtin.dnf:
-    disable_gpg_check: yes
+    disable_gpg_check: true
     name: 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ distribution_id | last }}.noarch.rpm'
 - ansible.builtin.dnf:
-    disable_gpg_check: yes
+    disable_gpg_check: true
     name: 'https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-{{ distribution_id | last }}.noarch.rpm'
 ```
 
@@ -51,15 +51,15 @@ Python library `python-dnf` is required by Ansible's [`dnf`][ansible-builtin-dnf
 
 | Name                                               | Default value                      | Required | Description |
 | -------------------------------------------------- | ---------------------------------- | -------- | ----------- |
-| `distribution_id`                                  | *depends on operating system*      | no       | List which uniquely identifies a distribution release, e.g. `[ 'Debian', '10' ]` for `Debian 10 (Buster)` |
-| `yum_repository_config`                            | `{{ yum_repository_config_epel }}` | no       | List of tasks to run [^example-modules] [^supported-keywords] [^supported-modules], e.g. to add yum repository definitions |
-| `yum_repository_config_centos_7`                   | *refer to [`roles/yum_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `CentOS 7` |
-| `yum_repository_config_centos_8`                   | *refer to [`roles/yum_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `CentOS 8` |
-| `yum_repository_config_centos_9`                   | *refer to [`roles/yum_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `CentOS 9` |
-| `yum_repository_config_epel`                       | *refer to [`roles/yum_repository/defaults/main.yml`](defaults/main.yml)* | no | List of tasks to add yum repository definitions of Extra Packages for Enterprise Linux (EPEL) for the distribution matching `distribution_id` and `distribution_release` |
-| `yum_repository_config_red_hat_enterprise_linux_7` | *refer to [`roles/yum_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Red Hat Enterprise Linux (RHEL) 7` |
-| `yum_repository_config_red_hat_enterprise_linux_8` | *refer to [`roles/yum_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Red Hat Enterprise Linux (RHEL) 8` |
-| `yum_repository_config_red_hat_enterprise_linux_9` | *refer to [`roles/yum_repository/defaults/main.yml`](defaults/main.yml)* | no | apt data sources and keys for `Red Hat Enterprise Linux (RHEL) 9` |
+| `distribution_id`                                  | *depends on operating system*      | false    | List which uniquely identifies a distribution release, e.g. `[ 'Debian', '10' ]` for `Debian 10 (Buster)` |
+| `yum_repository_config`                            | `{{ yum_repository_config_epel }}` | false    | List of tasks to run [^example-modules] [^supported-keywords] [^supported-modules], e.g. to add yum repository definitions |
+| `yum_repository_config_centos_7`                   | *refer to [`roles/yum_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `CentOS 7` |
+| `yum_repository_config_centos_8`                   | *refer to [`roles/yum_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `CentOS 8` |
+| `yum_repository_config_centos_9`                   | *refer to [`roles/yum_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `CentOS 9` |
+| `yum_repository_config_epel`                       | *refer to [`roles/yum_repository/defaults/main.yml`](defaults/main.yml)* | false | List of tasks to add yum repository definitions of Extra Packages for Enterprise Linux (EPEL) for the distribution matching `distribution_id` and `distribution_release` |
+| `yum_repository_config_red_hat_enterprise_linux_7` | *refer to [`roles/yum_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Red Hat Enterprise Linux (RHEL) 7` |
+| `yum_repository_config_red_hat_enterprise_linux_8` | *refer to [`roles/yum_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Red Hat Enterprise Linux (RHEL) 8` |
+| `yum_repository_config_red_hat_enterprise_linux_9` | *refer to [`roles/yum_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Red Hat Enterprise Linux (RHEL) 9` |
 
 [^supported-modules]: Tasks will be executed with [`jm1.ansible.execute_module`][jm1-ansible-execute-module] which
 supports modules and action plugins only. Some Ansible modules such as [`ansible.builtin.meta`][ansible-builtin-meta]
@@ -96,7 +96,7 @@ None.
 
 ```yml
 - hosts: all
-  become: yes
+  become: true
   vars:
     # Variables are listed here for convenience and illustration.
     # In a production setup, variables would be defined e.g. in
