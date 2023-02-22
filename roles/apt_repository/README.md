@@ -3,8 +3,8 @@
 This role helps with managing [apt repositories][apt-sources-list] and [apt keys][apt-keys-migration] from Ansible
 variables. Role variable `apt_repository_config` defines a list of tasks which will be run by this role. Each task calls
 an Ansible module similar to tasks in roles or playbooks except that only few [keywords][playbooks-keywords] such as
-`register` and `when` are supported. For example, to add apt keys and apt repositories for Debian 11 (Bullseye) define
-variable `apt_repository_config` in [`group_vars` or `host_vars`][ansible-inventory] as such:
+`when` are supported. For example, to add apt keys and apt repositories for Debian 11 (Bullseye) define variable
+`apt_repository_config` in [`group_vars` or `host_vars`][ansible-inventory] as such:
 
 ```yml
 apt_repository_config:
@@ -114,7 +114,7 @@ modules and thus cannot be called from `jm1.ansible.execute_module`. Doing so ca
 for arbitrary modules, so for example, change from `- debug: msg=""` to `- debug: { msg: "" }`.
 
 [^supported-keywords]: Tasks will be executed with [`jm1.ansible.execute_module`][jm1-ansible-execute-module] which
-supports keywords `register` and `when` only.
+supports keyword `when` only.
 
 [^example-modules]: Useful Ansible modules in this context could be [`apt_key`][ansible-builtin-apt-key],
 [`apt_repository`][ansible-builtin-apt-repository], [`blockinfile`][ansible-builtin-blockinfile], [`copy`][
