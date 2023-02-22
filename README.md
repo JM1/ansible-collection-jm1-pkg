@@ -123,7 +123,7 @@ You can also include it in a `requirements.yml` file and install it via
 ---
 collections:
   - name: jm1.pkg
-    version: 2022.12.20
+    version: 2023.2.22
 ```
 
 ## Usage and Playbooks
