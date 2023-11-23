@@ -489,7 +489,7 @@ def make_rpm(architecture,
         topdir=cwd, spec_path=spec_path)
     module.run_command(cmd, check_rc=True, cwd=cwd, environ_update=ENV_VARS)
 
-    cmd = "sh -c '/usr/lib/rpm/redhat/dist.sh --dist'"
+    cmd = "sh -c 'rpm -E %dist | head -c -1'"
     rc, stdout, stderr = module.run_command(cmd, check_rc=True, cwd=cwd, environ_update=ENV_VARS)
     dist = stdout
 
