@@ -18,14 +18,18 @@ yum_repository_config:
     name: 'https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-{{ distribution_id | last }}.noarch.rpm'
 ```
 
+First, this role will flush handlers to ensure that changes from previous roles have been applied before yum
+repositories will be altered. Afterwards it will run all tasks listed in `yum_repository_config`.
+
 [ansible-inventory]: https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
 [playbooks-keywords]: https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html
 [yum-repository-howto]: https://www.redhat.com/sysadmin/add-yum-repository
 
 **Tested OS images**
-- Generic cloud image of [`CentOS 7 (Core)` \[`amd64`\]](https://cloud.centos.org/centos/7/images/)
-- Generic cloud image of [`CentOS 8 (Stream)` \[`amd64`\]](https://cloud.centos.org/centos/8-stream/x86_64/images/)
-- Generic cloud image of [`CentOS 9 (Stream)` \[`amd64`\]](https://cloud.centos.org/centos/9-stream/x86_64/images/)
+- [Cloud image (`amd64`)](https://cloud.centos.org/centos/7/images/) of CentOS 7 (Core)
+- [Cloud image (`amd64`)](https://cloud.centos.org/centos/8-stream/x86_64/images/) of CentOS 8 (Stream)
+- [Cloud image (`amd64`)](https://cloud.centos.org/centos/9-stream/x86_64/images/) of CentOS 9 (Stream)
+- [Cloud image (`amd64`)](https://download.fedoraproject.org/pub/fedora/linux/releases/40/Cloud/x86_64/images/) of Fedora Cloud Base 40
 
 Available on Ansible Galaxy in Collection [jm1.pkg](https://galaxy.ansible.com/jm1/pkg).
 
@@ -43,6 +47,7 @@ Python library `python-dnf` is required by Ansible's [`dnf`][ansible-builtin-dnf
 
 | OS                                           | Install Instructions      |
 | -------------------------------------------- | ------------------------- |
+| Fedora                                       | `dnf install python3-dnf` |
 | Red Hat Enterprise Linux (RHEL) 7 / CentOS 7 | Not applicable            |
 | Red Hat Enterprise Linux (RHEL) 8 / CentOS 8 | `dnf install python3-dnf` |
 | Red Hat Enterprise Linux (RHEL) 9 / CentOS 9 | `dnf install python3-dnf` |

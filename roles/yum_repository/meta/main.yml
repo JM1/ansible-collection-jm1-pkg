@@ -9,11 +9,14 @@ galaxy_info:
 
   platforms:
   # Ref.: https://galaxy.ansible.com/api/v1/platforms/
+
   - name: EL
     versions:
     - '7'
     - '8'
     - '9'
+
+  - name: Fedora
 
   galaxy_tags:
   - development

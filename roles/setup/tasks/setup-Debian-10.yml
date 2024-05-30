@@ -5,21 +5,28 @@
 
 # NOTE: Synchronize changes with README.md
 
-- name: Install package dependencies for Red Hat Enterprise Linux 8 and 9 and CentOS 8 and 9
-  ansible.builtin.package:
+# Tasks for Debian and Ubuntu have been unified in a single file because of similarities between both distributions.
+
+- name: Install package dependencies
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 86400 # 1 day
+    install_recommends: false
     name:
     # NOTE: Keep in sync with meta package below!
-    - python3-babel
-    - python3-dnf
+    - python-apt
+    - python-backports.tempfile
+    - python-jinja2
+    - python3-apt
     - python3-jinja2
-    - rpm-build
 
 - name: Install supplemental meta package
   jm1.pkg.meta_pkg:
     name: "jm1-pkg-setup"
-    version: "3"
+    version: "4"
     depends:
-    - python3-babel
-    - python3-dnf
+    - python-apt
+    - python-jinja2
+    - python-backports.tempfile
+    - python3-apt
     - python3-jinja2
-    - rpm-build

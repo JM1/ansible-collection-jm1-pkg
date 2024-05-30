@@ -1,5 +1,5 @@
 ---
-# Copyright (c) 2022 Jakob Meng, <jakobmeng@web.de>
+# Copyright (c) 2022-2024 Jakob Meng, <jakobmeng@web.de>
 # vim:set fileformat=unix tabstop=2 shiftwidth=2 expandtab:
 # kate: end-of-line unix; space-indent on; indent-width 2; remove-trailing-spaces modified;
 
@@ -8,42 +8,61 @@ apt_repository_config: |
     {
       'Debian_9':
         apt_repository_config_debian_9.keyring +
+        apt_repository_config_debian_9.cleanup +
         apt_repository_config_debian_9.stretch.deb +
         apt_repository_config_debian_9.stretch_security.deb +
         apt_repository_config_debian_9.stretch_updates.deb,
       'Debian_10':
         apt_repository_config_debian_10.keyring +
+        apt_repository_config_debian_10.cleanup +
         apt_repository_config_debian_10.buster.deb +
         apt_repository_config_debian_10.buster_security.deb +
         apt_repository_config_debian_10.buster_updates.deb,
       'Debian_11':
         apt_repository_config_debian_11.keyring +
+        apt_repository_config_debian_11.cleanup +
         apt_repository_config_debian_11.bullseye.deb +
         apt_repository_config_debian_11.bullseye_security.deb +
         apt_repository_config_debian_11.bullseye_updates.deb,
       'Debian_12':
         apt_repository_config_debian_12.keyring +
+        apt_repository_config_debian_12.cleanup +
         apt_repository_config_debian_12.bookworm.deb +
         apt_repository_config_debian_12.bookworm_security.deb +
         apt_repository_config_debian_12.bookworm_updates.deb,
+      'Debian_13':
+        apt_repository_config_debian_13.keyring +
+        apt_repository_config_debian_13.cleanup +
+        apt_repository_config_debian_13.trixie.deb +
+        apt_repository_config_debian_13.trixie_security.deb +
+        apt_repository_config_debian_13.trixie_updates.deb,
       'Ubuntu_18_04':
         apt_repository_config_ubuntu_18_04.keyring +
+        apt_repository_config_ubuntu_18_04.cleanup +
         apt_repository_config_ubuntu_18_04.bionic.deb +
         apt_repository_config_ubuntu_18_04.bionic_partner.deb +
         apt_repository_config_ubuntu_18_04.bionic_security.deb +
         apt_repository_config_ubuntu_18_04.bionic_updates.deb,
       'Ubuntu_20_04':
         apt_repository_config_ubuntu_20_04.keyring +
+        apt_repository_config_ubuntu_20_04.cleanup +
         apt_repository_config_ubuntu_20_04.focal.deb +
         apt_repository_config_ubuntu_20_04.focal_partner.deb +
         apt_repository_config_ubuntu_20_04.focal_security.deb +
         apt_repository_config_ubuntu_20_04.focal_updates.deb,
       'Ubuntu_22_04':
         apt_repository_config_ubuntu_22_04.keyring +
+        apt_repository_config_ubuntu_22_04.cleanup +
         apt_repository_config_ubuntu_22_04.jammy.deb +
         apt_repository_config_ubuntu_22_04.jammy_partner.deb +
         apt_repository_config_ubuntu_22_04.jammy_security.deb +
-        apt_repository_config_ubuntu_22_04.jammy_updates.deb
+        apt_repository_config_ubuntu_22_04.jammy_updates.deb,
+      'Ubuntu_24_04':
+        apt_repository_config_ubuntu_24_04.keyring +
+        apt_repository_config_ubuntu_24_04.cleanup +
+        apt_repository_config_ubuntu_24_04.noble.deb +
+        apt_repository_config_ubuntu_24_04.noble_security.deb +
+        apt_repository_config_ubuntu_24_04.noble_updates.deb
     }[distribution_id | join('_') | regex_replace('[^A-Za-z0-9 _-]', '_')]
   }}
 
@@ -67,6 +86,25 @@ apt_repository_config_debian_9:
       url: https://ftp-master.debian.org/keys/archive-key-9.asc
       keyring: /etc/apt/trusted.gpg.d/debian-archive-stretch-automatic.gpg
   #
+  cleanup:
+  - # Warn users about Debian sources having been moved to the /etc/apt/sources.list.d/ directory.
+    ansible.builtin.blockinfile:
+      create: true
+      block: |
+        # 2024 Jakob Meng, <jakobmeng@web.de>
+        # Debian sources have moved to the /etc/apt/sources.list.d/ directory.
+      insertbefore: BOF
+      path: /etc/apt/sources.list
+      mode: u=rw,g=r,o=
+      group: root
+      owner: root
+  - # Ansible's apt_repository module skips repositories if they are present in /etc/apt/sources.list.
+    # As a workaround comment out all entries in /etc/apt/sources.list before adding apt repositories.
+    ansible.builtin.replace:
+      path: /etc/apt/sources.list
+      regexp: '^([^#\n]*)$'
+      replace: '#\1'
+  #
   # stretch
   stretch:
     deb:
@@ -79,10 +117,6 @@ apt_repository_config_debian_9:
         filename: debian-stretch
   stretch_debug:
     deb:
-    - ansible.builtin.apt_repository:
-        repo: deb http://deb.debian.org/debian-debug/ stretch-debug main contrib non-free
-        filename: debian-stretch
-    deb_src:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ stretch-debug main contrib non-free
         filename: debian-stretch
@@ -102,10 +136,6 @@ apt_repository_config_debian_9:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ stretch-updates-debug main contrib non-free
         filename: debian-stretch-updates
-    deb_src:
-    - ansible.builtin.apt_repository:
-        repo: deb http://deb.debian.org/debian-debug/ stretch-updates-debug main contrib non-free
-        filename: debian-stretch-updates
   #
   # stretch proposed updates:
   stretch_proposed_updates:
@@ -119,10 +149,6 @@ apt_repository_config_debian_9:
         filename: debian-stretch-proposed-updates
   stretch_proposed_updates_debug:
     deb:
-    - ansible.builtin.apt_repository:
-        repo: deb http://deb.debian.org/debian-debug/ stretch-proposed-updates-debug main contrib non-free
-        filename: debian-stretch-proposed-updates
-    deb_src:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ stretch-proposed-updates-debug main contrib non-free
         filename: debian-stretch-proposed-updates
@@ -153,10 +179,6 @@ apt_repository_config_debian_9:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ stretch-backports-debug main contrib non-free
         filename: debian-stretch-backports
-    deb_src:
-    - ansible.builtin.apt_repository:
-        repo: deb-src http://deb.debian.org/debian-debug/ stretch-backports-debug main contrib non-free
-        filename: debian-stretch-backports
   #
   # stretch backports sloppy
   stretch_backports_sloppy:
@@ -172,10 +194,6 @@ apt_repository_config_debian_9:
     deb:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ stretch-backports-sloppy-debug main contrib non-free
-        filename: debian-stretch-backports-sloppy
-    deb_src:
-    - ansible.builtin.apt_repository:
-        repo: deb-src http://deb.debian.org/debian-debug/ stretch-backports-sloppy-debug main contrib non-free
         filename: debian-stretch-backports-sloppy
 
 apt_repository_config_debian_10:
@@ -198,6 +216,25 @@ apt_repository_config_debian_10:
       url: https://ftp-master.debian.org/keys/archive-key-10.asc
       keyring: /etc/apt/trusted.gpg.d/debian-archive-buster-automatic.gpg
   #
+  cleanup:
+  - # Warn users about Debian sources having been moved to the /etc/apt/sources.list.d/ directory.
+    ansible.builtin.blockinfile:
+      create: true
+      block: |
+        # 2024 Jakob Meng, <jakobmeng@web.de>
+        # Debian sources have moved to the /etc/apt/sources.list.d/ directory.
+      insertbefore: BOF
+      path: /etc/apt/sources.list
+      mode: u=rw,g=r,o=
+      group: root
+      owner: root
+  - # Ansible's apt_repository module skips repositories if they are present in /etc/apt/sources.list.
+    # As a workaround comment out all entries in /etc/apt/sources.list before adding apt repositories.
+    ansible.builtin.replace:
+      path: /etc/apt/sources.list
+      regexp: '^([^#\n]*)$'
+      replace: '#\1'
+  #
   # buster
   buster:
     deb:
@@ -210,10 +247,6 @@ apt_repository_config_debian_10:
         filename: debian-buster
   buster_debug:
     deb:
-    - ansible.builtin.apt_repository:
-        repo: deb http://deb.debian.org/debian-debug/ buster-debug main contrib non-free
-        filename: debian-buster
-    deb_src:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ buster-debug main contrib non-free
         filename: debian-buster
@@ -233,10 +266,6 @@ apt_repository_config_debian_10:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ buster-updates-debug main contrib non-free
         filename: debian-buster-updates
-    deb_src:
-    - ansible.builtin.apt_repository:
-        repo: deb http://deb.debian.org/debian-debug/ buster-updates-debug main contrib non-free
-        filename: debian-buster-updates
   #
   # buster proposed updates:
   buster_proposed_updates:
@@ -250,10 +279,6 @@ apt_repository_config_debian_10:
         filename: debian-buster-proposed-updates
   buster_proposed_updates_debug:
     deb:
-    - ansible.builtin.apt_repository:
-        repo: deb http://deb.debian.org/debian-debug/ buster-proposed-updates-debug main contrib non-free
-        filename: debian-buster-proposed-updates
-    deb_src:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ buster-proposed-updates-debug main contrib non-free
         filename: debian-buster-proposed-updates
@@ -284,10 +309,6 @@ apt_repository_config_debian_10:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ buster-backports-debug main contrib non-free
         filename: debian-buster-backports
-    deb_src:
-    - ansible.builtin.apt_repository:
-        repo: deb-src http://deb.debian.org/debian-debug/ buster-backports-debug main contrib non-free
-        filename: debian-buster-backports
 
 apt_repository_config_debian_11:
   # archive keyring
@@ -309,6 +330,25 @@ apt_repository_config_debian_11:
       url: https://ftp-master.debian.org/keys/archive-key-11.asc
       keyring: /etc/apt/trusted.gpg.d/debian-archive-bullseye-automatic.gpg
   #
+  cleanup:
+  - # Warn users about Debian sources having been moved to the /etc/apt/sources.list.d/ directory.
+    ansible.builtin.blockinfile:
+      create: true
+      block: |
+        # 2024 Jakob Meng, <jakobmeng@web.de>
+        # Debian sources have moved to the /etc/apt/sources.list.d/ directory.
+      insertbefore: BOF
+      path: /etc/apt/sources.list
+      mode: u=rw,g=r,o=
+      group: root
+      owner: root
+  - # Ansible's apt_repository module skips repositories if they are present in /etc/apt/sources.list.
+    # As a workaround comment out all entries in /etc/apt/sources.list before adding apt repositories.
+    ansible.builtin.replace:
+      path: /etc/apt/sources.list
+      regexp: '^([^#\n]*)$'
+      replace: '#\1'
+  #
   # bullseye
   bullseye:
     deb:
@@ -321,10 +361,6 @@ apt_repository_config_debian_11:
         filename: debian-bullseye
   bullseye_debug:
     deb:
-    - ansible.builtin.apt_repository:
-        repo: deb http://deb.debian.org/debian-debug/ bullseye-debug main contrib non-free
-        filename: debian-bullseye
-    deb_src:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bullseye-debug main contrib non-free
         filename: debian-bullseye
@@ -344,10 +380,6 @@ apt_repository_config_debian_11:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bullseye-updates-debug main contrib non-free
         filename: debian-bullseye-updates
-    deb_src:
-    - ansible.builtin.apt_repository:
-        repo: deb http://deb.debian.org/debian-debug/ bullseye-updates-debug main contrib non-free
-        filename: debian-bullseye-updates
   #
   # bullseye proposed updates:
   bullseye_proposed_updates:
@@ -361,10 +393,6 @@ apt_repository_config_debian_11:
         filename: debian-bullseye-proposed-updates
   bullseye_proposed_updates_debug:
     deb:
-    - ansible.builtin.apt_repository:
-        repo: deb http://deb.debian.org/debian-debug/ bullseye-proposed-updates-debug main contrib non-free
-        filename: debian-bullseye-proposed-updates
-    deb_src:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bullseye-proposed-updates-debug main contrib non-free
         filename: debian-bullseye-proposed-updates
@@ -395,16 +423,64 @@ apt_repository_config_debian_11:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bullseye-backports-debug main contrib non-free
         filename: debian-bullseye-backports
-    deb_src:
-    - ansible.builtin.apt_repository:
-        repo: deb-src http://deb.debian.org/debian-debug/ bullseye-backports-debug main contrib non-free
-        filename: debian-bullseye-backports
 
 apt_repository_config_debian_12:
   # archive keyring
   # Ref.: https://packages.debian.org/bookworm/debian-archive-keyring
-  keyring: []
-  # TODO: Add keyring for Debian 12 (Bookworm) when it has been released
+  keyring:
+  - ansible.builtin.apt_key:
+      # bookworm_stable
+      id: F8D2585B8783D481
+      url: https://ftp-master.debian.org/keys/release-12.asc
+      keyring: /etc/apt/trusted.gpg.d/debian-archive-bookworm-stable.gpg
+  - ansible.builtin.apt_key:
+      # bookworm_security_automatic
+      id: 254CF3B5AEC0A8F0
+      url: https://ftp-master.debian.org/keys/archive-key-12-security.asc
+      keyring: /etc/apt/trusted.gpg.d/debian-archive-bookworm-security-automatic.gpg
+  - ansible.builtin.apt_key:
+      # bookworm_automatic
+      id: B7C5D7D6350947F8
+      url: https://ftp-master.debian.org/keys/archive-key-12.asc
+      keyring: /etc/apt/trusted.gpg.d/debian-archive-bookworm-automatic.gpg
+  #
+  cleanup:
+  - # Warn users about Debian sources having been moved to the /etc/apt/sources.list.d/ directory.
+    ansible.builtin.blockinfile:
+      create: true
+      block: |
+        # 2024 Jakob Meng, <jakobmeng@web.de>
+        # Debian sources have moved to the /etc/apt/sources.list.d/ directory.
+      insertbefore: BOF
+      path: /etc/apt/sources.list
+      mode: u=rw,g=r,o=
+      group: root
+      owner: root
+  - # Ansible's apt_repository module skips repositories if they are present in /etc/apt/sources.list.
+    # As a workaround comment out all entries in /etc/apt/sources.list before adding apt repositories.
+    ansible.builtin.replace:
+      path: /etc/apt/sources.list
+      regexp: '^([^#\n]*)$'
+      replace: '#\1'
+  - # Warn users about Debian sources having been split into individual files.
+    ansible.builtin.blockinfile:
+      create: true
+      block: |
+        # 2024 Jakob Meng, <jakobmeng@web.de>
+        # Debian sources have been split into individual *.sources files in the /etc/apt/sources.list.d/ directory.
+      insertbefore: BOF
+      path: /etc/apt/sources.list.d/debian.sources
+      mode: u=rw,g=r,o=
+      group: root
+      owner: root
+  - # Ansible's deb822_repository module does not allow to store multiple repositories in a single file,
+    # it will overwrite a file's contents in /etc/apt/sources.list.d/ when updating it.As a workaround
+    # comment out all entries in Debian's default repository file /etc/apt/sources.list.d/debian.sources
+    # and create individual files instead.
+    ansible.builtin.replace:
+      path: /etc/apt/sources.list.d/debian.sources
+      regexp: '^([^#\n]*)$'
+      replace: '#\1'
   #
   # bookworm
   bookworm:
@@ -418,10 +494,6 @@ apt_repository_config_debian_12:
         filename: debian-bookworm
   bookworm_debug:
     deb:
-    - ansible.builtin.apt_repository:
-        repo: deb http://deb.debian.org/debian-debug/ bookworm-debug main contrib non-free
-        filename: debian-bookworm
-    deb_src:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bookworm-debug main contrib non-free
         filename: debian-bookworm
@@ -441,10 +513,6 @@ apt_repository_config_debian_12:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bookworm-updates-debug main contrib non-free
         filename: debian-bookworm-updates
-    deb_src:
-    - ansible.builtin.apt_repository:
-        repo: deb http://deb.debian.org/debian-debug/ bookworm-updates-debug main contrib non-free
-        filename: debian-bookworm-updates
   #
   # bookworm proposed updates:
   bookworm_proposed_updates:
@@ -458,10 +526,6 @@ apt_repository_config_debian_12:
         filename: debian-bookworm-proposed-updates
   bookworm_proposed_updates_debug:
     deb:
-    - ansible.builtin.apt_repository:
-        repo: deb http://deb.debian.org/debian-debug/ bookworm-proposed-updates-debug main contrib non-free
-        filename: debian-bookworm-proposed-updates
-    deb_src:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bookworm-proposed-updates-debug main contrib non-free
         filename: debian-bookworm-proposed-updates
@@ -492,10 +556,239 @@ apt_repository_config_debian_12:
     - ansible.builtin.apt_repository:
         repo: deb http://deb.debian.org/debian-debug/ bookworm-backports-debug main contrib non-free
         filename: debian-bookworm-backports
+
+apt_repository_config_debian_13:
+  # archive keyring
+  # Ref.: https://packages.debian.org/trixie/debian-archive-keyring
+  keyring:
+  - ansible.builtin.package:
+      name: debian-archive-keyring
+      state: latest
+  #
+  cleanup:
+  - # Warn users about Debian sources having been moved to the /etc/apt/sources.list.d/ directory.
+    ansible.builtin.blockinfile:
+      create: true
+      block: |
+        # 2024 Jakob Meng, <jakobmeng@web.de>
+        # Debian sources have moved to the /etc/apt/sources.list.d/ directory.
+      insertbefore: BOF
+      path: /etc/apt/sources.list
+      mode: u=rw,g=r,o=
+      group: root
+      owner: root
+  - # Ansible's apt_repository module skips repositories if they are present in /etc/apt/sources.list.
+    # As a workaround comment out all entries in /etc/apt/sources.list before adding apt repositories.
+    ansible.builtin.replace:
+      path: /etc/apt/sources.list
+      regexp: '^([^#\n]*)$'
+      replace: '#\1'
+  - # Warn users about Debian sources having been split into individual files.
+    ansible.builtin.blockinfile:
+      create: true
+      block: |
+        # 2024 Jakob Meng, <jakobmeng@web.de>
+        # Debian sources have been split into individual *.sources files in the /etc/apt/sources.list.d/ directory.
+      insertbefore: BOF
+      path: /etc/apt/sources.list.d/debian.sources
+      mode: u=rw,g=r,o=
+      group: root
+      owner: root
+  - # Ansible's deb822_repository module does not allow to store multiple repositories in a single file,
+    # it will overwrite a file's contents in /etc/apt/sources.list.d/ when updating it.As a workaround
+    # comment out all entries in Debian's default repository file /etc/apt/sources.list.d/debian.sources
+    # and create individual files instead.
+    ansible.builtin.replace:
+      path: /etc/apt/sources.list.d/debian.sources
+      regexp: '^([^#\n]*)$'
+      replace: '#\1'
+  #
+  # trixie
+  trixie:
+    deb:
+    - ansible.builtin.deb822_repository:
+        name: debian-trixie
+        types: deb
+        uris: http://deb.debian.org/debian
+        suites:
+        - trixie
+        components:
+        - main
+        - contrib
+        - non-free
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
     deb_src:
-    - ansible.builtin.apt_repository:
-        repo: deb-src http://deb.debian.org/debian-debug/ bookworm-backports-debug main contrib non-free
-        filename: debian-bookworm-backports
+    - ansible.builtin.deb822_repository:
+        name: debian-trixie-source
+        types: deb-src
+        uris: http://deb.debian.org/debian
+        suites:
+        - trixie
+        components:
+        - main
+        - contrib
+        - non-free
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+  trixie_debug:
+    deb:
+    - ansible.builtin.deb822_repository:
+        name: debian-trixie-debug
+        types: deb
+        uris: http://deb.debian.org/debian-debug/
+        suites:
+        - trixie-debug
+        components:
+        - main
+        - contrib
+        - non-free
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+  #
+  # trixie updates
+  trixie_updates:
+    deb:
+    - ansible.builtin.deb822_repository:
+        name: debian-trixie-updates
+        types: deb
+        uris: http://deb.debian.org/debian
+        suites:
+        - trixie-updates
+        components:
+        - main
+        - contrib
+        - non-free
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+    deb_src:
+    - ansible.builtin.deb822_repository:
+        name: debian-trixie-updates-source
+        types: deb-src
+        uris: http://deb.debian.org/debian
+        suites:
+        - trixie-updates
+        components:
+        - main
+        - contrib
+        - non-free
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+  trixie_updates_debug:
+    deb:
+    - ansible.builtin.deb822_repository:
+        name: debian-trixie-updates-debug
+        types: deb
+        uris: http://deb.debian.org/debian-debug/
+        suites:
+        - trixie-updates-debug
+        components:
+        - main
+        - contrib
+        - non-free
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+  #
+  # trixie proposed updates:
+  trixie_proposed_updates:
+    deb:
+    - ansible.builtin.deb822_repository:
+        name: debian-trixie-proposed-updates
+        types: deb
+        uris: http://deb.debian.org/debian
+        suites:
+        - trixie-proposed-updates
+        components:
+        - main
+        - contrib
+        - non-free
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+    deb_src:
+    - ansible.builtin.deb822_repository:
+        name: debian-trixie-proposed-updates-source
+        types: deb-src
+        uris: http://deb.debian.org/debian
+        suites:
+        - trixie-proposed-updates
+        components:
+        - main
+        - contrib
+        - non-free
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+  trixie_proposed_updates_debug:
+    deb:
+    - ansible.builtin.deb822_repository:
+        name: debian-trixie-proposed-updates-debug
+        types: deb
+        uris: http://deb.debian.org/debian-debug/
+        suites:
+        - trixie-proposed-updates-debug
+        components:
+        - main
+        - contrib
+        - non-free
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+  #
+  # trixie security
+  trixie_security:
+    deb:
+    - ansible.builtin.deb822_repository:
+        name: debian-trixie-security
+        types: deb
+        uris: http://deb.debian.org/debian-security/
+        suites:
+        - trixie-security
+        components:
+        - main
+        - contrib
+        - non-free
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+    deb_src:
+    - ansible.builtin.deb822_repository:
+        name: debian-trixie-security-source
+        types: deb-src
+        uris: http://deb.debian.org/debian-security/
+        suites:
+        - trixie-security
+        components:
+        - main
+        - contrib
+        - non-free
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+  #
+  # trixie backports
+  trixie_backports:
+    deb:
+    - ansible.builtin.deb822_repository:
+        name: debian-trixie-backports
+        types: deb
+        uris: http://deb.debian.org/debian
+        suites:
+        - trixie-backports
+        components:
+        - main
+        - contrib
+        - non-free
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+    deb_src:
+    - ansible.builtin.deb822_repository:
+        name: debian-trixie-backports-source
+        types: deb-src
+        uris: http://deb.debian.org/debian
+        suites:
+        - trixie-backports
+        components:
+        - main
+        - contrib
+        - non-free
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+  trixie_backports_debug:
+    deb:
+    - ansible.builtin.deb822_repository:
+        name: debian-trixie-backports-debug
+        types: deb
+        uris: http://deb.debian.org/debian-debug/
+        suites:
+        - trixie-backports-debug
+        components:
+        - main
+        - contrib
+        - non-free
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
 
 apt_repository_config_ubuntu_18_04:
   # archive keyring
@@ -516,6 +809,25 @@ apt_repository_config_ubuntu_18_04:
       id: 871920D1991BC93C
       keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2018-archive.gpg
       keyserver: keyserver.ubuntu.com
+  #
+  cleanup:
+  - # Warn users about Ubuntu sources having been moved to the /etc/apt/sources.list.d/ directory.
+    ansible.builtin.blockinfile:
+      create: true
+      block: |
+        # 2024 Jakob Meng, <jakobmeng@web.de>
+        # Ubuntu sources have moved to the /etc/apt/sources.list.d/ directory.
+      insertbefore: BOF
+      path: /etc/apt/sources.list
+      mode: u=rw,g=r,o=
+      group: root
+      owner: root
+  - # Ansible's apt_repository module skips repositories if they are present in /etc/apt/sources.list.
+    # As a workaround comment out all entries in /etc/apt/sources.list before adding apt repositories.
+    ansible.builtin.replace:
+      path: /etc/apt/sources.list
+      regexp: '^([^#\n]*)$'
+      replace: '#\1'
   #
   # bionic
   bionic:
@@ -603,6 +915,25 @@ apt_repository_config_ubuntu_20_04:
       keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2018-archive.gpg
       keyserver: keyserver.ubuntu.com
   #
+  cleanup:
+  - # Warn users about Ubuntu sources having been moved to the /etc/apt/sources.list.d/ directory.
+    ansible.builtin.blockinfile:
+      create: true
+      block: |
+        # 2024 Jakob Meng, <jakobmeng@web.de>
+        # Ubuntu sources have moved to the /etc/apt/sources.list.d/ directory.
+      insertbefore: BOF
+      path: /etc/apt/sources.list
+      mode: u=rw,g=r,o=
+      group: root
+      owner: root
+  - # Ansible's apt_repository module skips repositories if they are present in /etc/apt/sources.list.
+    # As a workaround comment out all entries in /etc/apt/sources.list before adding apt repositories.
+    ansible.builtin.replace:
+      path: /etc/apt/sources.list
+      regexp: '^([^#\n]*)$'
+      replace: '#\1'
+  #
   # focal
   focal:
     deb:
@@ -684,6 +1015,25 @@ apt_repository_config_ubuntu_22_04:
       keyring: /etc/apt/trusted.gpg.d/ubuntu-keyring-2018-archive.gpg
       keyserver: keyserver.ubuntu.com
   #
+  cleanup:
+  - # Warn users about Ubuntu sources having been moved to the /etc/apt/sources.list.d/ directory.
+    ansible.builtin.blockinfile:
+      create: true
+      block: |
+        # 2024 Jakob Meng, <jakobmeng@web.de>
+        # Ubuntu sources have moved to the /etc/apt/sources.list.d/ directory.
+      insertbefore: BOF
+      path: /etc/apt/sources.list
+      mode: u=rw,g=r,o=
+      group: root
+      owner: root
+  - # Ansible's apt_repository module skips repositories if they are present in /etc/apt/sources.list.
+    # As a workaround comment out all entries in /etc/apt/sources.list before adding apt repositories.
+    ansible.builtin.replace:
+      path: /etc/apt/sources.list
+      regexp: '^([^#\n]*)$'
+      replace: '#\1'
+  #
   # jammy
   jammy:
     deb:
@@ -750,22 +1100,210 @@ apt_repository_config_ubuntu_22_04:
         repo: deb-src http://archive.canonical.com/ubuntu jammy partner
         filename: ubuntu-jammy-partner
 
+apt_repository_config_ubuntu_24_04:
+  # archive keyring
+  # Ref.: https://packages.ubuntu.com/noble/ubuntu-keyring
+  keyring:
+  - ansible.builtin.package:
+      name: ubuntu-keyring
+      state: latest
+  #
+  cleanup:
+  - # Warn users about Ubuntu sources having been moved to the /etc/apt/sources.list.d/ directory.
+    ansible.builtin.blockinfile:
+      create: true
+      block: |
+        # 2024 Jakob Meng, <jakobmeng@web.de>
+        # Ubuntu sources have moved to the /etc/apt/sources.list.d/ directory.
+      insertbefore: BOF
+      path: /etc/apt/sources.list
+      mode: u=rw,g=r,o=
+      group: root
+      owner: root
+  - # Ansible's apt_repository module skips repositories if they are present in /etc/apt/sources.list.
+    # As a workaround comment out all entries in /etc/apt/sources.list before adding apt repositories.
+    ansible.builtin.replace:
+      path: /etc/apt/sources.list
+      regexp: '^([^#\n]*)$'
+      replace: '#\1'
+  - # Warn users about Debian sources having been split into individual files.
+    ansible.builtin.blockinfile:
+      create: true
+      block: |
+        # 2024 Jakob Meng, <jakobmeng@web.de>
+        # Ubuntu sources have been split into individual *.sources files in the /etc/apt/sources.list.d/ directory.
+      insertbefore: BOF
+      path: /etc/apt/sources.list.d/ubuntu.sources
+      mode: u=rw,g=r,o=
+      group: root
+      owner: root
+  - # Ansible's deb822_repository module does not allow to store multiple repositories in a single file,
+    # it will overwrite a file's contents in /etc/apt/sources.list.d/ when updating it.As a workaround
+    # comment out all entries in Ubuntu's default repository file /etc/apt/sources.list.d/ubuntu.sources
+    # and create individual files instead.
+    ansible.builtin.replace:
+      path: /etc/apt/sources.list.d/ubuntu.sources
+      regexp: '^([^#\n]*)$'
+      replace: '#\1'
+  #
+  # noble
+  noble:
+    deb:
+    - ansible.builtin.deb822_repository:
+        name: ubuntu-noble
+        types: deb
+        uris: http://archive.ubuntu.com/ubuntu/
+        suites:
+        - noble
+        components:
+        - main
+        - universe
+        - restricted
+        - multiverse
+        signed_by: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+    deb_src:
+    - ansible.builtin.deb822_repository:
+        name: ubuntu-noble-source
+        types: deb-src
+        uris: http://archive.ubuntu.com/ubuntu/
+        suites:
+        - noble
+        components:
+        - main
+        - universe
+        - restricted
+        - multiverse
+        signed_by: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+  #
+  # noble security
+  noble_security:
+    deb:
+    - ansible.builtin.deb822_repository:
+        name: ubuntu-noble-security
+        types: deb
+        uris: http://security.ubuntu.com/ubuntu/
+        suites:
+        - noble-security
+        components:
+        - main
+        - universe
+        - restricted
+        - multiverse
+        signed_by: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+    deb_src:
+    - ansible.builtin.deb822_repository:
+        name: ubuntu-noble-security-source
+        types: deb-src
+        uris: http://security.ubuntu.com/ubuntu/
+        suites:
+        - noble-security
+        components:
+        - main
+        - universe
+        - restricted
+        - multiverse
+        signed_by: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+  #
+  # noble updates
+  noble_updates:
+    deb:
+    - ansible.builtin.deb822_repository:
+        name: ubuntu-noble-updates
+        types: deb
+        uris: http://archive.ubuntu.com/ubuntu/
+        suites:
+        - noble-updates
+        components:
+        - main
+        - universe
+        - restricted
+        - multiverse
+        signed_by: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+    deb_src:
+    - ansible.builtin.deb822_repository:
+        name: ubuntu-noble-updates-source
+        types: deb-src
+        uris: http://archive.ubuntu.com/ubuntu/
+        suites:
+        - noble-updates
+        components:
+        - main
+        - universe
+        - restricted
+        - multiverse
+        signed_by: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+  #
+  # noble proposed
+  noble_proposed:
+    deb:
+    - ansible.builtin.deb822_repository:
+        name: ubuntu-noble-proposed
+        types: deb
+        uris: http://archive.ubuntu.com/ubuntu/
+        suites:
+        - noble-proposed
+        components:
+        - main
+        - universe
+        - restricted
+        - multiverse
+        signed_by: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+    deb_src:
+    - ansible.builtin.deb822_repository:
+        name: ubuntu-noble-proposed-source
+        types: deb-src
+        uris: http://archive.ubuntu.com/ubuntu/
+        suites:
+        - noble-proposed
+        components:
+        - main
+        - universe
+        - restricted
+        - multiverse
+        signed_by: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+  #
+  # noble backports
+  noble_backports:
+    deb:
+    - ansible.builtin.deb822_repository:
+        name: ubuntu-noble-backports
+        types: deb
+        uris: http://archive.ubuntu.com/ubuntu/
+        suites:
+        - noble-backports
+        components:
+        - main
+        - universe
+        - restricted
+        - multiverse
+        signed_by: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+    deb_src:
+    - ansible.builtin.deb822_repository:
+        name: ubuntu-noble-backports-source
+        types: deb-src
+        uris: http://archive.ubuntu.com/ubuntu/
+        suites:
+        - noble-backports
+        components:
+        - main
+        - universe
+        - restricted
+        - multiverse
+        signed_by: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
 # Variable distribution_id is a list which uniquely identifies a distribution release, e.g.
-#  [ 'CentOS', '8' ] for CentOS 8 (both Core and Stream)
-#  [ 'Debian', '10' ] for Debian 10 (Buster)
-#  [ 'Debian', 'Unstable' ] for Debian Unstable (Sid)
-#  [ 'Red Hat Enterprise Linux', '8' ]` for Red Hat Enterprise Linux (RHEL) 8
-#  [ 'Ubuntu', '20.04' ] for Ubuntu 20.04 LTS (Focal Fossa)
+#  ['CentOS', '8'] for CentOS 8 (both Core and Stream)
+#  ['Debian', '10'] for Debian 10 (Buster)
+#  ['Red Hat Enterprise Linux', '8' ]` for Red Hat Enterprise Linux (RHEL) 8
+#  ['Ubuntu', '20.04' ] for Ubuntu 20.04 LTS (Focal Fossa)
+#
+# NOTE: Version numbers for upcoming Debian releases are not stable. For example, when lsb_release is available, which
+# is the default, Ansible will report 'n/a' for Debian's testing and unstable (Sid) distributions. When lsb_release
+# has been uninstalled, the version string will be 'trixie/sid' or similar. In the past, 'NA' would be reported when
+# lsb_release was not available and 'testing' or 'sid' when it was installed.
 distribution_id:
 - '{{ ansible_facts.distribution }}'
 - # Use major and minor version for Ubuntu, e.g. Ubuntu 18.04 LTS (Bionic Beaver) or Ubuntu 20.04 LTS (Focal Fossa).
-  # Use major version in title case for unknown Debian releases, i.e. the major version is not a number and not 'NA',
-  # e.g. when VERSION_ID is not set in /etc/os-release and lsb_release is available on that host, then
-  # ansible_facts.distribution_major_version is defined as 'testing' which will be converted to 'Testing'.
   # Use major version for all other distributions, e.g. CentOS 7, Debian 10 (Buster) or Red Hat Enterprise Linux 8.
   "{{ ansible_facts.distribution_version if ansible_facts.distribution == 'Ubuntu' else
-      ansible_facts.distribution_major_version | title if
-        ansible_facts.distribution == 'Debian' and
-        ansible_facts.distribution_major_version is not number and
-        ansible_facts.distribution_major_version != 'NA' else
-          ansible_facts.distribution_major_version }}"
+      ansible_facts.distribution_major_version }}"

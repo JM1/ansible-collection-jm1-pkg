@@ -11,6 +11,9 @@
       {{ (item.keys() | difference(['when'])) | join(', ') }}.
   loop: '{{ yum_repository_config | default([]) }}'
 
+- name: Ensure previous changes have been applied before changing yum repositories
+  ansible.builtin.meta: flush_handlers
+
 - name: Run tasks specified in yum_repository_config variable
   jm1.ansible.execute_module:
     name: "{{ (item.keys() | difference(['when'])) | first }}"

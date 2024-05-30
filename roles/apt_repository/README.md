@@ -9,7 +9,7 @@ an Ansible module similar to tasks in roles or playbooks except that only few [k
 ```yml
 apt_repository_config:
 #
-# archive keyring
+# Archive keyring
 # Ref.: https://packages.debian.org/bullseye/debian-archive-keyring
 - ansible.builtin.apt_key:
     # bullseye_stable
@@ -27,7 +27,25 @@ apt_repository_config:
     url: https://ftp-master.debian.org/keys/archive-key-11.asc
     keyring: /etc/apt/trusted.gpg.d/debian-archive-bullseye-automatic.gpg
 #
-# data sources
+# Warn users about Debian sources having been moved to the /etc/apt/sources.list.d/ directory.
+- ansible.builtin.blockinfile:
+    create: true
+    block: |
+      # 2024 Jakob Meng, <jakobmeng@web.de>
+      # Debian sources have moved to the /etc/apt/sources.list.d/ directory.
+    insertbefore: BOF
+    path: /etc/apt/sources.list
+    mode: u=rw,g=r,o=
+    group: root
+    owner: root
+# Ansible's apt_repository module skips repositories if they are present in /etc/apt/sources.list.
+# As a workaround comment out all entries in /etc/apt/sources.list before adding apt repositories.
+- ansible.builtin.replace:
+    path: /etc/apt/sources.list
+    regexp: '^([^#\n]*)$'
+    replace: '#\1'
+#
+# Data sources
 - ansible.builtin.apt_repository:
     # bullseye
     repo: deb http://deb.debian.org/debian bullseye main contrib non-free
@@ -42,21 +60,28 @@ apt_repository_config:
     filename: debian-bullseye-security
 ```
 
+First, this role will flush handlers to ensure that changes from previous roles have been applied before apt
+repositories will be altered. Next, it will run all tasks listed in `apt_repository_config`. Once all tasks have
+finished and if anything has changed, then the apt cache will be updated.
+
 [ansible-inventory]: https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
 [apt-keys-migration]: https://blog.jak-linux.org/2021/06/20/migrating-away-apt-key/
 [apt-sources-list]: https://manpages.debian.org/stable/apt/sources.list.5.en.html
 [playbooks-keywords]: https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html
 
 **Tested OS images**
-- [Cloud images](https://cdimage.debian.org/images/cloud/buster/daily/) and
-  [Docker images](https://hub.docker.com/_/debian) of `Debian 10 (Buster)` \[`amd64`\]
-- [Cloud image](https://cdimage.debian.org/images/cloud/bullseye/daily/) and
-  [Docker images](https://hub.docker.com/_/debian) of `Debian 11 (Bullseye)` \[`amd64`\]
-- [Cloud image](https://cdimage.debian.org/images/cloud/bookworm/daily/) and
-  [Docker images](https://hub.docker.com/_/debian) of `Debian 12 (Bookworm)` \[`amd64`\]
-- Ubuntu cloud image of [`Ubuntu 18.04 LTS (Bionic Beaver)` \[`amd64`\]](https://cloud-images.ubuntu.com/bionic/current/)
-- Ubuntu cloud image of [`Ubuntu 20.04 LTS (Focal Fossa)` \[`amd64`\]](https://cloud-images.ubuntu.com/focal/)
-- Ubuntu cloud image of [`Ubuntu 22.04 LTS (Jammy Jellyfish)` \[`amd64`\]](https://cloud-images.ubuntu.com/jammy/)
+- [Cloud image (`amd64`)](https://cdimage.debian.org/images/cloud/buster/daily/) and
+  [Docker images](https://hub.docker.com/_/debian) of Debian 10 (Buster)
+- [Cloud image (`amd64`)](https://cdimage.debian.org/images/cloud/bullseye/daily/) and
+  [Docker images](https://hub.docker.com/_/debian) of Debian 11 (Bullseye)
+- [Cloud image (`amd64`)](https://cdimage.debian.org/images/cloud/bookworm/daily/) and
+  [Docker images](https://hub.docker.com/_/debian) of Debian 12 (Bookworm)
+- [Cloud image (`amd64`)](https://cdimage.debian.org/images/cloud/trixie/daily/) and
+  [Docker images](https://hub.docker.com/_/debian) of Debian 13 (Trixie)
+- [Cloud image (`amd64`)](https://cloud-images.ubuntu.com/bionic/current/) of Ubuntu 18.04 LTS (Bionic Beaver)
+- [Cloud image (`amd64`)](https://cloud-images.ubuntu.com/focal/) of Ubuntu 20.04 LTS (Focal Fossa)
+- [Cloud image (`amd64`)](https://cloud-images.ubuntu.com/jammy/) of Ubuntu 22.04 LTS (Jammy Jellyfish)
+- [Cloud image (`amd64`)](https://cloud-images.ubuntu.com/noble/) of Ubuntu 24.04 LTS (Noble Numbat)
 
 Available on Ansible Galaxy in Collection [jm1.pkg](https://galaxy.ansible.com/jm1/pkg).
 
@@ -77,9 +102,11 @@ Tool `gpg` is required by Ansible's [`apt_key`][ansible-builtin-apt-key] module.
 | Debian 10 (Buster)                           | `apt install gnupg`  |
 | Debian 11 (Bullseye)                         | `apt install gnupg`  |
 | Debian 12 (Bookworm)                         | `apt install gnupg`  |
+| Debian 13 (Trixie)                           | `apt install gnupg`  |
 | Ubuntu 18.04 LTS (Bionic Beaver)             | `apt install gnupg`  |
 | Ubuntu 20.04 LTS (Focal Fossa)               | `apt install gnupg`  |
 | Ubuntu 22.04 LTS (Jammy Jellyfish)           | `apt install gnupg`  |
+| Ubuntu 24.04 LTS (Noble Numbat)              | `apt install gnupg`  |
 
 Python library `python-apt` is required by Ansible's [`apt_repository`][ansible-builtin-apt-repository] module.
 
@@ -88,9 +115,24 @@ Python library `python-apt` is required by Ansible's [`apt_repository`][ansible-
 | Debian 10 (Buster)                           | `apt install python-apt python3-apt` |
 | Debian 11 (Bullseye)                         | `apt install python3-apt`            |
 | Debian 12 (Bookworm)                         | `apt install python3-apt`            |
+| Debian 13 (Trixie)                           | `apt install python3-apt`            |
 | Ubuntu 18.04 LTS (Bionic Beaver)             | `apt install python-apt python3-apt` |
 | Ubuntu 20.04 LTS (Focal Fossa)               | `apt install python3-apt`            |
 | Ubuntu 22.04 LTS (Jammy Jellyfish)           | `apt install python3-apt`            |
+| Ubuntu 24.04 LTS (Noble Numbat)              | `apt install python3-apt`            |
+
+Python library `python-debian` is required by Ansible's [`deb822_repository`][ansible-builtin-deb822-repository] module.
+
+| OS                                           | Install Instructions                       |
+| -------------------------------------------- | ------------------------------------------ |
+| Debian 10 (Buster)                           | `apt install python-debian python3-debian` |
+| Debian 11 (Bullseye)                         | `apt install python3-debian`               |
+| Debian 12 (Bookworm)                         | `apt install python3-debian`               |
+| Debian 13 (Trixie)                           | `apt install python3-debian`               |
+| Ubuntu 18.04 LTS (Bionic Beaver)             | `apt install python-debian python3-debian` |
+| Ubuntu 20.04 LTS (Focal Fossa)               | `apt install python3-debian`               |
+| Ubuntu 22.04 LTS (Jammy Jellyfish)           | `apt install python3-debian`               |
+| Ubuntu 24.04 LTS (Noble Numbat)              | `apt install python3-debian`               |
 
 ## Variables
 
@@ -101,9 +143,11 @@ Python library `python-apt` is required by Ansible's [`apt_repository`][ansible-
 | `apt_repository_config_debian_10`    | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Debian 10 (Buster)` |
 | `apt_repository_config_debian_11`    | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Debian 11 (Bullseye)` |
 | `apt_repository_config_debian_12`    | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Debian 12 (Bookworm)` |
+| `apt_repository_config_debian_13`    | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Debian 13 (Trixie)` |
 | `apt_repository_config_ubuntu_18_04` | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Ubuntu 18.04 LTS (Bionic Beaver)` |
 | `apt_repository_config_ubuntu_20_04` | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Ubuntu 20.04 LTS (Focal Fossa)` |
 | `apt_repository_config_ubuntu_22_04` | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Ubuntu 22.04 LTS (Jammy Jellyfish)` |
+| `apt_repository_config_ubuntu_24_04` | *refer to [`roles/apt_repository/defaults/main.yml`](defaults/main.yml)* | false | apt data sources and keys for `Ubuntu 24.04 LTS (Noble Numbat)` |
 | `distribution_id`                    | *depends on operating system*  | false    | List which uniquely identifies a distribution release, e.g. `[ 'Debian', '10' ]` for `Debian 10 (Buster)` |
 
 [^supported-modules]: Tasks will be executed with [`jm1.ansible.execute_module`][jm1-ansible-execute-module] which
@@ -118,13 +162,14 @@ supports keyword `when` only.
 
 [^example-modules]: Useful Ansible modules in this context could be [`apt_key`][ansible-builtin-apt-key],
 [`apt_repository`][ansible-builtin-apt-repository], [`blockinfile`][ansible-builtin-blockinfile], [`copy`][
-ansible-builtin-copy], [`file`][ansible-builtin-file], [`lineinfile`][ansible-builtin-lineinfile] and
-[`template`][ansible-builtin-template].
+ansible-builtin-copy], [`deb822_repository`][ansible-builtin-deb822-repository], [`file`][ansible-builtin-file],
+[`lineinfile`][ansible-builtin-lineinfile] and [`template`][ansible-builtin-template].
 
 [ansible-builtin-apt-key]: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_key_module.html
 [ansible-builtin-apt-repository]: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_repository_module.html
 [ansible-builtin-blockinfile]: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/blockinfile_module.html
 [ansible-builtin-copy]: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
+[ansible-builtin-deb822-repository]: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/deb822_repository_module.html
 [ansible-builtin-file]: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/file_module.html
 [ansible-builtin-lineinfile]: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html
 [ansible-builtin-meta]: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/meta_module.html
@@ -150,19 +195,13 @@ None.
     apt_repository_config: |
       {{
         apt_repository_config_debian_11.keyring +
+        apt_repository_config_debian_11.cleanup +
         apt_repository_config_debian_11.bullseye.deb +
         apt_repository_config_debian_11.bullseye_security.deb +
         apt_repository_config_debian_11.bullseye_updates.deb
       }}
 
   roles:
-  # Remove /etc/apt/sources.list before apt repositories will be added to /etc/apt/sources.list.d/ by role
-  # jm1.pkg.apt_repository else Ansible's apt_repository module might skip repositories if they are present in
-  # /etc/apt/sources.list.
-  - name: Remove /etc/apt/sources.list
-    role: jm1.pkg.apt_sources_list_removal
-    tags: ["jm1.pkg.apt_sources_list_removal"]
-
   - name: Manage apt keys and apt repositories
     role: jm1.pkg.apt_repository
     tags: ["jm1.pkg.apt_repository"]

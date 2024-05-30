@@ -21,6 +21,8 @@ galaxy_info:
     - '8'
     - '9'
 
+  - name: Fedora
+
   - name: Ubuntu
     versions:
     - bionic

@@ -2,16 +2,23 @@
 
 This role removes file `/etc/apt/sources.list`, i.e. to use `*.list` files from `/etc/apt/sources.list.d/` only.
 
+**NOTE:** File `/etc/apt/sources.list` does not exist on Debian 12 (Bookworm), Ubuntu 24.04 LTS (Noble Numbat) and later
+releases by default. It has been replaced with `/etc/apt/sources.list.d/debian.sources` and
+`/etc/apt/sources.list.d/ubuntu.sources` respectively.
+
 **Tested OS images**
-- [Cloud images](ttps://cdimage.debian.org/images/cloud/buster/daily/) and
-  [Docker images](https://hub.docker.com/_/debian) of `Debian 10 (Buster)` \[`amd64`\]
-- [Cloud image](https://cdimage.debian.org/images/cloud/bullseye/daily/) and
-  [Docker images](https://hub.docker.com/_/debian) of `Debian 11 (Bullseye)` \[`amd64`\]
-- [Cloud image](https://cdimage.debian.org/images/cloud/bookworm/daily/) and
-  [Docker images](https://hub.docker.com/_/debian) of `Debian 12 (Bookworm)` \[`amd64`\]
-- Ubuntu cloud image of [`Ubuntu 18.04 LTS (Bionic Beaver)` \[`amd64`\]](https://cloud-images.ubuntu.com/bionic/current/)
-- Ubuntu cloud image of [`Ubuntu 20.04 LTS (Focal Fossa)` \[`amd64`\]](https://cloud-images.ubuntu.com/focal/)
-- Ubuntu cloud image of [`Ubuntu 22.04 LTS (Jammy Jellyfish)` \[`amd64`\]](https://cloud-images.ubuntu.com/jammy/)
+- [Cloud image (`amd64`)](https://cdimage.debian.org/images/cloud/buster/daily/) and
+  [Docker images](https://hub.docker.com/_/debian) of Debian 10 (Buster)
+- [Cloud image (`amd64`)](https://cdimage.debian.org/images/cloud/bullseye/daily/) and
+  [Docker images](https://hub.docker.com/_/debian) of Debian 11 (Bullseye)
+- [Cloud image (`amd64`)](https://cdimage.debian.org/images/cloud/bookworm/daily/) and
+  [Docker images](https://hub.docker.com/_/debian) of Debian 12 (Bookworm)
+- [Cloud image (`amd64`)](https://cdimage.debian.org/images/cloud/trixie/daily/) and
+  [Docker images](https://hub.docker.com/_/debian) of Debian 13 (Trixie)
+- [Cloud image (`amd64`)](https://cloud-images.ubuntu.com/bionic/current/) of Ubuntu 18.04 LTS (Bionic Beaver)
+- [Cloud image (`amd64`)](https://cloud-images.ubuntu.com/focal/) of Ubuntu 20.04 LTS (Focal Fossa)
+- [Cloud image (`amd64`)](https://cloud-images.ubuntu.com/jammy/) of Ubuntu 22.04 LTS (Jammy Jellyfish)
+- [Cloud image (`amd64`)](https://cloud-images.ubuntu.com/noble/) of Ubuntu 24.04 LTS (Noble Numbat)
 
 Available on Ansible Galaxy in Collection [jm1.pkg](https://galaxy.ansible.com/jm1/pkg).
 

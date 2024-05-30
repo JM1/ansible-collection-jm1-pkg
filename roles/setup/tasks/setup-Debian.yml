@@ -1,5 +1,5 @@
 ---
-# Copyright (c) 2020-2021 Jakob Meng, <jakobmeng@web.de>
+# Copyright (c) 2020-2024 Jakob Meng, <jakobmeng@web.de>
 # vim:set fileformat=unix tabstop=2 shiftwidth=2 expandtab:
 # kate: end-of-line unix; space-indent on; indent-width 2; remove-trailing-spaces modified;
 
@@ -7,58 +7,20 @@
 
 # Tasks for Debian and Ubuntu have been unified in a single file because of similarities between both distributions.
 
-- name: Satisfy requirements for collection jm1.pkg on Debian 10 (Buster) and Ubuntu 18.04 LTS (Bionic Beaver)
-  when: distribution_id in [['Debian', '10'], ['Ubuntu', '18.04']]
-  block:
-  - name: Install package dependencies
-    ansible.builtin.apt:
-      update_cache: true
-      cache_valid_time: 86400 # 1 day
-      install_recommends: false
-      name:
-      # NOTE: Keep in sync with meta package below!
-      - python-apt
-      - python-backports.tempfile
-      - python-jinja2
-      - python3-apt
-      - python3-jinja2
+- name: Install package dependencies
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 86400 # 1 day
+    install_recommends: false
+    name:
+    # NOTE: Keep in sync with meta package below!
+    - python3-apt
+    - python3-jinja2
 
-  - name: Install supplemental meta package
-    jm1.pkg.meta_pkg:
-      name: "jm1-pkg-setup"
-      version: "4"
-      depends:
-      - python-apt
-      - python-jinja2
-      - python-backports.tempfile
-      - python3-apt
-      - python3-jinja2
-
-- name: >-
-    Satisfy requirements for collection jm1.pkg on Ubuntu 20.04 LTS (Focal Fossa), Ubuntu 22.04 LTS (Jammy Jellyfish),
-    Debian 11 (Bullseye), Debian 12 (Bookworm) and Debian NA (Testing, Unstable aka Sid, Experimental)
-  when: distribution_id in [['Debian', '11'],
-                            ['Debian', '12'],
-                            ['Debian', 'NA'],
-                            ['Debian', 'Testing'],
-                            ['Debian', 'Unstable'],
-                            ['Ubuntu', '20.04'],
-                            ['Ubuntu', '22.04']]
-  block:
-  - name: Install package dependencies
-    ansible.builtin.apt:
-      update_cache: true
-      cache_valid_time: 86400 # 1 day
-      install_recommends: false
-      name:
-      # NOTE: Keep in sync with meta package below!
-      - python3-apt
-      - python3-jinja2
-
-  - name: Install supplemental meta package
-    jm1.pkg.meta_pkg:
-      name: "jm1-pkg-setup"
-      version: "4"
-      depends:
-      - python3-apt
-      - python3-jinja2
+- name: Install supplemental meta package
+  jm1.pkg.meta_pkg:
+    name: "jm1-pkg-setup"
+    version: "4"
+    depends:
+    - python3-apt
+    - python3-jinja2

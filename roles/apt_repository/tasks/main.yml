@@ -11,9 +11,17 @@
       {{ (item.keys() | difference(['when'])) | join(', ') }}.
   loop: '{{ apt_repository_config | default([]) }}'
 
+- name: Ensure previous changes have been applied before changing apt repositories
+  ansible.builtin.meta: flush_handlers
+
 - name: Run tasks specified in apt_repository_config variable
   jm1.ansible.execute_module:
     name: "{{ (item.keys() | difference(['when'])) | first }}"
     args: "{{ item[(item.keys() | difference(['when'])) | first] }}"
     when: "{{ item['when'] | default(omit) }}"
   loop: "{{ apt_repository_config | default([]) }}"
+  notify:
+  - 'Update apt cache'
+
+- name: Update apt cache now before subsequent tasks try to install packages
+  ansible.builtin.meta: flush_handlers

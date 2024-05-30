@@ -9,15 +9,18 @@ installed before running Ansible. To do so, you may follow the steps described i
 using the provided [`requirements.yml`](https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/requirements.yml).
 
 **Tested OS images**
-- Cloud image of [`Debian 10 (Buster)` \[`amd64`\]](https://cdimage.debian.org/images/cloud/buster/daily/)
-- Cloud image of [`Debian 11 (Bullseye)` \[`amd64`\]](https://cdimage.debian.org/images/cloud/bullseye/daily/)
-- Cloud image of [`Debian 12 (Bookworm)` \[`amd64`\]](https://cdimage.debian.org/images/cloud/bookworm/daily/)
-- Generic cloud image of [`CentOS 7 (Core)` \[`amd64`\]](https://cloud.centos.org/centos/7/images/)
-- Generic cloud image of [`CentOS 8 (Stream)` \[`amd64`\]](https://cloud.centos.org/centos/8-stream/x86_64/images/)
-- Generic cloud image of [`CentOS 9 (Stream)` \[`amd64`\]](https://cloud.centos.org/centos/9-stream/x86_64/images/)
-- Ubuntu cloud image of [`Ubuntu 18.04 LTS (Bionic Beaver)` \[`amd64`\]](https://cloud-images.ubuntu.com/bionic/current/)
-- Ubuntu cloud image of [`Ubuntu 20.04 LTS (Focal Fossa)` \[`amd64`\]](https://cloud-images.ubuntu.com/focal/)
-- Ubuntu cloud image of [`Ubuntu 22.04 LTS (Jammy Jellyfish)` \[`amd64`\]](https://cloud-images.ubuntu.com/jammy/)
+- [Cloud image (`amd64`)](https://cdimage.debian.org/images/cloud/buster/daily/) of Debian 10 (Buster)
+- [Cloud image (`amd64`)](https://cdimage.debian.org/images/cloud/bullseye/daily/) of Debian 11 (Bullseye)
+- [Cloud image (`amd64`)](https://cdimage.debian.org/images/cloud/bookworm/daily/) of Debian 12 (Bookworm)
+- [Cloud image (`amd64`)](https://cdimage.debian.org/images/cloud/trixie/daily/) of Debian 13 (Trixie)
+- [Cloud image (`amd64`)](https://cloud.centos.org/centos/7/images/) of CentOS 7 (Core)
+- [Cloud image (`amd64`)](https://cloud.centos.org/centos/8-stream/x86_64/images/) of CentOS 8 (Stream)
+- [Cloud image (`amd64`)](https://cloud.centos.org/centos/9-stream/x86_64/images/) of CentOS 9 (Stream)
+- [Cloud image (`amd64`)](https://download.fedoraproject.org/pub/fedora/linux/releases/40/Cloud/x86_64/images/) of Fedora Cloud Base 40
+- [Cloud image (`amd64`)](https://cloud-images.ubuntu.com/bionic/current/) of Ubuntu 18.04 LTS (Bionic Beaver)
+- [Cloud image (`amd64`)](https://cloud-images.ubuntu.com/focal/) of Ubuntu 20.04 LTS (Focal Fossa)
+- [Cloud image (`amd64`)](https://cloud-images.ubuntu.com/jammy/) of Ubuntu 22.04 LTS (Jammy Jellyfish)
+- [Cloud image (`amd64`)](https://cloud-images.ubuntu.com/noble/) of Ubuntu 24.04 LTS (Noble Numbat)
 
 Available on Ansible Galaxy in Collection [jm1.pkg](https://galaxy.ansible.com/jm1/pkg).
 
@@ -30,12 +33,15 @@ Python library `python-apt` is required by Ansible's [`apt`](https://docs.ansibl
 | Debian 10 (Buster)                           | `apt install python-apt python3-apt` |
 | Debian 11 (Bullseye)                         | `apt install python3-apt`            |
 | Debian 12 (Bookworm)                         | `apt install python3-apt`            |
+| Debian 13 (Trixie)                           | `apt install python3-apt`            |
+| Fedora                                       | Not applicable                       |
 | Red Hat Enterprise Linux (RHEL) 7 / CentOS 7 | Not applicable                       |
 | Red Hat Enterprise Linux (RHEL) 8 / CentOS 8 | Not applicable                       |
 | Red Hat Enterprise Linux (RHEL) 9 / CentOS 9 | Not applicable                       |
 | Ubuntu 18.04 LTS (Bionic Beaver)             | `apt install python-apt python3-apt` |
 | Ubuntu 20.04 LTS (Focal Fossa)               | `apt install python3-apt`            |
 | Ubuntu 22.04 LTS (Jammy Jellyfish)           | `apt install python3-apt`            |
+| Ubuntu 24.04 LTS (Noble Numbat)              | `apt install python3-apt`            |
 
 Python library `python-dnf` is required by Ansible's [`dnf`](https://docs.ansible.com/ansible/latest/modules/dnf_module.html) module.
 
@@ -44,12 +50,15 @@ Python library `python-dnf` is required by Ansible's [`dnf`](https://docs.ansibl
 | Debian 10 (Buster)                           | Not applicable            |
 | Debian 11 (Bullseye)                         | Not applicable            |
 | Debian 12 (Bookworm)                         | Not applicable            |
+| Debian 13 (Trixie)                           | Not applicable            |
+| Fedora                                       | `dnf install python3-dnf` |
 | Red Hat Enterprise Linux (RHEL) 7 / CentOS 7 | Not applicable            |
 | Red Hat Enterprise Linux (RHEL) 8 / CentOS 8 | `yum install python3-dnf` |
 | Red Hat Enterprise Linux (RHEL) 9 / CentOS 9 | `yum install python3-dnf` |
 | Ubuntu 18.04 LTS (Bionic Beaver)             | Not applicable            |
 | Ubuntu 20.04 LTS (Focal Fossa)               | Not applicable            |
 | Ubuntu 22.04 LTS (Jammy Jellyfish)           | Not applicable            |
+| Ubuntu 24.04 LTS (Noble Numbat)              | Not applicable            |
 
 ## Variables
 
