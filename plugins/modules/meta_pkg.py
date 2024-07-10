@@ -27,9 +27,9 @@ description:
        conflicts. When a meta package is installed, the OS package manager will install or remove packages automatically
        to satisfy all relationships declared by the meta package. On systems that use dpkg (apt), such as Debian, Ubuntu
        and their derivatives, dependend packages will be marked as automatically installed. As soon as the meta package
-       has been removed, all automatically installed packages will be removed as well. On systems that use dnf or an
-       up-to-date yum, such as Fedora or CentOS, one might use 'dnf autoremove' or 'yum autoremove' to trigger the same
-       autoremoving behaviour [2].
+       has been removed, all automatically installed packages will be removed as well. On systems that use dnf, dnf5 or
+       an up-to-date yum, such as Fedora or CentOS, one might use 'dnf autoremove' or 'yum autoremove' to trigger the
+       same autoremoving behaviour [3][4].
 
        For example, a meta package helps with deploying an updated list of packages. Previously installed packages which
        have been removed from the updated list, will be uninstalled automatically by the OS package manager, once the
@@ -39,15 +39,17 @@ description:
        [1] U(https://www.debian.org/doc/debian-policy/ch-relationships.html)
        [2] U(https://docs.fedoraproject.org/en-US/packaging-guidelines/)
        [3] U(https://dnf.readthedocs.io/en/latest/command_ref.html#autoremove-command-label)
+       [4] U(https://dnf5.readthedocs.io/en/latest/commands/autoremove.8.html)
       "
 
 requirements:
     - apt (e.g. in debian package python3-apt) [apt-based distributions only]
-    - babel (e.g. part of package python3-babel) [dnf-based or yum-based distributions only]
+    - babel (e.g. part of package python3-babel) [dnf-based, dnf5-based or yum-based distributions only]
     - backports.tempfile (python 2 only)
     - dnf [dnf-based distributions only]
     - jinja2 (e.g. part of package python3-jinja2)
-    - rpmbuild (e.g. in package rpm-build) [dnf-based or yum-based distributions only]
+    - libdnf5 [dnf5-based distributions only]
+    - rpmbuild (e.g. in package rpm-build) [dnf-based, dnf5-based or yum-based distributions only]
     - yum (python 2 only) [yum-based distributions only]
 
 options:
@@ -101,7 +103,7 @@ options:
         type: str
 
     manager:
-        choices: [auto, apt, dnf, yum]
+        choices: [auto, apt, dnf, dnf5, yum]
         default: auto
         description:
             - "The package manager to use, e.g. apt or yum. The default C(auto) will use existing facts or try to
@@ -160,10 +162,10 @@ notes:
      its a meta package."
   - "If I(state) is C(absent) and I(manager) evaluates to C(apt), then this module will act as module M(apt), i.e. it
      will remove I(name) but will not purge its configuration files."
-  - "If I(state) is C(absent) and I(manager) evaluates to C(dnf), then the package removal is done using the autoremove
-     feature. This removes all 'leaf' packages from the system that were originally installed as dependencies of user-
-     installed packages but which are no longer required by any such package. If this behavior is not wanted, one may
-     use module M(dnf) instead of M(jm1.pkg.meta_pkg)."
+  - "If I(state) is C(absent) and I(manager) evaluates to C(dnf) or C(dnf5), then the package removal is done using the
+     autoremove feature. This removes all 'leaf' packages from the system that were originally installed as dependencies
+     of user-installed packages but which are no longer required by any such package. If this behavior is not wanted,
+     one may use module M(dnf) or M(dnf5) instead of M(jm1.pkg.meta_pkg)."
   - "Guides about package relationships I(depends), I(recommends), I(suggests), I(enhances) and I(conflicts):
      * Debian:
          U(https://www.debian.org/doc/debian-policy/ch-relationships.html)
@@ -273,6 +275,15 @@ except ImportError:
 else:
     DNF_IMPORT_ERROR = None
     HAS_DNF = True
+
+try:
+    import libdnf5
+except ImportError:
+    LIBDNF5_IMPORT_ERROR = traceback.format_exc()
+    HAS_LIBDNF5 = False
+else:
+    LIBDNF5_IMPORT_ERROR = None
+    HAS_LIBDNF5 = True
 
 try:
     import yum  # is Python 2 only
@@ -591,6 +602,59 @@ def install(architecture,
 
         return True, conflicts, depends, enhances, recommends, suggests
 
+    elif manager == 'dnf5':
+        base = libdnf5.base.Base()
+        base_config = base.get_config()
+        base_config.plugins = False
+        base.load_config()
+        base.setup()
+
+        repo_sack = base.get_repo_sack()
+        repo_sack.create_repos_from_system_configuration()
+        repo_sack.load_repos(libdnf5.repo.Repo.Type_SYSTEM)
+
+        query = libdnf5.rpm.PackageQuery(base)
+        query.filter_installed()
+        query.filter_name(name)
+        query.filter_version(version)
+
+        if not query.empty():
+            # package is present already
+            return False, conflicts, depends, enhances, recommends, suggests
+
+        base = libdnf5.base.Base()
+        base.load_config()
+        base.setup()
+
+        repo_sack = base.get_repo_sack()
+        repo_sack.create_repos_from_system_configuration()
+        repo_sack.load_repos()
+
+        with tempfile.TemporaryDirectory() as dir:
+            pkg_path = make_rpm(
+                architecture,
+                conflicts,
+                dir,
+                depends,
+                description,
+                enhances,
+                maintainer,
+                manager,
+                name,
+                recommends,
+                suggests,
+                summary,
+                version,
+                module)
+
+            goal = libdnf5.base.Goal(base)
+            goal.add_install(pkg_path)
+            transaction = goal.resolve()
+            transaction.download()
+            transaction.run()
+
+        return True, conflicts, depends, enhances, recommends, suggests
+
     elif manager == 'yum':
         yb = yum.YumBase()
         if yb.rpmdb.searchNevra(name=name, ver=version):
@@ -643,7 +707,7 @@ def remove(manager,
             base.fill_sack(load_system_repo=True, load_available_repos=False)
             q = base.sack.query()
             if not q.installed().filter(name=name).run():
-                # package is absend already
+                # package is absent already
                 return False
 
             # Removal using dnf CLI
@@ -658,6 +722,34 @@ def remove(manager,
             base.do_transaction()
 
             return True
+
+    elif manager == 'dnf5':
+        base = libdnf5.base.Base()
+        base_config = base.get_config()
+        base_config.plugins = False
+        base.load_config()
+        base.setup()
+
+        repo_sack = base.get_repo_sack()
+        repo_sack.create_repos_from_system_configuration()
+        repo_sack.load_repos(libdnf5.repo.Repo.Type_SYSTEM)
+
+        query = libdnf5.rpm.PackageQuery(base)
+        query.filter_installed()
+        query.filter_name(name)
+
+        if query.empty():
+            # package is absent already
+            return False
+
+        goal = libdnf5.base.Goal(base)
+        settings = libdnf5.base.GoalJobSettings()
+        settings.set_clean_requirements_on_remove(True)
+        goal.add_rpm_remove(name, settings)
+        transaction = goal.resolve()
+        transaction.run()
+
+        return True
 
     elif manager == 'yum':
         yb = yum.YumBase()
@@ -717,17 +809,20 @@ def core(module):
         facts_dict = fact_collector.collect(module=module)
         manager = facts_dict['ansible_pkg_mgr']
 
-    if manager not in ['apt', 'dnf', 'yum']:
+    if manager not in ['apt', 'dnf', 'dnf5', 'yum']:
         raise ValueError('manager %s is not supported' % manager)
 
     if manager == 'apt' and not HAS_APT:
         module.fail_json(msg=missing_required_lib("apt"), exception=APT_IMPORT_ERROR)
 
-    if manager in ['dnf', 'yum'] and not HAS_BABEL:
+    if manager in ['dnf', 'dnf5', 'yum'] and not HAS_BABEL:
         module.fail_json(msg=missing_required_lib("babel"), exception=BABEL_IMPORT_ERROR)
 
     if manager == 'dnf' and not HAS_DNF:
         module.fail_json(msg=missing_required_lib("dnf"), exception=DNF_IMPORT_ERROR)
+
+    if manager == 'dnf5' and not HAS_LIBDNF5:
+        module.fail_json(msg=missing_required_lib("libdnf5"), exception=LIBDNF5_IMPORT_ERROR)
 
     if manager == 'yum' and not HAS_YUM:
         module.fail_json(msg=missing_required_lib("yum"), exception=YUM_IMPORT_ERROR)
@@ -735,7 +830,7 @@ def core(module):
     if not architecture:
         if manager == 'apt':
             architecture = 'all'
-        elif manager in ['yum', 'dnf']:
+        elif manager in ['yum', 'dnf', 'dnf5']:
             architecture = 'noarch'
 
     if module.check_mode:
@@ -802,7 +897,7 @@ def main():
             description=dict(type='str', default='Package management made easy.'),
             enhances=dict(type='list', default=[]),
             maintainer=dict(type='str', aliases=['packager']),
-            manager=dict(type='str', choices=['auto', 'apt', 'dnf', 'yum'], default='auto'),
+            manager=dict(type='str', choices=['auto', 'apt', 'dnf', 'dnf5', 'yum'], default='auto'),
             name=dict(required=True, type='str'),
             recommends=dict(type='list', default=[]),
             state=dict(type='str', choices=['present', 'absent'], default='present'),
@@ -813,7 +908,7 @@ def main():
         supports_check_mode=True,
     )
 
-    if not HAS_APT or not HAS_BABEL or not HAS_DNF or not HAS_YUM:
+    if not HAS_APT or not HAS_BABEL or not HAS_DNF or not HAS_LIBDNF5 or not HAS_YUM:
         pass  # errors handled in def core()
 
     if six.PY2 and not HAS_BACKPORTS_TEMPFILE:

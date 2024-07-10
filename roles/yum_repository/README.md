@@ -44,13 +44,14 @@ in [`README.md`][jm1-pkg-readme] using the provided [`requirements.yml`][jm1-pkg
 [jm1-pkg-requirements]: https://github.com/JM1/ansible-collection-jm1-pkg/blob/master/requirements.yml
 
 Python library `python-dnf` is required by Ansible's [`dnf`][ansible-builtin-dnf] module.
+Python library `libdnf5` is required by Ansible's [`dnf5`][ansible-builtin-dnf5] module.
 
-| OS                                           | Install Instructions      |
-| -------------------------------------------- | ------------------------- |
-| Fedora                                       | `dnf install python3-dnf` |
-| Red Hat Enterprise Linux (RHEL) 7 / CentOS 7 | Not applicable            |
-| Red Hat Enterprise Linux (RHEL) 8 / CentOS 8 | `dnf install python3-dnf` |
-| Red Hat Enterprise Linux (RHEL) 9 / CentOS 9 | `dnf install python3-dnf` |
+| OS                                           | Install Instructions          |
+| -------------------------------------------- | ----------------------------- |
+| Fedora                                       | `dnf install python3-libdnf5` |
+| Red Hat Enterprise Linux (RHEL) 7 / CentOS 7 | Not applicable                |
+| Red Hat Enterprise Linux (RHEL) 8 / CentOS 8 | `dnf install python3-dnf`     |
+| Red Hat Enterprise Linux (RHEL) 9 / CentOS 9 | `dnf install python3-dnf`     |
 
 ## Variables
 
@@ -76,13 +77,15 @@ for arbitrary modules, so for example, change from `- debug: msg=""` to `- debug
 [^supported-keywords]: Tasks will be executed with [`jm1.ansible.execute_module`][jm1-ansible-execute-module] which
 supports keyword `when` only.
 
-[^example-modules]: Useful Ansible modules in this context could be [`blockinfile`][ansible-builtin-blockinfile],[`dnf`][
-ansible-builtin-dnf], [`copy`][ansible-builtin-copy], [`file`][ansible-builtin-file], [`ini_file`][
-community-general-ini-file], [`lineinfile`][ansible-builtin-lineinfile], [`template`][ansible-builtin-template],
-[`yum`][ansible-builtin-yum] and [`yum_repository`][ansible-builtin-yum-repository],
+[^example-modules]: Useful Ansible modules in this context could be [`blockinfile`][ansible-builtin-blockinfile],
+[`dnf`][ansible-builtin-dnf], [`dnf5`][ansible-builtin-dnf5], [`copy`][ansible-builtin-copy], [`file`][
+ansible-builtin-file], [`ini_file`][community-general-ini-file], [`lineinfile`][ansible-builtin-lineinfile],
+[`template`][ansible-builtin-template], [`yum`][ansible-builtin-yum] and [`yum_repository`][
+ansible-builtin-yum-repository].
 
 [ansible-builtin-blockinfile]: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/blockinfile_module.html
 [ansible-builtin-dnf]: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/dnf_module.html
+[ansible-builtin-dnf5]: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/dnf5_module.html
 [ansible-builtin-copy]: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
 [ansible-builtin-file]: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/file_module.html
 [ansible-builtin-lineinfile]: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html

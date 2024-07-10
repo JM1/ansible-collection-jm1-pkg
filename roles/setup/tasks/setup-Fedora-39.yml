@@ -10,7 +10,7 @@
     name:
     # NOTE: Keep in sync with meta package below!
     - python3-babel
-    - python3-libdnf5
+    - python3-dnf
     - python3-jinja2
     - rpm-build
 
@@ -20,6 +20,6 @@
     version: "3"
     depends:
     - python3-babel
-    - python3-libdnf5
+    - python3-dnf
     - python3-jinja2
     - rpm-build

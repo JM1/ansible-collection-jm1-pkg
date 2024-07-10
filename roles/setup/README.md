@@ -26,7 +26,8 @@ Available on Ansible Galaxy in Collection [jm1.pkg](https://galaxy.ansible.com/j
 
 ## Requirements
 
-Python library `python-apt` is required by Ansible's [`apt`](https://docs.ansible.com/ansible/latest/modules/apt_module.html) module.
+Python library `python-apt` is required by Ansible's [`apt`](
+https://docs.ansible.com/ansible/latest/modules/apt_module.html) module.
 
 | OS                                           | Install Instructions                 |
 | -------------------------------------------- | ------------------------------------ |
@@ -43,7 +44,8 @@ Python library `python-apt` is required by Ansible's [`apt`](https://docs.ansibl
 | Ubuntu 22.04 LTS (Jammy Jellyfish)           | `apt install python3-apt`            |
 | Ubuntu 24.04 LTS (Noble Numbat)              | `apt install python3-apt`            |
 
-Python library `python-dnf` is required by Ansible's [`dnf`](https://docs.ansible.com/ansible/latest/modules/dnf_module.html) module.
+Python library `python-dnf` is required by Ansible's [`dnf`](
+https://docs.ansible.com/ansible/latest/modules/dnf_module.html) module.
 
 | OS                                           | Install Instructions      |
 | -------------------------------------------- | ------------------------- |
@@ -59,6 +61,25 @@ Python library `python-dnf` is required by Ansible's [`dnf`](https://docs.ansibl
 | Ubuntu 20.04 LTS (Focal Fossa)               | Not applicable            |
 | Ubuntu 22.04 LTS (Jammy Jellyfish)           | Not applicable            |
 | Ubuntu 24.04 LTS (Noble Numbat)              | Not applicable            |
+
+Python library `libdnf5` is required by Ansible's [`dnf5`](
+https://docs.ansible.com/ansible/latest/modules/dnf5_module.html) module.
+
+| OS                                           | Install Instructions          |
+| -------------------------------------------- | ------------------------------|
+| Debian 10 (Buster)                           | Not applicable                |
+| Debian 11 (Bullseye)                         | Not applicable                |
+| Debian 12 (Bookworm)                         | Not applicable                |
+| Debian 13 (Trixie)                           | Not applicable                |
+| Fedora                                       | `dnf install python3-libdnf5` |
+| Red Hat Enterprise Linux (RHEL) 7 / CentOS 7 | Not applicable                |
+| Red Hat Enterprise Linux (RHEL) 8 / CentOS 8 | Not applicable                |
+| Red Hat Enterprise Linux (RHEL) 9 / CentOS 9 | Not applicable                |
+| Ubuntu 18.04 LTS (Bionic Beaver)             | Not applicable                |
+| Ubuntu 20.04 LTS (Focal Fossa)               | Not applicable                |
+| Ubuntu 22.04 LTS (Jammy Jellyfish)           | Not applicable                |
+| Ubuntu 24.04 LTS (Noble Numbat)              | Not applicable                |
+
 
 ## Variables
 
