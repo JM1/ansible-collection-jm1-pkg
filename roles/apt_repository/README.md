@@ -95,7 +95,7 @@ in [`README.md`][jm1-pkg-readme] using the provided [`requirements.yml`][jm1-pkg
 [jm1-cloudy-readme]: ../../README.md
 [jm1-cloudy-requirements]: ../../requirements.yml
 
-Tool `gpg` is required by Ansible's [`apt_key`][ansible-builtin-apt-key] module.
+Tools `gpg` and `gpg-agent` are required for Ansible's [`apt_key`][ansible-builtin-apt-key] module.
 
 | OS                                           | Install Instructions |
 | -------------------------------------------- | -------------------- |
